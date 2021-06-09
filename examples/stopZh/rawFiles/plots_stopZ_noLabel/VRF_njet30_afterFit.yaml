@@ -1,0 +1,167 @@
+independent_variables:
+- header: {name: A table}
+  values:
+    - {value: 'Observed events'}
+    - {value: 'Fitted bkg events'}
+    - {value: 'Fitted VV events'}
+    - {value: 'Fitted ttZ events'}
+    - {value: 'Fitted fakes events'}
+    - {value: 'Fitted tZtWZ events'}
+    - {value: 'Fitted Others events'}
+    - {value: 'MC exp. SM events'}
+    - {value: 'MC exp. VV events'}
+    - {value: 'MC exp. ttZ events'}
+    - {value: 'MC exp. fakes events'}
+    - {value: 'MC exp. tZtWZ events'}
+    - {value: 'MC exp. Others events'}
+dependent_variables:
+- header: {name: .}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000}
+  - {name: ., value: 'VRF\_njet30'}
+  values:
+  - {value: '84'}
+  - errors:
+    - {label: stat+syst, symerror: 27.26}
+    value: '97.68'
+  - errors:
+    - {label: stat+syst, symerror: 0.05}
+    value: '0.72'
+  - errors:
+    - {label: stat+syst, symerror: 0.98}
+    value: '8.65'
+  - errors:
+    - {label: stat+syst, symerror: 26.97}
+    value: '54.50'
+  - errors:
+    - {label: stat+syst, symerror: 0.04}
+    value: '0.89'
+  - errors:
+    - {label: stat+syst, symerror: 1.57}
+    value: '32.91'
+  - {value: '98.10'}
+  - {value: '0.86'}
+  - {value: '8.93'}
+  - {value: '54.50'}
+  - {value: '0.89'}
+  - {value: '32.91'}
+- header: {name: .}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000}
+  - {name: ., value: 'VRF\_njet30\_bin0'}
+  values:
+  - {value: '44'}
+  - errors:
+    - {label: stat+syst, symerror: 16.4}
+    value: '53.0'
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: '0.4'
+  - errors:
+    - {label: stat+syst, symerror: 0.6}
+    value: '4.6'
+  - errors:
+    - {label: stat+syst, symerror: 16.2}
+    value: '31.7'
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: '0.4'
+  - errors:
+    - {label: stat+syst, symerror: 1.1}
+    value: '15.9'
+  - {value: '53.24'}
+  - {value: '0.46'}
+  - {value: '4.71'}
+  - {value: '31.71'}
+  - {value: '0.43'}
+  - {value: '15.92'}
+- header: {name: .}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000}
+  - {name: ., value: 'VRF\_njet30\_bin1'}
+  values:
+  - {value: '28'}
+  - errors:
+    - {label: stat+syst, symerror: 6.8}
+    value: '25.8'
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: '0.2'
+  - errors:
+    - {label: stat+syst, symerror: 0.3}
+    value: '2.5'
+  - errors:
+    - {label: stat+syst, symerror: 6.5}
+    value: '14.3'
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: '0.2'
+  - errors:
+    - {label: stat+syst, symerror: 0.8}
+    value: '8.6'
+  - {value: '25.91'}
+  - {value: '0.23'}
+  - {value: '2.56'}
+  - {value: '14.32'}
+  - {value: '0.20'}
+  - {value: '8.60'}
+- header: {name: .}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000}
+  - {name: ., value: 'VRF\_njet30\_bin2'}
+  values:
+  - {value: '11'}
+  - errors:
+    - {label: stat+syst, symerror: 2.4}
+    value: '10.5'
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: '0.1'
+  - errors:
+    - {label: stat+syst, symerror: 0.2}
+    value: '1.1'
+  - errors:
+    - {label: stat+syst, symerror: 2.1}
+    value: '4.6'
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: '0.2'
+  - errors:
+    - {label: stat+syst, symerror: 0.6}
+    value: '4.5'
+  - {value: '10.51'}
+  - {value: '0.09'}
+  - {value: '1.13'}
+  - {value: '4.64'}
+  - {value: '0.17'}
+  - {value: '4.48'}
+- header: {name: .}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000}
+  - {name: ., value: 'VRF\_njet30\_bin3'}
+  values:
+  - {value: '1'}
+  - errors:
+    - {label: stat+syst, symerror: 2.7}
+    value: '8.4'
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: '0.1'
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: '0.5'
+  - errors:
+    - {label: stat+syst, symerror: 2.5}
+    value: '3.8'
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: '0.1'
+  - errors:
+    - {label: stat+syst, symerror: 0.5}
+    value: '3.9'
+  - {value: '8.44'}
+  - {value: '0.09'}
+  - {value: '0.53'}
+  - {value: '3.84'}
+  - {value: '0.08'}
+  - {value: '3.92'}

@@ -1,0 +1,11 @@
+[
+	{
+		"xName":"m(#tilde{t}_{1}) [GeV]",
+		"yName":"m(#tilde{#chi}^{0}_{2}) [GeV]",
+		"zName":"efficiency",
+		"region":"SRL1",
+		"TableName":"EFF_SRL1_efficiency",
+		"TableDescription":"Signal efficiency in SRL1 for simplified $(#tilde{t}_1,#tilde{#chi^{0}_2})$ model.",
+		"JsonFieldName":"Eff"
+	}
+]

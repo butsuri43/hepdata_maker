@@ -1,0 +1,1 @@
+Observed event yields in SRC compared with expected SM background yields in each signal region after the background-only fit. The uncertainties include MC statistical uncertainties, detector-related systematic uncertainties, and theoretical uncertainties.

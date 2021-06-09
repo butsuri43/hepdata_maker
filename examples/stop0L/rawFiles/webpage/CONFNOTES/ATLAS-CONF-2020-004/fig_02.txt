@@ -1,0 +1,1 @@
+Schematic representation of the various topologies targeted by the different signal regions  defined in the analysis (SRA, SRB, SRC, SRD).

@@ -1,0 +1,181 @@
+---
+additional_resources:
+- {description: 'YES', location: 'HTTP://YES'}
+- {description: 'Maybe', location: 'http://Yes1'}
+comment: 'This paper presents a search for direct top squark pair production in events with missing transverse momentum plus either a pair of jets consistent with Standard Model Higgs boson decay into $b$-quarks or a same-flavour opposite-sign dilepton pair with an invariant mass consistent with a $Z$ boson. The analysis is performed using the proton--proton collision data at $\sqrt{s}=13$ TeV collected with the ATLAS detector during the LHC Run-2, corresponding to an integrated luminosity of 139~fb$^{-1}$. No excess is observed in the data above the Standard Model predictions. The results are interpreted in simplified models featuring direct production of pairs of either the lighter top squark ($\tilde{t}_1$) or the heavier top squark ($\tilde{t}_2$), excluding at 95\% confidence level $\tilde{t}_1$ and $\tilde{t}_2$ masses up to about 1220 and 875~GeV, respectively.'
+---
+data_file: VRF_njet30_afterFit.yaml
+description: Description comes here
+data_license: {description: null, name: null, url: null}
+keywords: 
+- name: Cmenergies
+  values: [13000.0]
+name: VRF_njet30_afterFit
+---
+data_file: VRF_lep3pT_afterFit.yaml
+description: Description comes here
+data_license: {description: null, name: null, url: null}
+keywords: 
+- name: Cmenergies
+  values: [13000.0]
+name: VRF_lep3pT_afterFit
+---
+data_file: VRF_MET_afterFit.yaml
+description: Description comes here
+data_license: {description: null, name: null, url: null}
+keywords: 
+- name: Cmenergies
+  values: [13000.0]
+name: VRF_MET_afterFit
+---
+data_file: VRF2_njet30_afterFit.yaml
+description: Description comes here
+data_license: {description: null, name: null, url: null}
+keywords: 
+- name: Cmenergies
+  values: [13000.0]
+name: VRF2_njet30_afterFit
+---
+data_file: VRF2_MET_afterFit.yaml
+description: Description comes here
+data_license: {description: null, name: null, url: null}
+keywords: 
+- name: Cmenergies
+  values: [13000.0]
+name: VRF2_MET_afterFit
+---
+data_file: VRF2_closest_ptll_afterFit.yaml
+description: Description comes here
+data_license: {description: null, name: null, url: null}
+keywords: 
+- name: Cmenergies
+  values: [13000.0]
+name: VRF2_closest_ptll_afterFit
+---
+data_file: CRVV_njet30_afterFit.yaml
+description: Description comes here
+data_license: {description: null, name: null, url: null}
+keywords: 
+- name: Cmenergies
+  values: [13000.0]
+name: CRVV_njet30_afterFit
+---
+data_file: CRTZ_njet30_afterFit.yaml
+description: Description comes here
+data_license: {description: null, name: null, url: null}
+keywords: 
+- name: Cmenergies
+  values: [13000.0]
+name: CRTZ_njet30_afterFit
+---
+data_file: VRZ_njet30_afterFit.yaml
+description: Description comes here
+data_license: {description: null, name: null, url: null}
+keywords: 
+- name: Cmenergies
+  values: [13000.0]
+name: VRZ_njet30_afterFit
+---
+data_file: VRVVa_njet30_afterFit.yaml
+description: Description comes here
+data_license: {description: null, name: null, url: null}
+keywords: 
+- name: Cmenergies
+  values: [13000.0]
+name: VRVVa_njet30_afterFit
+---
+data_file: SRSC_MET_afterFit.yaml
+description: Description comes here
+data_license: {description: null, name: null, url: null}
+keywords: 
+- name: Cmenergies
+  values: [13000.0]
+name: SRSC_MET_afterFit
+---
+data_file: SRSB_closest_ptll_afterFit.yaml
+description: Description comes here
+data_license: {description: null, name: null, url: null}
+keywords: 
+- name: Cmenergies
+  values: [13000.0]
+name: SRSB_closest_ptll_afterFit
+---
+data_file: SRH_MET_afterFit.yaml
+description: Description comes here
+data_license: {description: null, name: null, url: null}
+keywords: 
+- name: Cmenergies
+  values: [13000.0]
+name: SRH_MET_afterFit
+---
+data_file: SRL_closest_ptll_afterFit.yaml
+description: Description comes here
+data_license: {description: null, name: null, url: null}
+keywords: 
+- name: Cmenergies
+  values: [13000.0]
+name: SRL_closest_ptll_afterFit
+---
+data_file: CRT_fabsNN_scores_afterFit.yaml
+description: Description comes here
+data_license: {description: null, name: null, url: null}
+keywords: 
+- name: Cmenergies
+  values: [13000.0]
+name: CRT_fabsNN_scores_afterFit
+---
+data_file: CRT_mT_afterFit.yaml
+description: Description comes here
+data_license: {description: null, name: null, url: null}
+keywords: 
+- name: Cmenergies
+  values: [13000.0]
+name: CRT_mT_afterFit
+---
+data_file: CRT_NN_nHiggs_07_afterFit.yaml
+description: Description comes here
+data_license: {description: null, name: null, url: null}
+keywords: 
+- name: Cmenergies
+  values: [13000.0]
+name: CRT_NN_nHiggs_07_afterFit
+---
+data_file: N1SRH_METsig_afterFit.yaml
+description: Description comes here
+data_license: {description: null, name: null, url: null}
+keywords: 
+- name: Cmenergies
+  values: [13000.0]
+name: N1SRH_METsig_afterFit
+---
+data_file: N1SRL_njet60_afterFit.yaml
+description: Description comes here
+data_license: {description: null, name: null, url: null}
+keywords: 
+- name: Cmenergies
+  values: [13000.0]
+name: N1SRL_njet60_afterFit
+---
+data_file: StopH_SRbins_afterFit.yaml
+description: Description comes here
+data_license: {description: null, name: null, url: null}
+keywords: 
+- name: Cmenergies
+  values: [13000.0]
+name: StopH_SRbins_afterFit
+---
+data_file: StopH_VRbins_afterFit.yaml
+description: Description comes here
+data_license: {description: null, name: null, url: null}
+keywords: 
+- name: Cmenergies
+  values: [13000.0]
+name: StopH_VRbins_afterFit
+---
+data_file: StopZ_SRbins_afterFit.yaml
+description: Description comes here
+data_license: {description: null, name: null, url: null}
+keywords: 
+- name: Cmenergies
+  values: [13000.0]
+name: StopZ_SRbins_afterFit

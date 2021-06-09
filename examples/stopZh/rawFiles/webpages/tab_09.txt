@@ -1,0 +1,6 @@
+Background fit results for the tt&#772; background control region in the 1&#8467; selection. The pre-fit predictions from MC simulation are given for comparison for those backgrounds (tt&#772;) that are normalised to data.
+The `Higgs' category contains the contributions from gluon--gluon fusion, vector-boson fusion, Wh, Zh and tt&#772; h production.
+The `Others' category contains the contributions from tt&#772; WW, tt&#772; WZ, tt&#772; t and tt&#772; tt&#772; production.
+Combined statistical and systematic uncertainties are given.
+Some of the uncertainties are correlated and therefore the overall sum in quadrature does not necessarily add to the total systematic uncertainty.
+label{tab:CRVRH}

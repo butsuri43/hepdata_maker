@@ -1,0 +1,1 @@
+label{tab:CRdef} Definition of the control and validation regions used for the tt&#772; Z and multi-boson background estimation.

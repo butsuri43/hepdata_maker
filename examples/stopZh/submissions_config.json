@@ -1,0 +1,114 @@
+{
+    "type": "submission",
+    "tables":
+    [
+	{
+            "table_name":"stop_br0_obs",
+            "should_be_processed":true,
+            "table_title":"The observed exclusion contour at 95% CL as a function of the $\\it{m}_{\\tilde{\\chi}^{0}_{1}}$  vs. $\\it{m}_{\\tilde{t}}$. Masses that are within the contours are excluded.",
+            "table_location":"Data from fig. 13a.",
+	    "table_grid":"tN",
+	    "table_signal":null,
+            "multiplier":null,
+            "table_images":[
+		{
+		    "name":"examples/stopZh/rawFiles/webpages/fig_11.pdf",
+		    "label":"SRATT acceptance"
+		}
+            ],
+            "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
+            "cuts_to_apply":null,
+            "variables":[
+		{
+		    "variable_name":"mt",
+		    "unit":"GeV",
+		    "is_independent":true,
+		    "is_visible":true,
+		    "fancy_variable_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
+		    "variable_qualifiers":null,
+		    "type":"kin",
+		    "in_files":[
+			{
+			    "name":"examples/stopZh/rawFiles/contorus4HEPData/Stop1_bestExpected_comb_ZZ.root:Obs",
+			    "decode":"x"
+			}
+		    ],
+		    "astype":"int",
+		    "transformation":[],
+		    "errors":null
+		},
+		{
+		    "variable_name":"mnTwo",
+		    "unit":"GeV",
+		    "is_independent":false,
+		    "is_visible":true,
+		    "fancy_variable_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
+		    "variable_qualifiers":null,
+		    "type":"kin",
+		    "in_files":[
+			{
+			    "name":"examples/stopZh/rawFiles/contorus4HEPData/Stop1_bestExpected_comb_ZZ.root:Obs",
+			    "decode":"y"
+			}
+		    ],
+		    "astype":"int",
+		    "transformation":[]
+		}
+            ]
+	},
+	{
+            "table_name":"stop_br0_exp",
+            "should_be_processed":true,
+            "table_title":"The expected exclusion contour at 95% CL as a function of the $\\it{m}_{\\tilde{\\chi}^{0}_{1}}$  vs. $\\it{m}_{\\tilde{t}}$. Masses that are within the contours are excluded.",
+            "table_location":"Data from fig. 13a.",
+	    "table_grid":"tN",
+	    "table_signal":null,
+            "multiplier":null,
+            "table_images":[
+		{
+		    "name":"examples/stopZh/rawFiles/webpages/fig_11.pdf",
+		    "label":"SRATT acceptance"
+		}
+            ],
+            "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
+            "cuts_to_apply":null,
+            "variables":[
+		{
+		    "variable_name":"mt",
+		    "unit":"GeV",
+		    "is_independent":true,
+		    "is_visible":true,
+		    "fancy_variable_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
+		    "variable_qualifiers":null,
+		    "type":"kin",
+		    "in_files":[
+			{
+			    "name":"examples/stopZh/rawFiles/contorus4HEPData/Stop1_bestExpected_comb_ZZ.root:Exp",
+			    "decode":"x"
+			}
+		    ],
+		    "astype":"int",
+		    "transformation":[],
+		    "errors":null
+		},
+		{
+		    "variable_name":"mnTwo",
+		    "unit":"GeV",
+		    "is_independent":false,
+		    "is_visible":true,
+		    "fancy_variable_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
+		    "variable_qualifiers":null,
+		    "type":"kin",
+		    "in_files":[
+			{
+			    "name":"examples/stopZh/rawFiles/contorus4HEPData/Stop1_bestExpected_comb_ZZ.root:Exp",
+			    "decode":"y"
+			}
+		    ],
+		    "astype":"int",
+		    "transformation":[]
+		}
+            ]
+	}	
+    ]
+}

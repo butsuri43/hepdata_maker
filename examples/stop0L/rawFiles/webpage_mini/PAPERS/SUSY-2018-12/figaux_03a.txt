@@ -1,0 +1,1 @@
+Acceptance (a) and efficiency (b) of SRA-TT in the mLSP vs. mstop plane.

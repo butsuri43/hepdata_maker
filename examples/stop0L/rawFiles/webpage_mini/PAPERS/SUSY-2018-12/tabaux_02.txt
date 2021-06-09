@@ -1,0 +1,1 @@
+Cutflow table for SRATW with a signal sample for which m<sub>t&#771;</sub>=1300 GeV and m<sub>&chi;&#771;<sup>0</sup><sub>1</sub></sub>=1 GeV.

@@ -1,0 +1,63 @@
+- Cut: Total
+  Unweighted yield: 90000
+  Weighted yield: 20664.5
+- Cut: Derivation skim
+  Unweighted yield: 59411
+  Weighted yield: 14103.9
+- Cut: Leading jet tight cleaning
+  Unweighted yield: 59153
+  Weighted yield: 14039.6
+- Cut: Pass $E_{\mathrm{T}}^{\mathrm{miss}}$ trigger
+  Unweighted yield: 55892
+  Weighted yield: 13314.1
+- Cut: $E_{\mathrm{T}}^{\mathrm{miss}} >$ 250
+  Unweighted yield: 26344
+  Weighted yield: 6204.0
+- Cut: Lepton veto
+  Unweighted yield: 16477
+  Weighted yield: 3868.3
+- Cut: $p_{\mathrm{T}}^{\mathrm{j}^{\mathrm{ISR}}} \ge$ 250 GeV
+  Unweighted yield: 12644
+  Weighted yield: 2916.9
+- Cut: $\left|\Delta\phi\left(\mathbf{p}_{\mathrm{T}}^{\mathrm{j}^{\mathrm{ISR}}},\mathbf{p}_\mathrm{T}^\mathrm{miss}\right)\right|
+    >$ 2.4
+  Unweighted yield: 12286
+  Weighted yield: 2831.1
+- Cut: $\left|\Delta\phi\left(\mathbf{p}_\mathrm{T}^\mathrm{miss},\mathbf{p}_{\mathrm{T}}^{\mathrm{miss,
+    track}}\right)\right| <$ $\pi$/3
+  Unweighted yield: 12025
+  Weighted yield: 2767.7
+- Cut: $E_{\mathrm{T}}^{\mathrm{miss, track}} >$ 30 GeV
+  Unweighted yield: 11902
+  Weighted yield: 2738.8
+- Cut: $E_{\mathrm{T}}^{\mathrm{miss}}/\sqrt{H_{\mathrm{T}}} \ge$ 26 $\sqrt{\mathrm{GeV}}$
+  Unweighted yield: 503
+  Weighted yield: 115.3
+- Cut: $\mathrm{N}_{b}^{\textnormal{track}} >$ 0
+  Unweighted yield: 293
+  Weighted yield: 68.9
+- Cut: $\mathrm{N}_{b}$==0
+  Unweighted yield: 79
+  Weighted yield: 19.8
+- Cut: $\left|\Delta\phi\left(\mathbf{p}_{\mathrm{T,1}}^{b^{\mathrm{track}}},\mathbf{p}_{\mathrm{T,2}}^{b^{\mathrm{track}}}\right)\right|
+    <$ 2.5
+  Unweighted yield: 55
+  Weighted yield: 13.6
+- Cut: $p_{\mathrm{T},1}^{b,\textnormal{track}} <$ 50
+  Unweighted yield: 54
+  Weighted yield: 13.3
+- Cut: $\left|\Delta\phi\left(\mathbf{p}_{\mathrm{T},1-4}^{\mathrm{{j}^{track}}},\mathbf{p}_{\mathrm{T}}^{\mathrm{j}^{\mathrm{ISR}}}\right)\right|
+    <$ 1.2
+  Unweighted yield: 43
+  Weighted yield: 10.6
+- Cut: $\left|\Delta\phi_{\min}\left(\mathbf{p}_{\mathrm{T},1-4},\mathbf{p}_\mathrm{T}^\mathrm{miss}\right)\right|
+    >$ 0.4
+  Unweighted yield: 21
+  Weighted yield: 5.0
+- Cut: $\mathrm{max}\left|\Delta\phi\left(\mathbf{p}_{\mathrm{T}}^{\mathrm{j}^{\mathrm{ISR}}},\mathbf{p}_{\mathrm{T}}^{b^\mathrm{track}}\right)\right|
+    >$ 2.2
+  Unweighted yield: 14
+  Weighted yield: 3.1
+- Cut: No track jet and jet overlap
+  Unweighted yield: 9
+  Weighted yield: 1.9

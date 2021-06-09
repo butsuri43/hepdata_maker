@@ -1,0 +1,146 @@
+{
+    "900.0": {
+        "xsec_exp_errHigh_pb": 0.0018086038500000003, 
+        "xsec_exp_errLow_pb": 0.0011391460999999998, 
+        "xsec_obs_pb": 0.003812276200000001, 
+        "xsec_exp_pb": 0.0035235667
+    }, 
+    "1800.0": {
+        "xsec_exp_errHigh_pb": 0.000561667733, 
+        "xsec_exp_errLow_pb": 0.0003270976719999999, 
+        "xsec_obs_pb": 0.001011868561, 
+        "xsec_exp_pb": 0.0009993501539999998
+    }, 
+    "1550.0": {
+        "xsec_exp_errHigh_pb": 0.0005437017460000001, 
+        "xsec_exp_errLow_pb": 0.00032948531399999996, 
+        "xsec_obs_pb": 0.000978641789, 
+        "xsec_exp_pb": 0.000990524472
+    }, 
+    "400.0": {
+        "xsec_exp_errHigh_pb": 0.11700385999999999, 
+        "xsec_exp_errLow_pb": 0.06661725550000001, 
+        "xsec_obs_pb": 0.276379705, 
+        "xsec_exp_pb": 0.2085844
+    }, 
+    "1300.0": {
+        "xsec_exp_errHigh_pb": 0.0006674036359999999, 
+        "xsec_exp_errLow_pb": 0.00041447301369999996, 
+        "xsec_obs_pb": 0.0012467077709999998, 
+        "xsec_exp_pb": 0.001242689661
+    }, 
+    "1050.0": {
+        "xsec_exp_errHigh_pb": 0.001084922048, 
+        "xsec_exp_errLow_pb": 0.0006819485400000002, 
+        "xsec_obs_pb": 0.0021014843080000003, 
+        "xsec_exp_pb": 0.0020926307080000005
+    }, 
+    "800.0": {
+        "xsec_exp_errHigh_pb": 0.00396825782, 
+        "xsec_exp_errLow_pb": 0.0025047916599999992, 
+        "xsec_obs_pb": 0.00973558902, 
+        "xsec_exp_pb": 0.007494524839999999
+    }, 
+    "1700.0": {
+        "xsec_exp_errHigh_pb": 0.0005721576359999998, 
+        "xsec_exp_errLow_pb": 0.0003420110316, 
+        "xsec_obs_pb": 0.001040517668, 
+        "xsec_exp_pb": 0.001045459236
+    }, 
+    "1450.0": {
+        "xsec_exp_errHigh_pb": 0.0007525820160000001, 
+        "xsec_exp_errLow_pb": 0.0004680412080000001, 
+        "xsec_obs_pb": 0.0013330515839999999, 
+        "xsec_exp_pb": 0.001403344104
+    }, 
+    "1200.0": {
+        "xsec_exp_errHigh_pb": 0.0007530690600000001, 
+        "xsec_exp_errLow_pb": 0.0004709844899999999, 
+        "xsec_obs_pb": 0.00140815879, 
+        "xsec_exp_pb": 0.00141360134
+    }, 
+    "950.0": {
+        "xsec_exp_errHigh_pb": 0.001587942724, 
+        "xsec_exp_errLow_pb": 0.001003875072, 
+        "xsec_obs_pb": 0.0031428722650000004, 
+        "xsec_exp_pb": 0.003052774509
+    }, 
+    "700.0": {
+        "xsec_exp_errHigh_pb": 0.006768244170000001, 
+        "xsec_exp_errLow_pb": 0.0042301888199999995, 
+        "xsec_obs_pb": 0.022109375249999997, 
+        "xsec_exp_pb": 0.01417250358
+    }, 
+    "1350.0": {
+        "xsec_exp_errHigh_pb": 0.000667071874, 
+        "xsec_exp_errLow_pb": 0.0004134387079999999, 
+        "xsec_obs_pb": 0.0011657044160000001, 
+        "xsec_exp_pb": 0.0012405641879999999
+    }, 
+    "1100.0": {
+        "xsec_exp_errHigh_pb": 0.00092768736, 
+        "xsec_exp_errLow_pb": 0.000583308365, 
+        "xsec_obs_pb": 0.0017444609100000002, 
+        "xsec_exp_pb": 0.00175436485
+    }, 
+    "2000.0": {
+        "xsec_exp_errHigh_pb": 0.0005403460760000001, 
+        "xsec_exp_errLow_pb": 0.00031728802400000006, 
+        "xsec_obs_pb": 0.000924900396, 
+        "xsec_exp_pb": 0.0009464841240000001
+    }, 
+    "850.0": {
+        "xsec_exp_errHigh_pb": 0.0025772061599999996, 
+        "xsec_exp_errLow_pb": 0.0015755277600000002, 
+        "xsec_obs_pb": 0.00531244008, 
+        "xsec_exp_pb": 0.0047718072
+    }, 
+    "600.0": {
+        "xsec_exp_errHigh_pb": 0.010555614, 
+        "xsec_exp_errLow_pb": 0.0068792362499999985, 
+        "xsec_obs_pb": 0.0398721515, 
+        "xsec_exp_pb": 0.023661304999999997
+    }, 
+    "1500.0": {
+        "xsec_exp_errHigh_pb": 0.0005838173910000001, 
+        "xsec_exp_errLow_pb": 0.000352996696, 
+        "xsec_obs_pb": 0.001049755564, 
+        "xsec_exp_pb": 0.001060673181
+    }, 
+    "1250.0": {
+        "xsec_exp_errHigh_pb": 0.0007055613800000001, 
+        "xsec_exp_errLow_pb": 0.0004422440219999999, 
+        "xsec_obs_pb": 0.00132477848, 
+        "xsec_exp_pb": 0.0013456465799999999
+    }, 
+    "1000.0": {
+        "xsec_exp_errHigh_pb": 0.0011643039529999999, 
+        "xsec_exp_errLow_pb": 0.0007312020420000002, 
+        "xsec_obs_pb": 0.002249878496, 
+        "xsec_exp_pb": 0.0021955055490000003
+    }, 
+    "1900.0": {
+        "xsec_exp_errHigh_pb": 0.000561615432, 
+        "xsec_exp_errLow_pb": 0.00034012036800000006, 
+        "xsec_obs_pb": 0.000982337322, 
+        "xsec_exp_pb": 0.001023197298
+    }, 
+    "500.0": {
+        "xsec_exp_errHigh_pb": 0.017353936109999996, 
+        "xsec_exp_errLow_pb": 0.011492164950000003, 
+        "xsec_obs_pb": 0.06047930888999999, 
+        "xsec_exp_pb": 0.03869368587
+    }, 
+    "1400.0": {
+        "xsec_exp_errHigh_pb": 0.0006195879030000001, 
+        "xsec_exp_errLow_pb": 0.0003867125019999999, 
+        "xsec_obs_pb": 0.001146601665, 
+        "xsec_exp_pb": 0.001161253313
+    }, 
+    "1150.0": {
+        "xsec_exp_errHigh_pb": 0.000806713376, 
+        "xsec_exp_errLow_pb": 0.000503960716, 
+        "xsec_obs_pb": 0.001469365114, 
+        "xsec_exp_pb": 0.001513297058
+    }
+}

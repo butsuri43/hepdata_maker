@@ -1,0 +1,1 @@
+Selection criteria for SRA and SRB. Each signal region is separated into three categories based on reconstructed top candidate masses. A dash indicates that no selection is applied.

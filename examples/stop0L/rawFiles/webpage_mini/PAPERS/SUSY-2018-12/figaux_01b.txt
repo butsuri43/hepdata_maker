@@ -1,0 +1,3 @@
+Observed (solid line) and expected (dashed line)
+exclusion contours at 95 CL for SRA+SRB (green), SRC (red), and SRD (blue) as a function of (a) t&#771; and
+&chi;&#771;&lt;sub&gt;1&lt;/sub&gt;&lt;sup&gt;0&lt;/sup&gt; masses and (b) as a function t&#771; mass and &Delta; m(t&#771;,&chi;&#771;&lt;sub&gt;1&lt;/sub&gt;&lt;sup&gt;0&lt;/sup&gt;). Masses that are within the contours are excluded.  The numbers indicate the observed upper limits on the cross section for SRA+SRB (green), SRC (red), and SRD (blue). Only  2-body (a), 3 and 4-body (b) signal samples are shown. 

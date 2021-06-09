@@ -1,0 +1,11 @@
+[
+	{
+		"xName":"m(#tilde{t}_{2}) [GeV]",
+		"yName":"m(#tilde{#chi}^{0}_{1}) [GeV]",
+		"zName":"acceptance",
+		"region":"SRS",
+		"TableName":"ACC_SRS_acceptance",
+		"TableDescription":"Signal acceptance in SRS for simplified $(#tilde{t}_1,#tilde{#chi^{0}_2})$ model.",
+		"JsonFieldName":"Acc"
+	}
+]

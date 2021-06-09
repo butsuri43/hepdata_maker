@@ -1,0 +1,6 @@
+Observed and expected numbers of events in the 1&#8467; signal regions. The pre-fit predictions from MC simulation are given for comparison for the tt&#772; background that is normalised to data in a dedicated control region.
+The `Higgs' category contains the contributions from gluon--gluon fusion, vector-boson fusion, Wh, Zh and tt&#772; h production.
+The `Others' category contains the contributions from tt&#772; WW, tt&#772; WZ, tt&#772; t and tt&#772; tt&#772; production.
+Combined statistical and systematic uncertainties are given. The table also includes model-independent 95 CL upper limits on the visible number of BSM events (S<sup>95</sup><sub>obs</sub>), the number of BSM events given the expected number of background events (S<sup>95</sup><sub>exp</sub>) and the visible BSM cross-section (&sigma;<sub>vis</sub>), as well as the discovery p-value (p<sub>0</sub>) for the background-only hypothesis, all calculated from pseudo-experiments.
+The value of p<sub>0</sub> is capped at 0.5 if the observed number of events is below the expected number of events.
+label{tab:resultsH}

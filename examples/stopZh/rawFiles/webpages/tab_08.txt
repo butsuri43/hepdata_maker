@@ -1,0 +1,1 @@
+label{tab:CRdefH} Definition of the control region used for the tt&#772; background estimation.

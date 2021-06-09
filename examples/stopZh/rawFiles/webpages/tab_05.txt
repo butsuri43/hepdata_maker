@@ -1,0 +1,6 @@
+Background fit results for the FNP validation regions.
+The `Others' category is dominated by tt&#772; W production and also contains the contributions from tt&#772; h, tt&#772; WW, tt&#772; t, tt&#772; tt&#772;, Wh, and Zh production.
+Combined statistical and systematic uncertainties are given.
+Some of the uncertainties are correlated and therefore the overall sum in quadrature does not necessarily add to the total systematic uncertainty.
+The number of tanti-{t}Z and multi-boson background events is estimated as described in Section~ref{sec:BkgPrompt}.
+label{tab:VRF_res}

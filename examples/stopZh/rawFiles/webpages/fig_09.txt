@@ -1,0 +1,4 @@
+Comparison of the observed and expected event yields in all the 1&#8467; SRs and bins used for the model-dependent exclusion limits.
+The `Higgs' category contains the contributions from gluon--gluon fusion, vector-boson fusion, Wh, Zh and tt&#772; h production.
+The `Others' category contains the contributions from tt&#772; WW, tt&#772; WZ, tt&#772; t and tt&#772; tt&#772; production.
+The lower panel shows the significance in each SR bin, computed as described in Ref.~cite{RooFit1}.

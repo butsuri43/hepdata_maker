@@ -1,0 +1,1 @@
+label{tab:SRdefH} Definition of the signal regions used in the 1&#8467; selection (see text for further description).

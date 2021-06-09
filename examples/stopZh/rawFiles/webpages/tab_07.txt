@@ -1,0 +1,6 @@
+Background fit results for the control and validation regions for the tt&#772; Z and multi-boson backgrounds. The pre-fit predictions from MC simulation are given for comparison for those backgrounds (tanti-{t}Z, multi-boson) that are normalised to data.
+The `Others' category contains the contributions from tt&#772; h, tt&#772; W, tt&#772; WW, tt&#772; t, tt&#772; tt&#772;, Wh, and Zh production.
+Combined statistical and systematic uncertainties are given.
+Some of the uncertainties are correlated and therefore the overall sum in quadrature does not necessarily add to the total systematic uncertainty.
+The number of events with fake/non-prompt leptons is estimated with the data-driven technique described in Section~ref{sec:bkgF}.
+label{tab:CRVRZ}

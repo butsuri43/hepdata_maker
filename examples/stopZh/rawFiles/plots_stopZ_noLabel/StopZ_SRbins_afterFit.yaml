@@ -1,0 +1,279 @@
+independent_variables:
+- header: {name: ''}
+  values:
+    - {value: '0.0'}
+    - {value: '1.0'}
+    - {value: '2.0'}
+    - {value: '3.0'}
+    - {value: '4.0'}
+    - {value: '5.0'}
+    - {value: '6.0'}
+    - {value: '7.0'}
+    - {value: '8.0'}
+    - {value: '9.0'}
+    - {value: '10.0'}
+    - {value: '11.0'}
+dependent_variables:
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: Data}
+  values:
+  - {value: '2'}
+  - {value: '1'}
+  - {value: '0'}
+  - {value: '8'}
+  - {value: '4'}
+  - {value: '2'}
+  - {value: '0'}
+  - {value: '3'}
+  - {value: '7'}
+  - {value: '4'}
+  - {value: '5'}
+  - {value: '6'}
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: Total Bkg}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 0.59}
+    value: 2.37
+  - errors:
+    - {label: stat+syst, symerror: 0.30}
+    value: 1.26
+  - errors:
+    - {label: stat+syst, symerror: 0.59}
+    value: 2.05
+  - errors:
+    - {label: stat+syst, symerror: 2.32}
+    value: 6.28
+  - errors:
+    - {label: stat+syst, symerror: 1.47}
+    value: 3.48
+  - errors:
+    - {label: stat+syst, symerror: 0.37}
+    value: 1.35
+  - errors:
+    - {label: stat+syst, symerror: 0.24}
+    value: 0.99
+  - errors:
+    - {label: stat+syst, symerror: 1.64}
+    value: 5.58
+  - errors:
+    - {label: stat+syst, symerror: 0.66}
+    value: 3.71
+  - errors:
+    - {label: stat+syst, symerror: 0.79}
+    value: 4.27
+  - errors:
+    - {label: stat+syst, symerror: 0.79}
+    value: 4.59
+  - errors:
+    - {label: stat+syst, symerror: 0.93}
+    value: 5.45
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: fakes}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 0.18}
+    value: 0.25
+  - errors:
+    - {label: stat+syst, symerror: 0.04}
+    value: 0.18
+  - errors:
+    - {label: stat+syst, symerror: 0.17}
+    value: 0.31
+  - errors:
+    - {label: stat+syst, symerror: 0.00}
+    value: 0.00
+  - errors:
+    - {label: stat+syst, symerror: 0.02}
+    value: 0.04
+  - errors:
+    - {label: stat+syst, symerror: 0.00}
+    value: 0.00
+  - errors:
+    - {label: stat+syst, symerror: 0.00}
+    value: 0.00
+  - errors:
+    - {label: stat+syst, symerror: 1.12}
+    value: 1.82
+  - errors:
+    - {label: stat+syst, symerror: 0.16}
+    value: 0.83
+  - errors:
+    - {label: stat+syst, symerror: 0.10}
+    value: 0.73
+  - errors:
+    - {label: stat+syst, symerror: 0.18}
+    value: 1.18
+  - errors:
+    - {label: stat+syst, symerror: 0.12}
+    value: 0.65
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: VV}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 0.09}
+    value: 0.17
+  - errors:
+    - {label: stat+syst, symerror: 0.05}
+    value: 0.10
+  - errors:
+    - {label: stat+syst, symerror: 0.10}
+    value: 0.22
+  - errors:
+    - {label: stat+syst, symerror: 0.31}
+    value: 0.86
+  - errors:
+    - {label: stat+syst, symerror: 0.11}
+    value: 0.32
+  - errors:
+    - {label: stat+syst, symerror: 0.06}
+    value: 0.17
+  - errors:
+    - {label: stat+syst, symerror: 0.07}
+    value: 0.14
+  - errors:
+    - {label: stat+syst, symerror: 0.96}
+    value: 2.62
+  - errors:
+    - {label: stat+syst, symerror: 0.40}
+    value: 0.89
+  - errors:
+    - {label: stat+syst, symerror: 0.37}
+    value: 0.82
+  - errors:
+    - {label: stat+syst, symerror: 0.55}
+    value: 1.24
+  - errors:
+    - {label: stat+syst, symerror: 0.62}
+    value: 1.44
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: ttZ}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 0.51}
+    value: 1.19
+  - errors:
+    - {label: stat+syst, symerror: 0.26}
+    value: 0.55
+  - errors:
+    - {label: stat+syst, symerror: 0.47}
+    value: 1.04
+  - errors:
+    - {label: stat+syst, symerror: 2.28}
+    value: 4.00
+  - errors:
+    - {label: stat+syst, symerror: 1.44}
+    value: 2.43
+  - errors:
+    - {label: stat+syst, symerror: 0.32}
+    value: 0.86
+  - errors:
+    - {label: stat+syst, symerror: 0.17}
+    value: 0.57
+  - errors:
+    - {label: stat+syst, symerror: 0.23}
+    value: 0.70
+  - errors:
+    - {label: stat+syst, symerror: 0.32}
+    value: 1.16
+  - errors:
+    - {label: stat+syst, symerror: 0.62}
+    value: 2.08
+  - errors:
+    - {label: stat+syst, symerror: 0.27}
+    value: 1.09
+  - errors:
+    - {label: stat+syst, symerror: 0.65}
+    value: 2.21
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: tZtWZ}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 0.25}
+    value: 0.38
+  - errors:
+    - {label: stat+syst, symerror: 0.17}
+    value: 0.25
+  - errors:
+    - {label: stat+syst, symerror: 0.12}
+    value: 0.19
+  - errors:
+    - {label: stat+syst, symerror: 0.54}
+    value: 0.98
+  - errors:
+    - {label: stat+syst, symerror: 0.34}
+    value: 0.63
+  - errors:
+    - {label: stat+syst, symerror: 0.17}
+    value: 0.32
+  - errors:
+    - {label: stat+syst, symerror: 0.15}
+    value: 0.27
+  - errors:
+    - {label: stat+syst, symerror: 0.10}
+    value: 0.19
+  - errors:
+    - {label: stat+syst, symerror: 0.24}
+    value: 0.44
+  - errors:
+    - {label: stat+syst, symerror: 0.29}
+    value: 0.51
+  - errors:
+    - {label: stat+syst, symerror: 0.36}
+    value: 0.67
+  - errors:
+    - {label: stat+syst, symerror: 0.50}
+    value: 0.97
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: Others}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 0.09}
+    value: 0.37
+  - errors:
+    - {label: stat+syst, symerror: 0.06}
+    value: 0.18
+  - errors:
+    - {label: stat+syst, symerror: 0.08}
+    value: 0.29
+  - errors:
+    - {label: stat+syst, symerror: 0.10}
+    value: 0.44
+  - errors:
+    - {label: stat+syst, symerror: 0.02}
+    value: 0.05
+  - errors:
+    - {label: stat+syst, symerror: 0.00}
+    value: 0.01
+  - errors:
+    - {label: stat+syst, symerror: 0.00}
+    value: 0.01
+  - errors:
+    - {label: stat+syst, symerror: 0.07}
+    value: 0.25
+  - errors:
+    - {label: stat+syst, symerror: 0.09}
+    value: 0.39
+  - errors:
+    - {label: stat+syst, symerror: 0.03}
+    value: 0.13
+  - errors:
+    - {label: stat+syst, symerror: 0.09}
+    value: 0.40
+  - errors:
+    - {label: stat+syst, symerror: 0.04}
+    value: 0.19

@@ -1,0 +1,1 @@
+Selection criteria for SRC. The signal regions are separated into five categories based on ranges of R<sub>ISR</sub>.

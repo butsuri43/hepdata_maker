@@ -1,0 +1,7 @@
+Distribution in CR<sup>h</sup><sub>tt&#772;</sub> of the score of the neural network used for the identification of Higgs boson candidates decaying into b-quarks.
+The tt&#772; background process is normalised via the simultaneous fit described in Section~ref{sec:bkg}.
+The contributions from all SM backgrounds are shown as a histogram stack; the bands represent the total uncertainty in the background prediction.
+The `Higgs' category contains the contributions from gluon--gluon fusion, vector-boson fusion, Wh, Zh and tt&#772; h production.
+The `Others' category contains the contributions from tt&#772; WW, tt&#772; WZ, tt&#772; t and tt&#772; tt&#772; production.
+The last bin contains the overflow.
+The lower panel shows the ratio of the observed data to the total SM background prediction, with bands representing the total uncertainty in the background prediction.

@@ -1,0 +1,2 @@
+Comparison of the relative uncertainty for the total background yield in each SR, including the contribution from the different sources of uncertainty.
+The `Detector' category contains all detector-related systematic uncertainties and is dominated by jet energy scale and resolution, and b-tagging uncertainties.

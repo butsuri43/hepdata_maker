@@ -1,0 +1,5 @@
+Exclusion limits at 95 CL on the production cross-section normalised to the theory prediction for the t&#771;<sub>2</sub>&rarr; Z t&#771;&lt;sub&gt;1&lt;/sub&gt; with t&#771;&lt;sub&gt;1&lt;/sub&gt; &rarr; bff'&chi;&#771;&lt;sub&gt;1&lt;/sub&gt;&lt;sup&gt;0&lt;/sup&gt; simplified model assuming {cal B}(t&#771;<sub>2</sub> &rarr; Zt&#771;&lt;sub&gt;1&lt;/sub&gt;) = 1,
+as a function of the t&#771;&lt;sub&gt;1&lt;/sub&gt;-&chi;&#771;&lt;sub&gt;1&lt;/sub&gt;&lt;sup&gt;0&lt;/sup&gt; mass difference for fixed m(t&#771;<sub>2</sub>)=600~GeV and  m(&chi;&#771;&lt;sub&gt;1&lt;/sub&gt;&lt;sup&gt;0&lt;/sup&gt;)=200~GeV.
+The dashed line is the expected limit and the shaded bands are its pm1&sigma; and pm2&sigma; uncertainties.
+The thick solid line is the observed limit.
+The expected and observed limits do not include the effect of the theoretical uncertainties in the signal cross-section.

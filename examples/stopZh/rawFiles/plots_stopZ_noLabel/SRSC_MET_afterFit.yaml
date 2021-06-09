@@ -1,0 +1,119 @@
+independent_variables:
+- header: {name: ''}
+  values:
+    - {value: '0.0'}
+    - {value: '1.0'}
+    - {value: '2.0'}
+    - {value: '3.0'}
+dependent_variables:
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: Data}
+  values:
+  - {value: '34'}
+  - {value: '17'}
+  - {value: '7'}
+  - {value: '3'}
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: Total Bkg}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 13.3}
+    value: 40.4
+  - errors:
+    - {label: stat+syst, symerror: 3.3}
+    value: 11.6
+  - errors:
+    - {label: stat+syst, symerror: 3.4}
+    value: 10.0
+  - errors:
+    - {label: stat+syst, symerror: 1.6}
+    value: 5.6
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: VV}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 1.8}
+    value: 5.2
+  - errors:
+    - {label: stat+syst, symerror: 1.3}
+    value: 3.5
+  - errors:
+    - {label: stat+syst, symerror: 0.8}
+    value: 2.0
+  - errors:
+    - {label: stat+syst, symerror: 0.9}
+    value: 2.6
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: ttZ}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 0.5}
+    value: 1.5
+  - errors:
+    - {label: stat+syst, symerror: 0.6}
+    value: 0.9
+  - errors:
+    - {label: stat+syst, symerror: 0.3}
+    value: 0.8
+  - errors:
+    - {label: stat+syst, symerror: 0.2}
+    value: 0.7
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: fakes}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 12.8}
+    value: 32.7
+  - errors:
+    - {label: stat+syst, symerror: 2.5}
+    value: 6.2
+  - errors:
+    - {label: stat+syst, symerror: 3.0}
+    value: 6.6
+  - errors:
+    - {label: stat+syst, symerror: 1.1}
+    value: 1.8
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: tZtWZ}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 0.3}
+    value: 0.6
+  - errors:
+    - {label: stat+syst, symerror: 0.3}
+    value: 0.5
+  - errors:
+    - {label: stat+syst, symerror: 0.2}
+    value: 0.3
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.2
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: Others}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.4
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.4
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.2
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.3

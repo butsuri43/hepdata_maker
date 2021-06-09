@@ -1,0 +1,4 @@
+Comparison of the observed and expected event yields in all the 3&#8467; SRs and bins used for the model-dependent exclusion limits.
+The `Others' category contains the contributions from tt&#772; h, tt&#772; W, tt&#772; WW, tt&#772; t, tt&#772; tt&#772;, Wh, and Zh production.
+The `FNP' category represents the background from fake or non-prompt leptons.
+The lower panel shows the significance in each SR bin, computed as described in Ref.~cite{RooFit1}.

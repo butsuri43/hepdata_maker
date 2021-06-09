@@ -1,0 +1,1 @@
+label{tab:SRexcl} Selection criteria used in the shape-fit to derive the model-dependent exclusion limits. The additional SR labelled as SR<sub>1{AB}</sub><sup>h</sup> overlaps with both SR<sub>1{ A}</sub><sup>h</sup> and SR<sub>1{ B}</sub><sup>h</sup> defined in Table~ref{tab:SRdefH}.

@@ -1,0 +1,428 @@
+independent_variables:
+- header: {name: ''}
+  values:
+    - {value: '0.0'}
+    - {value: '1.0'}
+    - {value: '2.0'}
+    - {value: '3.0'}
+    - {value: '4.0'}
+    - {value: '5.0'}
+    - {value: '6.0'}
+    - {value: '7.0'}
+    - {value: '8.0'}
+    - {value: '9.0'}
+    - {value: '10.0'}
+    - {value: '11.0'}
+    - {value: '12.0'}
+    - {value: '13.0'}
+    - {value: '14.0'}
+    - {value: '15.0'}
+dependent_variables:
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: Data}
+  values:
+  - {value: '0'}
+  - {value: '0'}
+  - {value: '0'}
+  - {value: '0'}
+  - {value: '47'}
+  - {value: '24'}
+  - {value: '11'}
+  - {value: '11'}
+  - {value: '13'}
+  - {value: '2'}
+  - {value: '6'}
+  - {value: '1'}
+  - {value: '1'}
+  - {value: '1'}
+  - {value: '2'}
+  - {value: '0'}
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: Total Bkg}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 10.0}
+    value: 49.8
+  - errors:
+    - {label: stat+syst, symerror: 4.9}
+    value: 19.2
+  - errors:
+    - {label: stat+syst, symerror: 4.7}
+    value: 15.9
+  - errors:
+    - {label: stat+syst, symerror: 4.9}
+    value: 10.4
+  - errors:
+    - {label: stat+syst, symerror: 6.0}
+    value: 9.6
+  - errors:
+    - asymerror: {minus: -4.7, plus: 5.1}
+      label: stat+syst
+    value: 4.7
+  - errors:
+    - {label: stat+syst, symerror: 1.1}
+    value: 3.3
+  - errors:
+    - {label: stat+syst, symerror: 0.6}
+    value: 1.6
+  - errors:
+    - {label: stat+syst, symerror: 0.4}
+    value: 1.3
+  - errors:
+    - {label: stat+syst, symerror: 0.3}
+    value: 0.8
+  - errors:
+    - {label: stat+syst, symerror: 0.2}
+    value: 0.6
+  - errors:
+    - {label: stat+syst, symerror: 0.4}
+    value: 1.7
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: ttbar}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 9.5}
+    value: 45.3
+  - errors:
+    - {label: stat+syst, symerror: 4.9}
+    value: 15.9
+  - errors:
+    - {label: stat+syst, symerror: 4.4}
+    value: 14.1
+  - errors:
+    - {label: stat+syst, symerror: 4.6}
+    value: 9.3
+  - errors:
+    - {label: stat+syst, symerror: 5.8}
+    value: 8.6
+  - errors:
+    - asymerror: {minus: -4.1, plus: 5.2}
+      label: stat+syst
+    value: 4.1
+  - errors:
+    - {label: stat+syst, symerror: 1.1}
+    value: 2.8
+  - errors:
+    - {label: stat+syst, symerror: 0.6}
+    value: 1.4
+  - errors:
+    - {label: stat+syst, symerror: 0.4}
+    value: 0.9
+  - errors:
+    - {label: stat+syst, symerror: 0.3}
+    value: 0.7
+  - errors:
+    - {label: stat+syst, symerror: 0.2}
+    value: 0.5
+  - errors:
+    - {label: stat+syst, symerror: 0.4}
+    value: 1.3
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: VandVV}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - asymerror: {minus: -0.1, plus: 0.1}
+      label: stat+syst
+    value: 0.1
+  - errors:
+    - asymerror: {minus: -0.1, plus: 0.2}
+      label: stat+syst
+    value: 0.1
+  - errors:
+    - asymerror: {minus: -0.1, plus: 0.2}
+      label: stat+syst
+    value: 0.1
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - asymerror: {minus: -0.1, plus: 0.2}
+      label: stat+syst
+    value: 0.1
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - asymerror: {minus: -0.0, plus: 0.1}
+      label: stat+syst
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - asymerror: {minus: -0.1, plus: 0.3}
+      label: stat+syst
+    value: 0.1
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: ttV}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.4}
+    value: 1.1
+  - errors:
+    - {label: stat+syst, symerror: 0.2}
+    value: 0.5
+  - errors:
+    - {label: stat+syst, symerror: 0.2}
+    value: 0.4
+  - errors:
+    - asymerror: {minus: -0.3, plus: 0.4}
+      label: stat+syst
+    value: 0.3
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.2
+  - errors:
+    - asymerror: {minus: -0.1, plus: 0.1}
+      label: stat+syst
+    value: 0.1
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.2
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.1
+  - errors:
+    - asymerror: {minus: -0.1, plus: 0.1}
+      label: stat+syst
+    value: 0.1
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - asymerror: {minus: -0.0, plus: 0.1}
+      label: stat+syst
+    value: 0.0
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: MixedHiggses}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 1.1}
+    value: 1.4
+  - errors:
+    - {label: stat+syst, symerror: 0.3}
+    value: 1.0
+  - errors:
+    - {label: stat+syst, symerror: 0.3}
+    value: 0.7
+  - errors:
+    - {label: stat+syst, symerror: 0.2}
+    value: 0.5
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.4
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.3
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.3
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.1
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.1
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.1
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.1
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.1
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: singletop}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 1.0}
+    value: 1.7
+  - errors:
+    - asymerror: {minus: -1.5, plus: 1.6}
+      label: stat+syst
+    value: 1.5
+  - errors:
+    - asymerror: {minus: -0.4, plus: 0.5}
+      label: stat+syst
+    value: 0.4
+  - errors:
+    - asymerror: {minus: -0.2, plus: 0.3}
+      label: stat+syst
+    value: 0.2
+  - errors:
+    - {label: stat+syst, symerror: 0.2}
+    value: 0.3
+  - errors:
+    - {label: stat+syst, symerror: 0.2}
+    value: 0.2
+  - errors:
+    - asymerror: {minus: -0.0, plus: 0.1}
+      label: stat+syst
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.2}
+    value: 0.2
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.1
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: Others}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.1
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.2
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.1
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.1
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0

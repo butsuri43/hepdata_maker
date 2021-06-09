@@ -1,0 +1,1 @@
+label{tab:VRF} Definition of the validation regions used for the FNP lepton estimation (see text for further description).

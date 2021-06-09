@@ -1,0 +1,11 @@
+[
+	{
+		"xName":"m(#tilde{t}_{1}) [GeV]",
+		"yName":"m(#tilde{#chi}^{0}_{2}) [GeV]",
+		"zName":"acceptance",
+		"region":"SRH4",
+		"TableName":"ACC_SRH4_acceptance",
+		"TableDescription":"Signal acceptance in SRH4 for simplified $(#tilde{t}_1,#tilde{#chi^{0}_2})$ model.",
+		"JsonFieldName":"Acc"
+	}
+]

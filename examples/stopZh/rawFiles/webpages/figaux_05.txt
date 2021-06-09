@@ -1,0 +1,6 @@
+Number of b-tagged jets distribution in VR<sub>VV</sub><sup>Z,b-tag</sup>.
+The contributions from all SM backgrounds are shown after the background fit described in Section~ref{sec:bkg}; the hashed bands represent the total uncertainty.
+The `Others' category contains the contributions from tt&#772; h, tt&#772; W, tt&#772; WW, tt&#772; t, tt&#772; tt&#772;, Wh, and Zh production.
+The `FNP' category represents the background from fake or non-prompt leptons.
+The last bin in each figure contains the overflow.
+The lower panels show the ratio of the observed data to the total SM background prediction, with the bands representing the total uncertainty in the background prediction.

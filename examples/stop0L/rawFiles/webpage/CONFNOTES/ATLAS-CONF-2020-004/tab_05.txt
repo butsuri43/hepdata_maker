@@ -1,0 +1,1 @@
+Selection criteria for the Z+jets control regions. The main extrapolation for these control regions is over the number of leptons; two electrons or muons (&#8467;) from Z decays are required, compared with zero lepton in the signal regions. A dash indicates that no selection is applied.

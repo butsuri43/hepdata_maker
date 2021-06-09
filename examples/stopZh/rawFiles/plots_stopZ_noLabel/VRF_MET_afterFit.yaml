@@ -1,0 +1,179 @@
+independent_variables:
+- header: {name: ''}
+  values:
+    - {value: '0.0'}
+    - {value: '1.0'}
+    - {value: '2.0'}
+    - {value: '3.0'}
+    - {value: '4.0'}
+    - {value: '5.0'}
+    - {value: '6.0'}
+dependent_variables:
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: Data}
+  values:
+  - {value: '25'}
+  - {value: '19'}
+  - {value: '19'}
+  - {value: '9'}
+  - {value: '4'}
+  - {value: '4'}
+  - {value: '4'}
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: Total Bkg}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 10.3}
+    value: 28.3
+  - errors:
+    - {label: stat+syst, symerror: 6.4}
+    value: 21.7
+  - errors:
+    - {label: stat+syst, symerror: 3.6}
+    value: 14.8
+  - errors:
+    - {label: stat+syst, symerror: 2.6}
+    value: 9.9
+  - errors:
+    - {label: stat+syst, symerror: 2.5}
+    value: 7.8
+  - errors:
+    - {label: stat+syst, symerror: 1.0}
+    value: 3.7
+  - errors:
+    - {label: stat+syst, symerror: 3.3}
+    value: 11.4
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: VV}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.2
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.1
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.1
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.1
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.1
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.2
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: ttZ}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 0.3}
+    value: 2.1
+  - errors:
+    - {label: stat+syst, symerror: 0.3}
+    value: 2.1
+  - errors:
+    - {label: stat+syst, symerror: 0.2}
+    value: 1.5
+  - errors:
+    - {label: stat+syst, symerror: 0.2}
+    value: 1.0
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.6
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.4
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.9
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: fakes}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 10.1}
+    value: 18.9
+  - errors:
+    - {label: stat+syst, symerror: 6.1}
+    value: 12.7
+  - errors:
+    - {label: stat+syst, symerror: 3.3}
+    value: 7.4
+  - errors:
+    - {label: stat+syst, symerror: 2.3}
+    value: 4.6
+  - errors:
+    - {label: stat+syst, symerror: 2.2}
+    value: 4.0
+  - errors:
+    - {label: stat+syst, symerror: 0.6}
+    value: 1.4
+  - errors:
+    - {label: stat+syst, symerror: 3.0}
+    value: 5.3
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: tZtWZ}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.2
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.2
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.2
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.1
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.0
+  - errors:
+    - {label: stat+syst, symerror: 0.0}
+    value: 0.1
+- header: {name: ''}
+  qualifiers:
+  - {name: '$\sqrt{s}$', units: GeV, value: 13000.0}
+  - {name: ., value: Others}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 0.7}
+    value: 6.9
+  - errors:
+    - {label: stat+syst, symerror: 0.7}
+    value: 6.6
+  - errors:
+    - {label: stat+syst, symerror: 0.7}
+    value: 5.6
+  - errors:
+    - {label: stat+syst, symerror: 0.5}
+    value: 4.0
+  - errors:
+    - {label: stat+syst, symerror: 0.5}
+    value: 3.0
+  - errors:
+    - {label: stat+syst, symerror: 0.4}
+    value: 1.8
+  - errors:
+    - {label: stat+syst, symerror: 0.6}
+    value: 4.9

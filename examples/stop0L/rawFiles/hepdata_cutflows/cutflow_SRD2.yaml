@@ -1,0 +1,55 @@
+- Cut: Total
+  Unweighted yield: 90000
+  Weighted yield: 20664.5
+- Cut: Derivation skim
+  Unweighted yield: 59411
+  Weighted yield: 14103.9
+- Cut: Leading jet tight cleaning
+  Unweighted yield: 59153
+  Weighted yield: 14039.6
+- Cut: Pass $E_{\mathrm{T}}^{\mathrm{miss}}$ trigger
+  Unweighted yield: 55892
+  Weighted yield: 13314.1
+- Cut: $E_{\mathrm{T}}^{\mathrm{miss}} >$ 250
+  Unweighted yield: 26344
+  Weighted yield: 6204.0
+- Cut: Lepton veto
+  Unweighted yield: 16477
+  Weighted yield: 3868.3
+- Cut: $p_{\mathrm{T}}^{\mathrm{j}^{\mathrm{ISR}}} \ge$ 250 GeV
+  Unweighted yield: 12644
+  Weighted yield: 2916.9
+- Cut: $\left|\Delta\phi\left(\mathbf{p}_{\mathrm{T}}^{\mathrm{j}^{\mathrm{ISR}}},\mathbf{p}_\mathrm{T}^\mathrm{miss}\right)\right|
+    >$ 2.4
+  Unweighted yield: 12286
+  Weighted yield: 2831.1
+- Cut: $\left|\Delta\phi\left(\mathbf{p}_\mathrm{T}^\mathrm{miss},\mathbf{p}_{\mathrm{T}}^{\mathrm{miss,
+    track}}\right)\right| <$ $\pi$/3
+  Unweighted yield: 12025
+  Weighted yield: 2767.7
+- Cut: $E_{\mathrm{T}}^{\mathrm{miss, track}} >$ 30 GeV
+  Unweighted yield: 11902
+  Weighted yield: 2738.8
+- Cut: $E_{\mathrm{T}}^{\mathrm{miss}}/\sqrt{H_{\mathrm{T}}} >$ 22 $\sqrt{\mathrm{GeV}}$
+  Unweighted yield: 1824
+  Weighted yield: 412.7
+- Cut: $\mathrm{N}_{b} \ge$ 2
+  Unweighted yield: 171
+  Weighted yield: 36.3
+- Cut: $\left|\Delta\phi\left(\mathbf{p}_{\mathrm{T}}^{\mathrm{j}^{\mathrm{ISR}}},\mathbf{p}_{\mathrm{T,1}}^{b}\right)\right|
+    >$ 2.2
+  Unweighted yield: 105
+  Weighted yield: 21.9
+- Cut: $\left|\Delta\phi\left(\mathbf{p}_{\mathrm{T}}^{\mathrm{j}^{\mathrm{ISR}}},\mathbf{p}_{\mathrm{T,2}}^{b}\right)\right|
+    >$ 1.6
+  Unweighted yield: 69
+  Weighted yield: 14.1
+- Cut: $p_{\mathrm{T},1}^{b} <$ 175
+  Unweighted yield: 69
+  Weighted yield: 14.1
+- Cut: $p_{\mathrm{T},1}^{b} >$ 0
+  Unweighted yield: 69
+  Weighted yield: 14.1
+- Cut: $|\eta^{b}_2| <$ 1.2
+  Unweighted yield: 56
+  Weighted yield: 11.2

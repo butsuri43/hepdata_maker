@@ -1,0 +1,7 @@
+Observed (red solid line) and expected (black dashed line)
+exclusion contours at 95 CL as a function of the (a) &chi;&#771;&lt;sub&gt;1&lt;/sub&gt;&lt;sup&gt;0&lt;/sup&gt; vs t&#771;
+masses and (b) &Delta; m(t&#771;,&chi;&#771;&lt;sub&gt;1&lt;/sub&gt;&lt;sup&gt;0&lt;/sup&gt;) vs t&#771; mass. Masses that are within the contours are excluded. Uncertainty bands corresponding to the &plusmn; 1
+&sigma; variation of the expected limit (yellow band) and the
+sensitivity of the observed limit to &plusmn; 1&sigma; variations of
+the signal total cross section (red dotted lines) are also
+indicated. Observed limits from previous ATLAS searches~cite{SUSY-2014-07,SUSY-2016-15,SUSY-2016-16,SUSY-2016-17,EXOT-2016-27,TOPQ-2016-10} based on 36.1 fb<sup>-1</sup> of pp collision data are provided for comparison in grey.

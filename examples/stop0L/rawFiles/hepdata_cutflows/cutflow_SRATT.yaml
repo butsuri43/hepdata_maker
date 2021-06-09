@@ -1,0 +1,67 @@
+- Cut: Total
+  Unweighted yield: 30000
+  Weighted yield: 123.3
+- Cut: Derivation skim
+  Unweighted yield: 29755
+  Weighted yield: 122.2
+- Cut: $E_{\mathrm{T}}^{\mathrm{miss}} >$ 250 GeV
+  Unweighted yield: 26606
+  Weighted yield: 109.2
+- Cut: $\mathrm{N}_{\mathrm{j}} \ge$ 4
+  Unweighted yield: 23395
+  Weighted yield: 95.8
+- Cut: $\mathrm{N}_{b} \ge$ 2
+  Unweighted yield: 11651
+  Weighted yield: 47.1
+- Cut: Lepton veto
+  Unweighted yield: 7627
+  Weighted yield: 30.7
+- Cut: $p_{\mathrm{T}}^{j_4} >$ 40 GeV
+  Unweighted yield: 6924
+  Weighted yield: 27.9
+- Cut: $p_{\mathrm{T}}^{j_2} >$ 80 GeV
+  Unweighted yield: 6898
+  Weighted yield: 27.8
+- Cut: $\left|\Delta\phi_{\min}\left(\mathbf{p}_{\mathrm{T},1-4},\mathbf{p}_\mathrm{T}^\mathrm{miss}\right)\right|
+    >$ 0.4
+  Unweighted yield: 6000
+  Weighted yield: 24.1
+- Cut: Pass $E_{\mathrm{T}}^{\mathrm{miss}}$ trigger
+  Unweighted yield: 6000
+  Weighted yield: 24.1
+- Cut: $\mathcal{S} >$ 5
+  Unweighted yield: 5994
+  Weighted yield: 24.1
+- Cut: $m_{\mathrm{T}}^{b,\mathrm{min}} >$ 50 GeV
+  Unweighted yield: 5879
+  Weighted yield: 23.6
+- Cut: $\tau$ veto
+  Unweighted yield: 5376
+  Weighted yield: 21.6
+- Cut: $m_{\mathrm{T}}^{b,\mathrm{min}} >$ 200 GeV
+  Unweighted yield: 4721
+  Weighted yield: 19.1
+- Cut: $m_{1}^{R=1.2} >$ 120 GeV
+  Unweighted yield: 4380
+  Weighted yield: 17.7
+- Cut: $m_{2}^{R=1.2} >$ 120 GeV
+  Unweighted yield: 2204
+  Weighted yield: 8.9
+- Cut: $m_{\mathrm{T2,\chi^2}} >$ 450 GeV
+  Unweighted yield: 1786
+  Weighted yield: 7.2
+- Cut: $m_{1}^{R=0.8} >$ 60 GeV
+  Unweighted yield: 1754
+  Weighted yield: 7.0
+- Cut: $\mathcal{S} >$ 25
+  Unweighted yield: 1162
+  Weighted yield: 4.7
+- Cut: $j^{R=1.2}_1(b)$
+  Unweighted yield: 1087
+  Weighted yield: 4.4
+- Cut: $j^{R=1.2}_2(b)$
+  Unweighted yield: 1008
+  Weighted yield: 4.0
+- Cut: $\Delta R\left(b_1,b_2\right) >$ 1
+  Unweighted yield: 939
+  Weighted yield: 3.8

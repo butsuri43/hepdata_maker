@@ -1,0 +1,1 @@
+Simulated signal and background event samples: the corresponding event generator used for the hard-scatter process, the generator used to model the parton showering, the source of the cross-section used for normalisation, the PDF set and the underlying-event tune are shown.vspace{-0.8cm}

@@ -1,0 +1,1 @@
+Observed event yields in SRA and SRB compared with the expected SM background yields in each signal region after the SRA--B background-only fit. The uncertainties include MC statistical uncertainties, detector-related systematic uncertainties, and theoretical uncertainties.

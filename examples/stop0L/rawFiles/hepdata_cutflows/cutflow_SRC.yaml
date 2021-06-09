@@ -1,0 +1,81 @@
+- Cut: Total
+  Unweighted yield: 150000
+  Weighted yield: 32544.9
+- Cut: Derivation skim
+  Unweighted yield: 130412
+  Weighted yield: 28342.8
+- Cut: $E_{\mathrm{T}}^{\mathrm{miss}} >$ 250
+  Unweighted yield: 30726
+  Weighted yield: 6668.1
+- Cut: $\mathrm{N}_{\mathrm{j}} \ge$ 4
+  Unweighted yield: 29192
+  Weighted yield: 6319.7
+- Cut: $\mathrm{N}_{b} \ge$ 1
+  Unweighted yield: 26136
+  Weighted yield: 5622.8
+- Cut: Lepton veto
+  Unweighted yield: 14873
+  Weighted yield: 3183.0
+- Cut: $p_{\mathrm{T}}^{j_4} >$ 40 GeV
+  Unweighted yield: 13289
+  Weighted yield: 2855.0
+- Cut: $p_{\mathrm{T}}^{j_2} >$ 80 GeV
+  Unweighted yield: 12251
+  Weighted yield: 2638.7
+- Cut: $\left|\Delta\phi_{\min}\left(\mathbf{p}_{\mathrm{T},1-4},\mathbf{p}_\mathrm{T}^\mathrm{miss}\right)\right|
+    >$ 0.2
+  Unweighted yield: 10801
+  Weighted yield: 2334.5
+- Cut: Pass $E_{\mathrm{T}}^{\mathrm{miss}}$ trigger
+  Unweighted yield: 10799
+  Weighted yield: 2334.1
+- Cut: $\mathcal{S} >$ 5
+  Unweighted yield: 10677
+  Weighted yield: 2306.6
+- Cut: $\mathrm{N}_{\mathrm{j}}^{\mathrm{S}} \ge$ 4
+  Unweighted yield: 6141
+  Weighted yield: 1290.9
+- Cut: $\mathrm{N}_{b}^{\mathrm{S}} \ge$ 2
+  Unweighted yield: 2223
+  Weighted yield: 454.7
+- Cut: $m_{\mathrm{S}} >$ 400 GeV
+  Unweighted yield: 883
+  Weighted yield: 181.2
+- Cut: $p_{\mathrm{T},1}^{\mathrm{S},b} >$ 40 GeV
+  Unweighted yield: 874
+  Weighted yield: 179.4
+- Cut: $\left|\Delta\phi\left(\mathbf{p}_{\mathrm{T}}^{\mathrm{ISR}},\mathbf{p}_\mathrm{T}^\mathrm{miss}\right)\right|
+    >$ 3.00
+  Unweighted yield: 488
+  Weighted yield: 99.7
+- Cut: $p_{\mathrm{T}}^{\mathrm{ISR}} >$ 400 GeV
+  Unweighted yield: 488
+  Weighted yield: 99.7
+- Cut: $p_{\mathrm{T},4}^{\mathrm{S}} >$ 50 GeV
+  Unweighted yield: 270
+  Weighted yield: 55.6
+- Cut: $\mathcal{S} \ge$ 5.
+  Unweighted yield: 270
+  Weighted yield: 55.6
+- Cut: $E_{\mathrm{T}}^{\mathrm{miss, track}} >$ 30 GeV
+  Unweighted yield: 268
+  Weighted yield: 55.2
+- Cut: $\left|\Delta\phi\left(\mathbf{p}_\mathrm{T}^\mathrm{miss},\mathbf{p}_{\mathrm{T}}^{\mathrm{miss,
+    track}}\right)\right| <$ $\pi$/3
+  Unweighted yield: 249
+  Weighted yield: 51.2
+- Cut: $0.3\le R_{\mathrm{ISR}}<0.4$ (SRC-1)
+  Unweighted yield: 1
+  Weighted yield: 0.3
+- Cut: $0.4\le R_{\mathrm{ISR}}<0.5$ (SRC-2)
+  Unweighted yield: 11
+  Weighted yield: 2.3
+- Cut: $0.5\le R_{\mathrm{ISR}}<0.6$ (SRC-3)
+  Unweighted yield: 70
+  Weighted yield: 15.0
+- Cut: $0.6\le R_{\mathrm{ISR}}<0.7$ (SRC-4)
+  Unweighted yield: 143
+  Weighted yield: 28.6
+- Cut: $ R_{\mathrm{ISR}}\le 0.7$ (SRC-5)
+  Unweighted yield: 24
+  Weighted yield: 5.0

@@ -1,0 +1,1 @@
+Signal region selections for SRD. Variables involving track jets are denoted with the label ``track". A dash indicates that no selection is applied.

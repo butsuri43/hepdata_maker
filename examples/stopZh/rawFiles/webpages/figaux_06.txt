@@ -1,0 +1,1 @@
+Distributions of the score of the neural network used for the identification of Higgs boson candidates decaying into b-quarks in simulated event samples selected requiring one signal lepton and at least two b-tagged jets. Distributions are shown for jet pairs in tt&#772; and for pairs of b-tagged jets originating from Higgs boson decays in a selected signal model.

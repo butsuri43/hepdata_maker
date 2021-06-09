@@ -1,0 +1,1 @@
+Acceptance (left) and efficiency (right) for the binned SR<sub>1{ B}</sub><sup>h</sup> in the m(t&#771;&lt;sub&gt;1&lt;/sub&gt;) vs. m(&chi;&#771;&lt;sub&gt;2&lt;/sub&gt;&lt;sup&gt;0&lt;/sup&gt;) plane. The acceptance effects due to the use of the neural network for Higgs identification have been folded in the efficiency maps.

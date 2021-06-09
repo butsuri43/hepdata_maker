@@ -1,0 +1,67 @@
+- Cut: Total
+  Unweighted yield: 60000
+  Weighted yield: 10883.7
+- Cut: Derivation skim
+  Unweighted yield: 55494
+  Weighted yield: 10039.2
+- Cut: $E_{\mathrm{T}}^{\mathrm{miss}} >$ 250 GeV
+  Unweighted yield: 22957
+  Weighted yield: 4201.3
+- Cut: $\mathrm{N}_{\mathrm{j}} \ge$ 4
+  Unweighted yield: 21324
+  Weighted yield: 3890.0
+- Cut: $\mathrm{N}_{b} \ge$ 2
+  Unweighted yield: 11260
+  Weighted yield: 2022.9
+- Cut: Lepton veto
+  Unweighted yield: 7546
+  Weighted yield: 1357.3
+- Cut: $p_{\mathrm{T}}^{j_4} >$ 40 GeV
+  Unweighted yield: 6682
+  Weighted yield: 1206.8
+- Cut: $p_{\mathrm{T}}^{j_2} >$ 80 GeV
+  Unweighted yield: 6241
+  Weighted yield: 1130.3
+- Cut: $\left|\Delta\phi_{\min}\left(\mathbf{p}_{\mathrm{T},1-4},\mathbf{p}_\mathrm{T}^\mathrm{miss}\right)\right|
+    >$ 0.4
+  Unweighted yield: 5323
+  Weighted yield: 960.4
+- Cut: Pass $E_{\mathrm{T}}^{\mathrm{miss}}$ trigger
+  Unweighted yield: 5321
+  Weighted yield: 960.2
+- Cut: $\mathcal{S} >$ 5
+  Unweighted yield: 5278
+  Weighted yield: 951.9
+- Cut: $m_{\mathrm{T}}^{b,\mathrm{min}} >$ 50 GeV
+  Unweighted yield: 4902
+  Weighted yield: 883.7
+- Cut: $\tau$ veto
+  Unweighted yield: 4308
+  Weighted yield: 773.9
+- Cut: $m_{\mathrm{T}}^{b,\mathrm{min}} >$ 200 GeV
+  Unweighted yield: 2464
+  Weighted yield: 444.8
+- Cut: $m_{\mathrm{T}}^{b,\mathrm{max}} >$ 200 GeV
+  Unweighted yield: 2321
+  Weighted yield: 420.1
+- Cut: $\Delta R\left(b_1,b_2\right) >$ 1.4
+  Unweighted yield: 1505
+  Weighted yield: 274.9
+- Cut: $m_{1}^{R=1.2} >$ 120 GeV
+  Unweighted yield: 1020
+  Weighted yield: 184.5
+- Cut: $m_{\mathrm{T2,\chi^2}} <$ 450 GeV
+  Unweighted yield: 925
+  Weighted yield: 166.0
+- Cut: $\mathcal{S} >$ 14
+  Unweighted yield: 688
+  Weighted yield: 124.9
+- Cut: $m_{2}^{R=1.2}>120$\,\, (SRB-TT)
+  Unweighted yield: 160
+  Weighted yield: 29.7
+- Cut: $60\le m_{2}^{R=1.2} \le 120$\,\, (SRB-TW)
+  Unweighted yield: 199
+  Weighted yield: 33.9
+- Cut: $m_{2}^{R=1.2}<60$\,\, (SRB-T0)
+  Unweighted yield: 329
+  Weighted yield: 61.3

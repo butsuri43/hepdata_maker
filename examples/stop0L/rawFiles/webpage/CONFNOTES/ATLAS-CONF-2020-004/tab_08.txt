@@ -1,0 +1,1 @@
+Selection criteria for the W+jets and single top control regions. The main extrapolation for these control regions is over the number of leptons; one electron or muon (&#8467;) from W decays is required compared with zero leptons in the signal regions. A dash indicates that no selection is applied.
