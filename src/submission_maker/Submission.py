@@ -11,7 +11,6 @@ import collections
 import hepdata_lib
 import jq
 import uproot
-import awkward as awk
 from hepdata_lib import RootFileReader
 import logging
 log = logging.getLogger("Submission")
