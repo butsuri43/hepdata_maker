@@ -15,18 +15,6 @@ import awkward as awk
 from hepdata_lib import RootFileReader
 import logging
 log = logging.getLogger("Submission")
-import click
-
-@click.command()
-@click.argument('steering_script',type=click.Path(exists=True))
-
-def main(steering_script):
-    print(f"Creating submission file based on {steering_script}:")
-    submission=Submission()
-    submission.load_table_config(steering_script)
-    submission.implement_table_config()
-    submission.create_hepdata_record()
-    print("Submission created in test_submission")
 
 class objdict(collections.OrderedDict):
     def __init__(self, d):
@@ -455,7 +443,3 @@ class Submission():
                 self.__dict__[table.name]=table
         # finally set the table list
         self._tables = tables
-
-
-if __name__ == "__main__":
-    main()
