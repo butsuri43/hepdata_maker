@@ -1,0 +1,24 @@
+stages:
+  - checks
+  - build
+  - publish
+
+scheme_checks:
+  stage: checks
+  script:
+   - echo "To do! Unit tests on example submissions."
+
+package_build:
+  stage: build
+  image: python:latest
+  script:
+   - python3 setup.py sdist
+  artifacts:
+    paths:
+      - dist/submission_maker-0.0.0.tar.gz
+    expire_in: 1 week
+    
+package_publish:
+  stage: publish
+  script:
+   - echo "To do if decided to publish package"
