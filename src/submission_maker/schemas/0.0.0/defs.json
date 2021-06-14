@@ -1,0 +1,8 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$id": "schemas/0.0.0/defs.json",
+    "definitions": {
+	"steering_file":{
+	}
+    }
+}
