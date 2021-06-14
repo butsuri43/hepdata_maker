@@ -8,10 +8,14 @@ Package to help creating and verifying submissions.
 Usage: submission_maker.py [OPTIONS] STEERING_SCRIPT
 
 Options:
-  --help  Show this message and exit.
+--help  Show this message and exit.
+
+Commands:
+  check-schema
+  create-submission
 ```
 
-currently can only create submission file assuming it gets a correct steering script. 
+currently can only check the steering file schema (for now identity) and  create submission file assuming it gets a correct steering file. 
 
 Intended usecases:
 
