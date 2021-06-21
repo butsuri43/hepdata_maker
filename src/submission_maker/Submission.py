@@ -13,6 +13,8 @@ import jq
 import uproot
 from hepdata_lib import RootFileReader
 import logging
+import csv
+import os.path
 log = logging.getLogger("Submission")
 
 class objdict(collections.OrderedDict):
@@ -175,6 +177,19 @@ class Table(object):
         else:
             raise TypeError("Unknown object type: {0}".format(str(type(variable))))
 
+def get_array_from_csv(file_path,decode,delimiter=','):
+    with open(file_path) as csv_file:    
+        csv_reader = csv.DictReader(csv_file,delimiter='\t')
+        line_count = 0
+        data=[]
+        for row in csv_reader:
+            if line_count == 0:
+                line_count += 1
+            else:
+                data.append(row[decode])
+                line_count += 1
+        return np.array(data)
+
 def get_array_from_json(file_path,decode):
     print(file_path)
     with open(file_path, 'r') as stream:
@@ -239,14 +254,31 @@ def get_cut_defined_variables(cutDefinitions,global_dict=None,local_dict=None):
                 raise TypeError("Variable cutDefinitions has improper content.")
     return result
 
-def read_data_file(file_name,decode):
+def read_data_file(file_name,decode,file_type=None,delimiter=','):
     tmp_values=None
-    if file_name.lower().endswith(".json"):
+    
+    if file_type: # file_type is specified. It takes precedence over type-guessing
+        if(file_type=='json'):
+            tmp_values=get_array_from_json(file_name,decode)
+        elif(file_type=='yaml'):
+            tmp_values=get_array_from_yaml(file_name,decode)
+        elif(file_type=='root'):
+            tmp_values=get_array_from_root(file_name,decode)
+        elif(file_type=='csv'):
+            tmp_values=get_array_from_csv(file_name,decode,delimiter)
+        else:
+            print(file_type)
+            raise TypeError(f"File {file_name}: unsuported file type!")            
+
+    # Guess the file type from the name
+    elif file_name.lower().endswith(".json"): 
         tmp_values=get_array_from_json(file_name,decode)
     elif file_name.lower().endswith(".yaml"):
         tmp_values=get_array_from_yaml(file_name,decode)
     elif file_name.split(":")[0].lower().endswith(".root"):
         tmp_values=get_array_from_root(file_name,decode)
+    elif file_name.split(":")[0].lower().endswith(".csv"):
+        tmp_values=get_array_from_csv(file_name,decode,delimiter)
     else:
         raise TypeError(f"File {file_name}: unsuported file type!")
     return tmp_values
@@ -294,7 +326,11 @@ class Submission():
             if( hasattr(table_info, 'table_images')):
                 table.table_images=table_info.table_images
             if( hasattr(table_info, 'table_title')):
-                table.table_title=table_info.table_title
+                if(os.path.isfile(table_info.table_title)):
+                   # Provide file with table title ( e.g. website out)
+                   table.table_title=open(table_info.table_title).read()
+                else:
+                   table.table_title=table_info.table_title
             if( hasattr(table_info, 'table_location')):
                 table.table_location=table_info.table_location
             if( hasattr(table_info, 'table_keywords')):
@@ -305,8 +341,21 @@ class Submission():
                 var_name=variable_info.variable_name
                 transformations=variable_info.transformation
                 var_values=None
+
                 for in_file in variable_info.in_files:
-                    tmp_values=read_data_file(in_file.name,in_file.decode)
+                    # If specified, use this a delimiter ( for csv files)
+                    if(hasattr(in_file, 'delimiter')):
+                        delimiter=in_file.delimiter
+                    else:
+                        delimiter=','
+
+                    # If specified, use this file type in decoding 
+                    if(hasattr(in_file, 'file_type')):
+                        file_type=in_file.file_type
+                    else:
+                        file_type=None # guess the file type from the file extention 
+
+                    tmp_values=read_data_file(in_file.name,in_file.decode,file_type=file_type,delimiter=delimiter)
                     if(var_values):
                         var_values=np.concatenate((var_values,tmp_values))
                     else:
@@ -335,17 +384,29 @@ class Submission():
                             err_values=None
                             for in_file in error_info.in_files:
                                 tmp_values=tmp_values_up=tmp_values_down=np.empty(0)
+                                # If specified, use this a delimiter ( for csv files)
+                                if(hasattr(in_file, 'delimiter')):
+                                    delimiter=in_file.delimiter
+                                else:
+                                    delimiter=','
+
+                                # If specified, use this file type in decoding 
+                                if(hasattr(in_file, 'file_type')):
+                                    file_type=in_file.file_type
+                                else:
+                                    file_type=None # guess the file type from the file extention
+                        
                                 # if decode is present we have either 2-dim specification of [up,down] or 1-dim symmetric error
                                 if( hasattr(in_file, 'decode')):
-                                    tmp_values=read_data_file(in_file.name,in_file.decode)
+                                    tmp_values=read_data_file(in_file.name,in_file.decode,file_type=file_tupe,delimiter=delimiter)
 
                                 # if decode_up is present we have either 2-dim specification of [decode_up,decode_down] or [decode_up,None]
                                 if( hasattr(in_file, 'decode_up')):
-                                    tmp_values_up=read_data_file(in_file.name,in_file.decode_up)
+                                    tmp_values_up=read_data_file(in_file.name,in_file.decode_up,file_type=file_tupe,delimiter=delimiter)
 
                                 # if decode_down is present we have either 2-dim specification of [decode_up,decode_down] or [None,decode_down]
                                 if( hasattr(in_file, 'decode_down')):
-                                    tmp_values_up=read_data_file(in_file.name,in_file.decode_down)
+                                    tmp_values_up=read_data_file(in_file.name,in_file.decode_down,file_type=file_tupe,delimiter=delimiter)
 
                                 if(tmp_values_up.size>0 or tmp_values_down.size>0):
                                     if(not tmp_values_down.size>0):
