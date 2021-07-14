@@ -3,7 +3,7 @@ from .Submission import Submission
 from . import utils 
 
 @click.group(context_settings=dict(help_option_names=['-h', '--help']))
-def submission_maker():
+def hepdata_maker():
     """Top-level CLI entrypoint."""
 
 
@@ -23,6 +23,6 @@ def check_schema(steering_file):
     print(f"Checking schema of {steering_file}:")
     utils.check_schema(steering_file,'steering_file.json')
     print("All ok!")
-submission_maker.add_command(create_submission)
-submission_maker.add_command(check_schema)
+hepdata_maker.add_command(create_submission)
+hepdata_maker.add_command(check_schema)
 
