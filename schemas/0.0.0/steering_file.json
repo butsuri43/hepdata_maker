@@ -1,0 +1,5 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$id": "file:///home/krzysiek/nauka/Freiburg/HepData/TowardsAuthomaticScriptCreation/submission_maker/schemas/0.0.0/workspace.json",
+    "$ref": "defs.json#/definitions/steering_file"
+}

@@ -31,7 +31,7 @@ def check_schema(spec, schema_name, version=None):
     schema = load_schema(schema_name, version=version)
     try:
         resolver = jsonschema.RefResolver(
-            base_uri=f"file://{pkg_resources.resource_filename(__name__, 'schemas/'):s}",
+            base_uri=f"file://{pkg_resources.resource_filename(__name__, '/'):s}",
             referrer=schema_name,
             store=SCHEMA_CACHE,
         )

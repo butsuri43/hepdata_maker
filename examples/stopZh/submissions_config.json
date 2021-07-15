@@ -14,7 +14,7 @@
 		}
             ],
             "table_keywords":{"observables":["N"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"ETmiss",
@@ -30,7 +30,6 @@
 		},
 		{
 		    "variable_name":"data",
-		    "unit":null,
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_variable_name":"Data",
@@ -55,7 +54,6 @@
 		},
 		{
 		    "variable_name":"total_SM",
-		    "unit":null,
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_variable_name":"Total SM",
@@ -97,7 +95,7 @@
 		}
             ],
             "table_keywords":{"observables":["N"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"PTll",
@@ -114,7 +112,6 @@
 		},
 		{
 		    "variable_name":"data",
-		    "unit":null,
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_variable_name":"Data",
@@ -139,7 +136,6 @@
 		},
 		{
 		    "variable_name":"total_SM",
-		    "unit":null,
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_variable_name":"Total SM",
@@ -181,7 +177,7 @@
 		}
             ],
             "table_keywords":{"observables":["N"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"ETmiss",
@@ -198,7 +194,6 @@
 		},
 		{
 		    "variable_name":"data",
-		    "unit":null,
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_variable_name":"Data",
@@ -223,7 +218,6 @@
 		},
 		{
 		    "variable_name":"total_SM",
-		    "unit":null,
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_variable_name":"Total SM",
@@ -265,7 +259,7 @@
 		}
             ],
             "table_keywords":{"observables":["N"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"PTll",
@@ -282,7 +276,6 @@
 		},
 		{
 		    "variable_name":"data",
-		    "unit":null,
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_variable_name":"Data",
@@ -307,7 +300,6 @@
 		},
 		{
 		    "variable_name":"total_SM",
-		    "unit":null,
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_variable_name":"Total SM",
@@ -349,7 +341,7 @@
 		}
             ],
             "table_keywords":{"observables":["N"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"metsig",
@@ -365,7 +357,6 @@
 		},
 		{
 		    "variable_name":"data",
-		    "unit":null,
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_variable_name":"Data",
@@ -392,7 +383,6 @@
 		},
 		{
 		    "variable_name":"total_SM",
-		    "unit":null,
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_variable_name":"Total SM",
@@ -439,7 +429,7 @@
 		}
             ],
             "table_keywords":{"observables":["N"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"jetN",
@@ -456,7 +446,6 @@
 		},
 		{
 		    "variable_name":"data",
-		    "unit":null,
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_variable_name":"Data",
@@ -483,7 +472,6 @@
 		},
 		{
 		    "variable_name":"total_SM",
-		    "unit":null,
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_variable_name":"Total SM",
@@ -524,7 +512,6 @@
             "table_title":"Observed exclusion limit at $95\\%$ CL on the masses of the $\\tilde{t}_{1}$ and $\\tilde{\\chi}_2^0$, for a fixed m($\\tilde{\\chi}_1^0$) = $0$ GeV, assuming B($\\tilde{\\chi}_{2}^{0}$ $\\rightarrow$ Z$\\tilde{\\chi}_{1}^{0}$) = $0.5$ and B($\\tilde{\\chi}_{2}^{0}$ $\\rightarrow$ h$\\tilde{\\chi}_{1}^{0}$) = $0.5$. The limit is given for the central value of the signal cross-section and does not include the effect of the theoretical uncertainties in the signal cross-section.",
             "table_location":"Data from fig. 10.",
 	    "table_grid":"stop1",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/fig_10.pdf",
@@ -532,7 +519,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -577,7 +564,6 @@
             "table_title":"Expected exclusion limit at $95\\%$ CL on the masses of the $\\tilde{t}_{1}$ and $\\tilde{\\chi}_2^0$, for a fixed m($\\tilde{\\chi}_1^0$) = $0$ GeV, assuming B($\\tilde{\\chi}_{2}^{0}$ $\\rightarrow$ Z$\\tilde{\\chi}_{1}^{0}$) = $0.5$ and B($\\tilde{\\chi}_{2}^{0}$ $\\rightarrow$ h$\\tilde{\\chi}_{1}^{0}$) = $0.5$. The limit does not include the effect of the theoretical uncertainties in the signal cross-section.",
             "table_location":"Data from fig. 10.",
 	    "table_grid":"stop1",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/fig_10.pdf",
@@ -585,7 +571,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -630,7 +616,6 @@
             "table_title":"Observed exclusion limits at $95\\%$ CL on the masses of the $\\tilde{t}_{2}$ and $\\tilde{\\chi}_{1}^{0}$, for a fixed m($\\tilde{t}_{1}$)-m($\\tilde{\\chi}_{1}^{0}$) = $40$ GeV and assuming B($\\tilde{t}_{2}$ $\rightarrow$ Z$\\tilde{t}_{1}$) = $1$. The limit is given for the central value of the signal cross-section and does not include the effect of the theoretical uncertainties in the signal cross-section.",
             "table_location":"Data from fig. 12.",
 	    "table_grid":"stop2",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/fig_12.pdf",
@@ -638,7 +623,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt2_orig",
@@ -701,7 +686,6 @@
             "table_title":"Expected exclusion limits at $95\\%$ CL on the masses of the $\\tilde{t}_{2}$ and $\\tilde{\\chi}_{1}^{0}$, for a fixed m($\\tilde{t}_{1}$)-m($\\tilde{\\chi}_{1}^{0}$) = $40$ GeV and assuming B($\\tilde{t}_{2}$ $\rightarrow$ Z$\\tilde{t}_{1}$) = $1$. The limit does not include the effect of the theoretical uncertainties in the signal cross-section.",
             "table_location":"Data from fig. 12.",
 	    "table_grid":"stop2",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/fig_12.pdf",
@@ -709,7 +693,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt2_orig",
@@ -772,7 +756,6 @@
             "table_title":"The numbers indicate the upper limits on the cross section for the $\\tilde{t}_{1}$ model.",
             "table_location":"Data from figaux. 08a.",
 	    "table_grid":"stop1",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_08a.pdf",
@@ -780,7 +763,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -842,7 +825,6 @@
             "table_title":"The numbers indicate the upper limits on the cross section for the $\\tilde{t}_{2}$ model.",
             "table_location":"Data from figaux. 08b.",
 	    "table_grid":"stop2",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_08b.pdf",
@@ -850,7 +832,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt2",
@@ -912,7 +894,6 @@
             "table_title":"Acceptance of SR$^{\\textrm{Z}}_{1\\textrm{A}}$ the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 9a.",
 	    "table_grid":"stop1",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_09a.pdf",
@@ -920,7 +901,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -987,7 +968,6 @@
             "table_title":"Efficiency of SR$^{\\textrm{Z}}_{1\\textrm{A}}$ the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane. Efficiencies larger than unity are due to instrumental resolution causing migrations across bins.",
             "table_location":"Data from fig. aux. 9b.",
 	    "table_grid":"stop1",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_09b.pdf",
@@ -995,7 +975,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -1062,7 +1042,6 @@
             "table_title":"Acceptance of SR$^{\\textrm{Z}}_{1\\textrm{B}}$ the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 9c.",
 	    "table_grid":"stop1",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_09c.pdf",
@@ -1070,7 +1049,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -1137,7 +1116,6 @@
             "table_title":"Efficiency of SR$^{\\textrm{Z}}_{1\\textrm{B}}$ the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 9d.",
 	    "table_grid":"stop1",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_09d.pdf",
@@ -1145,7 +1123,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -1212,7 +1190,6 @@
             "table_title":"Acceptance of SR$^{\\textrm{Z}}_{2\\textrm{A}}$ the m($\\tilde{t}_{2}$) vs. m($\\tilde{\\chi}_{1}^{0}$) plane.",
             "table_location":"Data from fig. aux. 10a.",
 	    "table_grid":"stop2",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_10a.pdf",
@@ -1220,7 +1197,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt2",
@@ -1287,7 +1264,6 @@
             "table_title":"Efficiency of SR$^{\\textrm{Z}}_{2\\textrm{A}}$ the m($\\tilde{t}_{2}$) vs. m($\\tilde{\\chi}_{1}^{0}$) plane.",
             "table_location":"Data from fig. aux. 10b.",
 	    "table_grid":"stop2",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_10b.pdf",
@@ -1295,7 +1271,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt2",
@@ -1362,7 +1338,6 @@
             "table_title":"Acceptance for the first bin of the binned SR$^{\\textrm{Z}}_{1\\textrm{A}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 11a.",
 	    "table_grid":"stop1",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_11a.pdf",
@@ -1370,7 +1345,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -1437,7 +1412,6 @@
             "table_title":"Efficiency for the first bin of the binned SR$^{\\textrm{Z}}_{1\\textrm{A}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 11b.",
 	    "table_grid":"stop1",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_11b.pdf",
@@ -1445,7 +1419,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -1512,7 +1486,6 @@
             "table_title":"Acceptance for the second bin of the binned SR$^{\\textrm{Z}}_{1\\textrm{A}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 11c.",
 	    "table_grid":"stop1",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_11c.pdf",
@@ -1520,7 +1493,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -1587,7 +1560,6 @@
             "table_title":"Efficiency for the second bin of the binned SR$^{\\textrm{Z}}_{1\\textrm{A}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane. Efficiencies larger than unity are due to instrumental resolution causing migrations across bins.",
             "table_location":"Data from fig. aux. 11d.",
 	    "table_grid":"stop1",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_11d.pdf",
@@ -1595,7 +1567,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -1662,7 +1634,6 @@
             "table_title":"Acceptance for the third bin of the binned SR$^{\\textrm{Z}}_{1\\textrm{A}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 11e.",
 	    "table_grid":"stop1",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_11e.pdf",
@@ -1670,7 +1641,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -1737,7 +1708,6 @@
             "table_title":"Efficiency for the third bin of the binned SR$^{\\textrm{Z}}_{1\\textrm{A}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 11f.",
 	    "table_grid":"stop1",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_11f.pdf",
@@ -1745,7 +1715,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -1812,7 +1782,6 @@
             "table_title":"Acceptance for the fourth bin of the binned SR$^{\\textrm{Z}}_{1\\textrm{A}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 11g.",
 	    "table_grid":"stop1",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_11g.pdf",
@@ -1820,7 +1789,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -1887,7 +1856,6 @@
             "table_title":"Efficiency for the fourth bin of the binned SR$^{\\textrm{Z}}_{1\\textrm{A}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane. Efficiencies larger than unity are due to instrumental resolution causing migrations across bins.",
             "table_location":"Data from fig. aux. 11h.",
 	    "table_grid":"stop1",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_11h.pdf",
@@ -1895,7 +1863,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -1962,7 +1930,6 @@
             "table_title":"Acceptance for the first bin of the binned SR$^{\\textrm{Z}}_{1\\textrm{B}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 12a.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_12a.pdf",
@@ -1970,7 +1937,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -2037,7 +2004,6 @@
             "table_title":"Efficiency for the first bin of the binned SR$^{\\textrm{Z}}_{1\\textrm{B}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 12b.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_12b.pdf",
@@ -2045,7 +2011,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -2112,7 +2078,6 @@
             "table_title":"Acceptance for the second bin of the binned SR$^{\\textrm{Z}}_{1\\textrm{B}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 12c.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_12c.pdf",
@@ -2120,7 +2085,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -2187,7 +2152,6 @@
             "table_title":"Efficiency for the second bin of the binned SR$^{\\textrm{Z}}_{1\\textrm{B}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane. Efficiencies larger than unity are due to instrumental resolution causing migrations across bins.",
             "table_location":"Data from fig. aux. 12d.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_12d.pdf",
@@ -2195,7 +2159,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -2262,7 +2226,6 @@
             "table_title":"Acceptance for the third bin of the binned SR$^{\\textrm{Z}}_{1\\textrm{B}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 12e.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_12e.pdf",
@@ -2270,7 +2233,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -2337,7 +2300,6 @@
             "table_title":"Efficiency for the third bin of the binned SR$^{\\textrm{Z}}_{1\\textrm{B}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane. Efficiencies larger than unity are due to instrumental resolution causing migrations across bins.",
             "table_location":"Data from fig. aux. 12f.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_12f.pdf",
@@ -2345,7 +2307,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -2412,7 +2374,6 @@
             "table_title":"Acceptance for the fourth bin of the binned SR$^{\\textrm{Z}}_{1\\textrm{B}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 12g.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_12g.pdf",
@@ -2420,7 +2381,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -2487,7 +2448,6 @@
             "table_title":"Efficiency for the fourth bin of the binned SR$^{\\textrm{Z}}_{1\\textrm{B}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane. Efficiencies larger than unity are due to instrumental resolution causing migrations across bins.",
             "table_location":"Data from fig. aux. 12h.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_12h.pdf",
@@ -2495,7 +2455,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -2562,7 +2522,6 @@
             "table_title":"Acceptance for the first bin of the binned SR$^{\\textrm{Z}}_{2\\textrm{B}}$ in the m($\\tilde{t}_{2}$) vs. m($\\tilde{\\chi}_{1}^{0}$) plane.",
             "table_location":"Data from fig. aux. 13a.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_13a.pdf",
@@ -2570,7 +2529,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt2",
@@ -2638,7 +2597,6 @@
             "table_title":"Efficiency for the first bin of the binned SR$^{\\textrm{Z}}_{2\\textrm{B}}$ in the m($\\tilde{t}_{2}$) vs. m($\\tilde{\\chi}_{1}^{0}$) plane.",
             "table_location":"Data from fig. aux. 13b.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_13b.pdf",
@@ -2646,7 +2604,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt2",
@@ -2713,7 +2671,6 @@
             "table_title":"Acceptance for the second bin of the binned SR$^{\\textrm{Z}}_{2\\textrm{B}}$ in the m($\\tilde{t}_{2}$) vs. m($\\tilde{\\chi}_{1}^{0}$) plane.",
             "table_location":"Data from fig. aux. 13c.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_13c.pdf",
@@ -2721,7 +2678,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt2",
@@ -2788,7 +2745,6 @@
             "table_title":"Efficiency for the second bin of the binned SR$^{\\textrm{Z}}_{2\\textrm{B}}$ in the m($\\tilde{t}_{2}$) vs. m($\\tilde{\\chi}_{1}^{0}$) plane. Efficiencies larger than unity are due to instrumental resolution causing migrations across bins. ",
             "table_location":"Data from fig. aux. 13d.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_13d.pdf",
@@ -2796,7 +2752,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt2",
@@ -2863,7 +2819,6 @@
             "table_title":"Acceptance for the third bin of the binned SR$^{\\textrm{Z}}_{2\\textrm{B}}$ in the m($\\tilde{t}_{2}$) vs. m($\\tilde{\\chi}_{1}^{0}$) plane.",
             "table_location":"Data from fig. aux. 13e.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_13e.pdf",
@@ -2871,7 +2826,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt2",
@@ -2940,7 +2895,6 @@
             "table_title":"Efficiency for the third bin of the binned SR$^{\\textrm{Z}}_{2\\textrm{B}}$ in the m($\\tilde{t}_{2}$) vs. m($\\tilde{\\chi}_{1}^{0}$) plane.",
             "table_location":"Data from fig. aux. 13f.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_13f.pdf",
@@ -2948,7 +2902,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt2",
@@ -3015,7 +2969,6 @@
             "table_title":"Acceptance for the fourth bin of the binned SR$^{\\textrm{Z}}_{2\\textrm{B}}$ in the m($\\tilde{t}_{2}$) vs. m($\\tilde{\\chi}_{1}^{0}$) plane.",
             "table_location":"Data from fig. aux. 13g.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_13g.pdf",
@@ -3023,7 +2976,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt2",
@@ -3090,8 +3043,6 @@
             "table_title":"Efficiency for the fourth bin of the binned SR$^{\\textrm{Z}}_{2\\textrm{B}}$ in the m($\\tilde{t}_{2}$) vs. m($\\tilde{\\chi}_{1}^{0}$) plane. Efficiencies larger than unity are due to instrumental resolution causing migrations across bins.",
             "table_location":"Data from fig. aux. 13h.",
 	    "table_grid":"tN",
-	    "table_signal":null,
-            "multiplier":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_13h.pdf",
@@ -3099,7 +3050,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt2",
@@ -3166,7 +3117,6 @@
             "table_title":"Acceptance of SR$^{\\textrm{h}}_{1\\textrm{A}}$ the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 14a.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_14a.pdf",
@@ -3174,7 +3124,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -3235,7 +3185,6 @@
             "table_title":"Efficiency of SR$^{\\textrm{h}}_{1\\textrm{A}}$ the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 14b.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_14b.pdf",
@@ -3243,7 +3192,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -3304,7 +3253,6 @@
             "table_title":"Acceptance of SR$^{\\textrm{h}}_{1\\textrm{B}}$ the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 14c.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_14c.pdf",
@@ -3312,7 +3260,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -3373,7 +3321,6 @@
             "table_title":"Efficiency of SR$^{\\textrm{h}}_{1\\textrm{B}}$ the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 14d.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_14d.pdf",
@@ -3381,7 +3328,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -3442,7 +3389,6 @@
             "table_title":"Acceptance for the first bin of the binned SR$^{\\textrm{h}}_{1\\textrm{A}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 15a.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_15a.pdf",
@@ -3450,7 +3396,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -3511,7 +3457,6 @@
             "table_title":"Efficiency for the first bin of the binned SR$^{\\textrm{h}}_{1\\textrm{A}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 15b.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_15b.pdf",
@@ -3519,7 +3464,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -3580,7 +3525,6 @@
             "table_title":"Acceptance for the second bin of the binned SR$^{\\textrm{h}}_{1\\textrm{A}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 15c.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_15c.pdf",
@@ -3588,7 +3532,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -3649,7 +3593,6 @@
             "table_title":"Efficiency for the second bin of the binned SR$^{\\textrm{h}}_{1\\textrm{A}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 15d.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_15d.pdf",
@@ -3657,7 +3600,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -3718,7 +3661,6 @@
             "table_title":"Acceptance for the third bin of the binned SR$^{\\textrm{h}}_{1\\textrm{A}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 15e.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_15e.pdf",
@@ -3726,7 +3668,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -3787,7 +3729,6 @@
             "table_title":"Efficiency for the third bin of the binned SR$^{\\textrm{h}}_{1\\textrm{A}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 15f.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_15f.pdf",
@@ -3795,7 +3736,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -3856,7 +3797,6 @@
             "table_title":"Acceptance for the fourth bin of the binned SR$^{\\textrm{h}}_{1\\textrm{A}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 15g.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_15g.pdf",
@@ -3864,7 +3804,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -3925,7 +3865,6 @@
             "table_title":"Efficiency for the fourth bin of the binned SR$^{\\textrm{h}}_{1\\textrm{A}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 15h.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_15h.pdf",
@@ -3933,7 +3872,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -3994,7 +3933,6 @@
             "table_title":"Acceptance of SR$^{\\textrm{h}}_{1\\textrm{AB}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 15i.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_15i.pdf",
@@ -4002,7 +3940,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -4063,7 +4001,6 @@
             "table_title":"Efficiency of SR$^{\\textrm{h}}_{1\\textrm{AB}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 15j.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_15j.pdf",
@@ -4071,7 +4008,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -4132,7 +4069,6 @@
             "table_title":"Acceptance for the first bin of the binned SR$^{\\textrm{h}}_{1\\textrm{B}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 16a.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_16a.pdf",
@@ -4140,7 +4076,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -4201,7 +4137,6 @@
             "table_title":"Efficiency for the first bin of the binned SR$^{\\textrm{h}}_{1\\textrm{B}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 16b.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_16b.pdf",
@@ -4209,7 +4144,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -4270,7 +4205,6 @@
             "table_title":"Acceptance for the second bin of the binned SR$^{\\textrm{h}}_{1\\textrm{B}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 16c.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_16c.pdf",
@@ -4278,7 +4212,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -4339,7 +4273,6 @@
             "table_title":"Efficiency for the second bin of the binned SR$^{\\textrm{h}}_{1\\textrm{B}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 16d.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_16d.pdf",
@@ -4347,7 +4280,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -4408,7 +4341,6 @@
             "table_title":"Acceptance for the third bin of the binned SR$^{\\textrm{h}}_{1\\textrm{B}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 16e.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_16e.pdf",
@@ -4416,7 +4348,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -4477,7 +4409,6 @@
             "table_title":"Efficiency for the third bin of the binned SR$^{\\textrm{h}}_{1\\textrm{B}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 16f.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_16f.pdf",
@@ -4485,7 +4416,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -4546,7 +4477,6 @@
             "table_title":"Acceptance for the fourth bin of the binned SR$^{\\textrm{h}}_{1\\textrm{B}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 16g.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_16g.pdf",
@@ -4554,7 +4484,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -4615,7 +4545,6 @@
             "table_title":"Efficiency for the fourth bin of the binned SR$^{\\textrm{h}}_{1\\textrm{B}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane.",
             "table_location":"Data from fig. aux. 16h.",
 	    "table_grid":"tN",
-	    "table_signal":null,
             "table_images":[
 		{
 		    "name":"examples/stopZh/rawFiles/webpages/figaux_16h.pdf",
@@ -4623,7 +4552,7 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"mt1",
@@ -4690,7 +4619,7 @@
 		}
             ],
             "table_keywords":{"observables":["N"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"Cuts",
@@ -4710,7 +4639,6 @@
 		},
 		{
 		    "variable_name":"events",
-		    "unit":null,
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_variable_name":"events",
@@ -4740,7 +4668,7 @@
 		}
             ],
             "table_keywords":{"observables":["N"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"Cuts",
@@ -4760,7 +4688,6 @@
 		},
 		{
 		    "variable_name":"events",
-		    "unit":null,
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_variable_name":"events",
@@ -4790,7 +4717,7 @@
 		}
             ],
             "table_keywords":{"observables":["N"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"Cuts",
@@ -4810,7 +4737,6 @@
 		},
 		{
 		    "variable_name":"events",
-		    "unit":null,
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_variable_name":"events",
@@ -4840,7 +4766,7 @@
 		}
             ],
             "table_keywords":{"observables":["N"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"Cuts",
@@ -4860,7 +4786,6 @@
 		},
 		{
 		    "variable_name":"events",
-		    "unit":null,
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_variable_name":"events",
@@ -4890,7 +4815,7 @@
 		}
             ],
             "table_keywords":{"observables":["N"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"Cuts",
@@ -4910,7 +4835,6 @@
 		},
 		{
 		    "variable_name":"events",
-		    "unit":null,
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_variable_name":"events",
@@ -4940,7 +4864,7 @@
 		}
             ],
             "table_keywords":{"observables":["N"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
+            "cuts_to_apply":[],
             "variables":[
 		{
 		    "variable_name":"Cuts",
@@ -4960,7 +4884,6 @@
 		},
 		{
 		    "variable_name":"events",
-		    "unit":null,
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_variable_name":"events",

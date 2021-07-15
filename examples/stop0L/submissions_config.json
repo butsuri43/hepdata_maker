@@ -8,8 +8,6 @@
             "table_title":"Model dependent upper limit on the cross section for the $(\\tilde{t},\\tilde{\\chi}^{0}_{1})$ signal grid. The column titled 'Leading Region' stores information on which of the fit regions (SRA-B, SRC or SRD) is the dominant based on the expected CLs values.",
             "table_location":"Data from figaux. 01a and 01b.",
             "table_grid":"tN",
-	    "table_signal":null,
-            "multiplier":null,
             "table_images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_01a.png",
@@ -21,7 +19,6 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
             "variables":[
 		{
 		    "variable_name":"mt",
@@ -83,8 +80,6 @@
             "table_title":"Expected model dependent upper limit on the cross section for the $(\\tilde{t},\\tilde{\\chi}^{0}_{1})$ signal grid. The column titled 'Leading Region' stores information on which of the fit regions (SRA-B, SRC or SRD) is the dominant based on the expected CLs values.",
             "table_location":"Data from figaux. 02a and 02b.",
             "table_grid":"tN",
-	    "table_signal":null,
-            "multiplier":null,
             "table_images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_02a.png",
@@ -96,7 +91,6 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
             "variables":[
 		{
 		    "variable_name":"mt",
@@ -158,8 +152,6 @@
             "table_title":"The distributions of $S$ in SRA-TW. For each bin yields for the data, total SM prediction and a representative signal point are provided. The SM prediction is provided with the MC statistical uncertainties, labeled 'stat', and the remaining uncertainties, labeled 'syst' that include detector-related systematic uncertainties and theoretical uncertainties. The signal predictions is provided with the MC statistical uncertainties only. The rightmost bin includes overflow events.",
             "table_location":"Data from fig. 12a.",
             "table_region":"SRATW",
-	    "table_signal":null,
-            "multiplier":null,
             "table_images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/fig_12a.png",
@@ -167,7 +159,6 @@
 		}
             ],
             "table_keywords":{"observables":["N"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
             "variables":[
 		{
 		    "variable_name":"metsig_bins",
@@ -273,8 +264,6 @@
             "should_be_processed":true,
             "table_title":"Cutflow for the reference point $(\\it{m}_{\\tilde{t}}, \\it{m}_{\\tilde{\\chi}^{0}_{1}})= (1300,1)\\ \\mathrm{GeV} $ in SRA-TT. The column labelled ''Weighted yield'' shows the results including all correction factors applied to simulation, and is normalised to 139 fb$^{-1}$. A notable exception concerns results in the first row, labelled ''Total'', that corresponds to plain $\\sigma \\cdot \\mathcal{L}$ expected.  The ''Derivation skim'' includes the requirements that $H_{T}$, the scalar sum of $p_{T}$ of jets and leptons, $H_{T}>150\\ \\mathrm{GeV}$ or that a ''baseline'' electron or muon has $p_{T}>20\\ \\mathrm{GeV}$. The definition of ''baseline'' electron/muons, lepton and $\\tau$ vetos are described in the main body of the paper. In total 30000 raw MC events were generated prior to the specified cuts, with the column ''Unweighted yield'' collecting the numbers after each cut.",
             "table_location":"Data from tabaux. 01.",
-	    "table_signal":null,
-            "multiplier":null,
             "table_images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/tabaux_01.png",
@@ -282,7 +271,6 @@
 		}
             ],
             "table_keywords":{"observables":["N"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
             "variables":[
 		{
 		    "variable_name":"cut",
@@ -345,8 +333,6 @@
             "table_title":"The observed exclusion contour at 95% CL as a function of the $\\it{m}_{\\tilde{\\chi}^{0}_{1}}$  vs. $\\it{m}_{\\tilde{t}}$. Masses that are within the contours are excluded.",
             "table_location":"Data from fig. 13a.",
 	    "table_grid":"tN",
-	    "table_signal":null,
-            "multiplier":null,
             "table_images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/fig_13a.png",
@@ -354,7 +340,6 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
             "variables":[
 		{
 		    "variable_name":"mt",
@@ -410,8 +395,6 @@
             "table_title":"The expected exclusion contour at 95% CL as a function of the $\\it{m}_{\\tilde{\\chi}^{0}_{1}}$  vs. $\\it{m}_{\\tilde{t}}$. Masses that are within the contours are excluded.",
             "table_location":"Data from fig. 13a.",
 	    "table_grid":"tN",
-	    "table_signal":null,
-            "multiplier":null,
             "table_images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/fig_13a.png",
@@ -419,7 +402,6 @@
 		}
             ],
             "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
             "variables":[
 		{
 		    "variable_name":"mt",
@@ -476,8 +458,6 @@
             "table_location":"figaux. 03a",
             "table_region":"SRATT",
 	    "table_grid":"tN",
-	    "table_signal":null,
-            "multiplier":null,
             "table_images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_03a.png",
@@ -485,7 +465,6 @@
 		}
             ],
             "table_keywords":{"observables":["ACC"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
             "variables":[
 		{
 		    "variable_name":"mt",
@@ -560,8 +539,6 @@
             "table_location":"figaux. 03a",
             "table_region":"SRATW",
 	    "table_grid":"tN",
-	    "table_signal":null,
-            "multiplier":null,
             "table_images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_03a.png",
@@ -569,7 +546,6 @@
 		}
             ],
             "table_keywords":{"observables":["ACC"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
             "variables":[
 		{
 		    "variable_name":"mt",
@@ -644,8 +620,6 @@
             "table_location":"figaux. 03a",
             "table_region":"SRAT0",
 	    "table_grid":"tN",
-	    "table_signal":null,
-            "multiplier":null,
             "table_images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_03a.png",
@@ -653,7 +627,6 @@
 		}
             ],
             "table_keywords":{"observables":["ACC"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
             "variables":[
 		{
 		    "variable_name":"mt",
@@ -728,8 +701,6 @@
             "table_location":"figaux. 03a",
             "table_region":"SRBTT",
 	    "table_grid":"tN",
-	    "table_signal":null,
-            "multiplier":null,
             "table_images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_03a.png",
@@ -737,7 +708,6 @@
 		}
             ],
             "table_keywords":{"observables":["ACC"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
             "variables":[
 		{
 		    "variable_name":"mt",
@@ -812,8 +782,6 @@
             "table_location":"figaux. 03a",
             "table_region":"SRBTW",
 	    "table_grid":"tN",
-	    "table_signal":null,
-            "multiplier":null,
             "table_images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_03a.png",
@@ -821,7 +789,6 @@
 		}
             ],
             "table_keywords":{"observables":["ACC"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
             "variables":[
 		{
 		    "variable_name":"mt",
@@ -896,8 +863,6 @@
             "table_location":"figaux. 03a",
             "table_region":"SRBT0",
 	    "table_grid":"tN",
-	    "table_signal":null,
-            "multiplier":null,
             "table_images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_03a.png",
@@ -905,7 +870,6 @@
 		}
             ],
             "table_keywords":{"observables":["ACC"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
             "variables":[
 		{
 		    "variable_name":"mt",
@@ -980,8 +944,6 @@
             "table_location":"figaux. 03b",
             "table_region":"SRATT",
 	    "table_grid":"tN",
-	    "table_signal":null,
-            "multiplier":null,
             "table_images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_03b.png",
@@ -989,7 +951,6 @@
 		}
             ],
             "table_keywords":{"observables":["EFF"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
             "variables":[
 		{
 		    "variable_name":"mt",
@@ -1041,8 +1002,6 @@
             "table_location":"figaux. 03b",
             "table_region":"SRATW",
 	    "table_grid":"tN",
-	    "table_signal":null,
-            "multiplier":null,
             "table_images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_03b.png",
@@ -1050,7 +1009,6 @@
 		}
             ],
             "table_keywords":{"observables":["EFF"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
             "variables":[
 		{
 		    "variable_name":"mt",
@@ -1102,8 +1060,6 @@
             "table_location":"figaux. 03b",
             "table_region":"SRAT0",
 	    "table_grid":"tN",
-	    "table_signal":null,
-            "multiplier":null,
             "table_images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_03b.png",
@@ -1111,7 +1067,6 @@
 		}
             ],
             "table_keywords":{"observables":["EFF"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
             "variables":[
 		{
 		    "variable_name":"mt",
@@ -1163,8 +1118,6 @@
             "table_location":"figaux. 03b",
             "table_region":"SRBTT",
 	    "table_grid":"tN",
-	    "table_signal":null,
-            "multiplier":null,
             "table_images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_03b.png",
@@ -1172,7 +1125,6 @@
 		}
             ],
             "table_keywords":{"observables":["EFF"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
             "variables":[
 		{
 		    "variable_name":"mt",
@@ -1224,8 +1176,6 @@
             "table_location":"figaux. 03b",
             "table_region":"SRBTW",
 	    "table_grid":"tN",
-	    "table_signal":null,
-            "multiplier":null,
             "table_images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_03b.png",
@@ -1233,7 +1183,6 @@
 		}
             ],
             "table_keywords":{"observables":["EFF"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
             "variables":[
 		{
 		    "variable_name":"mt",
@@ -1285,8 +1234,6 @@
             "table_location":"figaux. 03b",
             "table_region":"SRBT0",
 	    "table_grid":"tN",
-	    "table_signal":null,
-            "multiplier":null,
             "table_images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_03b.png",
@@ -1294,7 +1241,6 @@
 		}
             ],
             "table_keywords":{"observables":["EFF"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
-            "cuts_to_apply":null,
             "variables":[
 		{
 		    "variable_name":"mt",

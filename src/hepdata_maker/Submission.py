@@ -418,7 +418,7 @@ class Submission():
                 #print(f"Adding variable: {variable_info.variable_name}")
                 ## TODO check that var_name does not contain any special characters (special characters allowe only in fancy names)
                 var_name=variable_info.variable_name
-                transformations=variable_info.transformations
+                transformations=getattr(variable_info,'transformations',None)
                 var_values=None
 
                 for in_file in variable_info.in_files:
