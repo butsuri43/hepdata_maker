@@ -19,6 +19,7 @@ import os.path
 import regex as re
 import scipy.stats, scipy.special
 from . import useful_functions as ufs
+from . import utils
 log = logging.getLogger("Submission")
 
 class objdict(collections.OrderedDict):
@@ -384,7 +385,7 @@ class Submission():
         self._config=[]
     #__init__(self) -- automatic initialisation from hepdata_lib
     def load_table_config(self,
-                         config_file_path: str=''):
+                          config_file_path: str=''):
         # TODO check config_file_path
         with open(config_file_path, 'r') as stream:
             config_loaded = json.load(stream,object_pairs_hook=OrderedDict)
@@ -392,8 +393,7 @@ class Submission():
         # TODO check loaded config
         
         self._config=config_loaded
-    
-    def implement_table_config(self):
+    def implement_table_config(self,data_root: str='./'):
         # TODO check not to do the config multiple times
         for table_info in [objdict(x) for x in self._config['tables']]:
             # TODO verify table_info here?
@@ -408,7 +408,7 @@ class Submission():
             if( hasattr(table_info, 'title')):
                 if(os.path.isfile(table_info.title)):
                    # Provide file with table title ( e.g. website out)
-                   table.title=open(table_info.title).read()
+                   table.title=open(utils.resolve_file_name(table_info.title,data_root)).read()
                 else:
                    table.title=table_info.title
             if( hasattr(table_info, 'location')):
@@ -424,7 +424,7 @@ class Submission():
 
                 for in_file in variable_info.in_files:
                     extra_args={k: in_file[k] for k in ('delimiter', 'file_type', 'replace_dict', 'tabular_loc_decode') if hasattr(in_file,k)}
-                    tmp_values=read_data_file(in_file.name,in_file.decode,**extra_args)
+                    tmp_values=read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode,**extra_args)
                     if(var_values):
                         var_values=np.concatenate((var_values,tmp_values))
                     else:
@@ -460,15 +460,15 @@ class Submission():
 
                                 # if decode is present we have either 2-dim specification of [up,down] or 1-dim symmetric error
                                 if( hasattr(in_file, 'decode')):
-                                    tmp_values=read_data_file(in_file.name,in_file.decode,**extra_args)
+                                    tmp_values=read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode,**extra_args)
                                     
                                 # if decode_up is present we have either 2-dim specification of [decode_up,decode_down] or [decode_up,None]
                                 if( hasattr(in_file, 'decode_up')):
-                                    tmp_values_up=read_data_file(in_file.name,in_file.decode_up,**extra_args)
+                                    tmp_values_up=read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode_up,**extra_args)
 
                                 # if decode_down is present we have either 2-dim specification of [decode_up,decode_down] or [None,decode_down]
                                 if( hasattr(in_file, 'decode_down')):
-                                    tmp_values_down=read_data_file(in_file.name,in_file.decode_down,**extra_args)
+                                    tmp_values_down=read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode_down,**extra_args)
 
                                 if(tmp_values_up.size>0 or tmp_values_down.size>0):
                                     if(not tmp_values_down.size>0):
@@ -507,7 +507,7 @@ class Submission():
             self.tables.append(table)
             #TODO give warning when name already in the dictionary
             self.__dict__[table_name]=table
-    def create_hepdata_record(self):
+    def create_hepdata_record(self,data_root:str='./'):
         # Actual record creation based on information stored
         hepdata_submission = hepdata_lib.Submission()
         # TO DO additional resources
@@ -517,7 +517,7 @@ class Submission():
             hepdata_table.location = table.location
             hepdata_table.keywords = table.keywords
             for image_info in table.table_images:
-                hepdata_table.add_image(image_info['name'])
+                hepdata_table.add_image(utils.resolve_file_name(image_info['name'],data_root))
             for variable in table.variables:
                 if(variable.is_visible):
                     hepdata_variable=hepdata_lib.Variable(variable.name, is_independent=variable.is_independent, is_binned=variable.is_binned, units=variable.unit)

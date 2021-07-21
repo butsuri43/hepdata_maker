@@ -9,12 +9,14 @@ def hepdata_maker():
 
 @click.command()
 @click.argument('steering_file',type=click.Path(exists=True))
-def create_submission(steering_file):
+@click.option('--data-root', default='./', help='',type=click.Path(exists=True),)
+def create_submission(steering_file,data_root):
     print(f"Creating submission file based on {steering_file}:")
+    #print(f"!!! {data_root} !!!")
     submission=Submission()
     submission.load_table_config(steering_file)
-    submission.implement_table_config()
-    submission.create_hepdata_record()
+    submission.implement_table_config(data_root)
+    submission.create_hepdata_record(data_root)
     print("Submission created in test_submission")
 
 @click.command()
