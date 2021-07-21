@@ -9,15 +9,16 @@ def hepdata_maker():
 
 @click.command()
 @click.argument('steering_file',type=click.Path(exists=True))
-@click.option('--data-root', default='./', help='',type=click.Path(exists=True),)
-def create_submission(steering_file,data_root):
+@click.option('--data-root', default='./', help='Location of files specified in steering file (if not an absolute location is given there)',type=click.Path(exists=True),)
+@click.option('--output-dir', default='submission_files', help='The name of the directory where the submission files will be created. Default: submission_files',type=click.Path(exists=False))
+def create_submission(steering_file,data_root,output_dir):
     print(f"Creating submission file based on {steering_file}:")
     #print(f"!!! {data_root} !!!")
     submission=Submission()
     submission.load_table_config(steering_file)
     submission.implement_table_config(data_root)
-    submission.create_hepdata_record(data_root)
-    print("Submission created in test_submission")
+    # TODO require user to confirm overwriting output_dir if it already exist
+    submission.create_hepdata_record(data_root,output_dir)
 
 @click.command()
 @click.argument('steering_file',type=click.Path(exists=True))
