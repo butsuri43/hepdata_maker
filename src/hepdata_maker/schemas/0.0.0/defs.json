@@ -1,8 +1,278 @@
 {
-    "$schema": "http://json-schema.org/draft-06/schema#",
-    "$id": "schemas/0.0.0/defs.json",
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "file:///home/krzysiek/nauka/Freiburg/HepData/TowardsAuthomaticScriptCreation/submission_maker/src/hepdata_maker/schemas/0.0.0/defs.json",
     "definitions": {
 	"steering_file":{
+	    "title": "steering_script",
+	    "description": "object describes how to decode all raw data into object containing all hepdata information.",
+	    "type":"object",
+	    "properties": {
+		"type": {
+		    "description": "type of object",
+		    "type": "string"
+		},
+		"tables":{
+		    "description": "collection of tables",
+		    "type": "array",
+		    "items":{"$ref": "#/definitions/table"}
+		},
+		"additional_resources":{
+		    "description":"information about extra files attached to the record, i.e. not data tables",
+		    "type":"array",
+		    "items":{"$ref": "#/definitions/additional_file"}
+		}
+	    },
+	    "additionalProperties":false
+	},
+	"table":{
+	    "title":"table",
+	    "description":"single table",
+	    "type":"object",
+	    "properties":{
+		"name":{
+		    "description":"name of the table (simple names only!)",
+		    "type":"string"
+		},
+		"should_be_processed":{
+		    "description":"flag whether table should be processed (checked and information used) or just skipped",
+		    "type":"boolean"
+		},
+		"title":{
+		    "description":"title of the table; put into HEPData",
+		    "type":"string"
+		},
+		"location":{
+		    "description":"Location of the table on the paper website",
+		    "type":"string"
+		},
+		"images":{
+		    "description":"figures attached to the table",
+		    "type":"array"
+		},
+		"keywords":{
+		    "description":"keywords attributed specifically to the table",
+		    "type":"object"
+		},
+		"cuts_to_apply":{
+		    "description":"cut on all visible variables and their errors (numpy based)",
+		    "type":"array"
+		},
+		"variables":{
+		    "description":"collections of all variables stored in the table",
+		    "type":"array",
+		    "items":{"$ref": "#/definitions/variable"}
+		},
+		"type":{
+		    "description":"type of the table",
+		    "type":"string"
+		},
+		"comment":{
+		    "description":"any comment user might want to put",
+		    "type":"string"
+		},
+		"signal":{
+		    "description":"specify if only one signal populates all entries in the table",
+		    "type":"string"
+		},
+		"grid":{
+		    "description":"specify if only one grid populates all entries in the table",
+		    "type":"string"
+		},
+		"region":{
+		    "description":"specify if only one (signal?) region populates all entries in the table",
+		    "type":"string"
+		}
+	    },
+	    "additionalProperties":false
+	},
+	"variable":{
+	    "description":"",
+	    "type":"object",
+	    "properties":{
+		"name":{
+		    "description":"variable name",
+		    "type":"string"
+		},
+		"unit":{
+		    "description":"variable unit (using pint, see https://pint.readthedocs.io/en/stable/)",
+		    "type":"string"
+		},
+		"is_visible":{
+		    "description":"specify whether variable is visible in the final table and whether additional checks are made on it",
+		    "type":"boolean"
+		},
+		"multiplier":{
+		    "description":"specify the value by which the reported results are rescaled",
+		    "type":"number"
+		},
+		"is_binned":{
+		    "description":"specify whether variable is binned",
+		    "type":"boolean"
+		},
+		"fancy_name":{
+		    "description":"fancy name (can contain all beautification characters/latex commands)",
+		    "type":"string"
+		},
+		"in_files":{
+		    "description":"list of input files defining the variable",
+		    "type":"array",
+		    "items":{"$ref": "#/definitions/in_file_info"}
+		},
+		"data_type":{
+		    "description":"specify how should the variable be treated",
+		    "type":"string"
+		},
+		"transformations":{
+		    "description":"list of transformations run with pythons' eval",
+		    "type":"array",
+		    "items":{
+			"type":"string"
+		    }
+		},
+		"regions":{
+		    "description":"Information about regions related to the variable.",
+		    "type":"array",
+		    "items":{"$ref": "#/definitions/variable_additional_info"}
+		},
+		"grids":{
+		    "description":"Information about grids related to the variable.",
+		    "type":"array",
+		    "items":{"$ref": "#/definitions/variable_additional_info"}
+		},
+		"interpretation":{
+		    "description":"How to interprate the variable. What information it carries?",
+		    "type":"string",
+		    "enum": ["kin", "acc","eff","yield","signal_point","cut",
+			     "xsec_exp","xsec_obs","xsec_exp_1up","xsec_exp_1down",
+			     "xsec_exp_2down","xsec_exp_2up","xsec_obs_1up","xsec_obs_1down"]
+		},
+		"is_independent":{
+		    "description":"",
+		    "type":"boolean"
+		},
+		"fancy_variable_name":{
+		    "description":"",
+		    "type":"string"
+		},
+		"qualifiers":{
+		    "description":"",
+		    "type":"array"
+		},
+		"errors":{
+		    "description":"",
+		    "type":"array",
+		    "items":{"$ref": "#/definitions/error"}
+		}	
+	    },
+	    "additionalProperties":false
+	},
+	"variable_additional_info":{
+	    "description":"",
+	    "type":"object",
+	    "properties":{
+		"name":{
+		    "description":"",
+		    "type":"string"
+		},
+		"matching":{
+		    "description":"",
+		    "type":"array",
+		    "items":{
+			"type":"string"
+		    }
+		}
+	    },
+	    "additionalProperties":false
+	},
+	"error":{
+	    "description":"",
+	    "type":"object",
+	    "properties":{
+		"name":{
+		    "description":"variable name",
+		    "type":"string"
+		},
+		"unit":{
+		    "description":"variable unit (using pint, see https://pint.readthedocs.io/en/stable/)",
+		    "type":"string"
+		},
+		"multiplier":{
+		    "description":"specify the value by which the reported results are rescaled",
+		    "type":"number"
+		},
+		"is_visible":{
+		    "description":"specify whether variable is visible in the final table and whether additional checks are made on it",
+		    "type":"boolean"
+		},
+		"fancy_name":{
+		    "description":"fancy name (can contain all beautification characters/latex commands)",
+		    "type":"string"
+		},
+		"in_files":{
+		    "description":"list of input files defining the variable",
+		    "type":"array",
+		    "items":{"$ref": "#/definitions/in_file_info"}
+		    
+		},
+		"data_type":{
+		    "description":"specify how should the variable be treated",
+		    "type":"string"
+		},
+		"transformations":{
+		    "description":"list of transformations run with pythons' eval",
+		    "type":"array",
+		    "items":{
+			"type":"string"
+		    }
+		}
+	    },
+	    "additionalProperties":false
+	},
+	"in_file_info":{
+	    "description":"",
+	    "properties":{
+		"name":{
+		    "description":"",
+		    "type":"string"
+		},
+		"decode":{
+		    "description":"command to get the data from input file. The syntax depends on the input file type!",
+		    "type":"string"
+		},
+		"tabular_loc_decode":{
+		    "description":"(used only if the input file is .tex) command to get the interesting table from latex source (using TexSoup, and 'latex' is the name of the objetc containing loaded tex file)",
+		    "example":"latex.find_all(['tabular*','tabular'])[0]",
+		    "type":"string"
+		},
+		"replace_dict":{
+		    "description":"(used only if the input file is .tex) dictionary containing words and their replacement to be used after latex table has been loaded but before decode step.",
+		    "type":"object"
+		},
+		"delimiter":{
+		    "description":"(usef for csv files only), specify which delimiter is used between columns in the file",
+		    "type":"string"
+		},
+		"file_type":{
+		    "description":"force type of the file (do not guess it from the text name)",
+		    "type":"string"
+		}
+		
+	    },
+	    "additionalProperties":false
+	},
+	"additional_file":{
+	    "description":"",
+	    "properties":{
+		"description":{
+		    "description":"information about the file attached",
+		    "type":"string"
+		},
+		"location":{
+		    "description":"absolute or relative path, alternatively an url to the resources that is to be attached",
+		    "type":"string"
+		}
+	    },
+	    "additionalProperties":false
 	}
     }
 }
