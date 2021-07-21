@@ -507,7 +507,7 @@ class Submission():
             self.tables.append(table)
             #TODO give warning when name already in the dictionary
             self.__dict__[table_name]=table
-    def create_hepdata_record(self,data_root:str='./'):
+    def create_hepdata_record(self,data_root:str='./',outdir='submission_files'):
         # Actual record creation based on information stored
         hepdata_submission = hepdata_lib.Submission()
         # TO DO additional resources
@@ -544,7 +544,9 @@ class Submission():
                                 hepdata_variable.add_qualifier(key,val)
                     hepdata_table.add_variable(hepdata_variable)
             hepdata_submission.add_table(hepdata_table)
-        hepdata_submission.create_files("test_submission")
+        hepdata_submission.create_files(outdir)
+        if(os.path.isdir(outdir) and os.path.isfile('submission.tar.gz')):
+            print(f"Submission files created and available under directory {outdir} and as a tarball in submission.tar.gz")
     @property
     def tables(self):
         """tables getter."""
