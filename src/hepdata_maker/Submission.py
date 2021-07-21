@@ -155,9 +155,9 @@ class Table(object):
         self.name = name
         self._variable_lenght=0
         self.variables = []
-        self.table_title = "Example description"
-        self.table_location = "Example location"
-        self.table_keywords = {}
+        self.title = "Example description"
+        self.location = "Example location"
+        self.keywords = {}
         #self.additional_resources = []
         self.image_files = []
 
@@ -242,13 +242,13 @@ def get_array_from_root(object_path,decode):
         #loaded_object_hepdata_lib=rreader.retrieve_object(root_object_path)
         #return loaded_object_hepdata_lib[decode]
         return np.array([])
-def get_array_from_tex(file_path,decode,table_loc_decode,replace_dict={}):
-    table= get_table_from_tex(file_path,table_loc_decode,replace_dict)
+def get_array_from_tex(file_path,decode,tabular_loc_decode,replace_dict={}):
+    table= get_table_from_tex(file_path,tabular_loc_decode,replace_dict)
     return eval(decode,{"np":np}|{'table':table}|{"re":re}|{"scipy.stats":scipy.stats}|{"scipy.special":scipy.special}|{"ufs":ufs})
     
-def get_table_from_tex(file_path,table_loc_decode,replace_dict={}):
+def get_table_from_tex(file_path,tabular_loc_decode,replace_dict={}):
     soup = TexSoup(open(file_path))
-    tabular_info=eval(table_loc_decode,{'latex':soup}).expr
+    tabular_info=eval(tabular_loc_decode,{'latex':soup}).expr
     tabular_info.string=re.sub('%.*','',tabular_info.string)
     for key,value in {**replace_dict, **{r'\hline':'',r'\n':'','\cline{.?}':''}}.items():
         tabular_info.string=re.sub(key.replace('\\','\\\\'),value,tabular_info.string)
@@ -283,9 +283,11 @@ def get_table_from_tex(file_path,table_loc_decode,replace_dict={}):
     new_table=np.array([x for x in new_table if (x!=[] and not all([(y=='' or y==None) for y in x]))])
     return new_table
     
-def get_cut_defined_variables(cutDefinitions,global_dict=None,local_dict=None):
+def get_matching_based_variables(matchDefinitions,global_dict=None,local_dict=None):
     result=None
-    for var,cuts in cutDefinitions.items():
+    for specification in matchDefinitions:
+        var=specification.name
+        cuts=specification.matching
         for cut in cuts:
             if(type(cut)==str):
                 cutOutput=np.where(eval(cut,global_dict,local_dict),var,None)
@@ -312,7 +314,7 @@ def read_data_file(file_name,decode,**extra_args):
     tmp_values=None
     delimiter=extra_args.get('delimiter',',')
     replace_dict=extra_args.get('replace_dict',',')
-    table_loc_decode=extra_args.get('table_loc_decode',None)
+    tabular_loc_decode=extra_args.get('tabular_loc_decode',None)
     file_type=extra_args.get('file_type',None)
     if file_type: # file_type is specified. It takes precedence over type-guessing
         if(file_type=='json'):
@@ -324,13 +326,12 @@ def read_data_file(file_name,decode,**extra_args):
         elif(file_type=='csv'):
             tmp_values=get_array_from_csv(file_name,decode,delimiter)
         elif(file_type=='tex'):
-            if(table_loc_decode):
-                tmp_values=get_array_from_tex(file_name,decode,table_loc_decode=table_loc_decode,replace_dict=replace_dict)
+            if(tabular_loc_decode):
+                tmp_values=get_array_from_tex(file_name,decode,tabular_loc_decode=tabular_loc_decode,replace_dict=replace_dict)
             else:
-                raise TypeError(f"File {file_name}: when reading tex file, variable table_loc_decode must be set!")
+                raise TypeError(f"File {file_name}: when reading tex file, variable tabular_loc_decode must be set!")
         else:
-            print(file_type)
-            raise TypeError(f"File {file_name}: unsuported file type!")            
+            raise TypeError(f"File {file_name}: unsuported file type (file type: {file_type})!")            
 
     # Guess the file type from the name
     elif file_name.lower().endswith(".json"): 
@@ -342,10 +343,10 @@ def read_data_file(file_name,decode,**extra_args):
     elif file_name.split(":")[0].lower().endswith(".csv"):
         tmp_values=get_array_from_csv(file_name,decode,delimiter)
     elif file_name.split(":")[0].lower().endswith(".tex"):
-        if(table_loc_decode):
-            tmp_values=get_array_from_tex(file_name,decode,table_loc_decode=table_loc_decode,replace_dict=replace_dict)
+        if(tabular_loc_decode):
+            tmp_values=get_array_from_tex(file_name,decode,tabular_loc_decode=tabular_loc_decode,replace_dict=replace_dict)
         else:
-            raise TypeError(f"File {file_name}: when reading tex file, variable table_loc_decode must be set!")
+            raise TypeError(f"File {file_name}: when reading tex file, variable tabular_loc_decode must be set!")
     else:
         raise TypeError(f"File {file_name}: unsuported file type!")
     return tmp_values
@@ -396,45 +397,46 @@ class Submission():
         # TODO check not to do the config multiple times
         for table_info in [objdict(x) for x in self._config['tables']]:
             # TODO verify table_info here?
-            table_name=table_info.table_name
-            #print(table_name)
+            table_name=table_info.name
+            print("processing table",table_name)
             if( not table_info.should_be_processed):
-                log.warning(rf"table {table_info.table_name} has should_be_processed flag set to False. Skipping.")
+                log.warning(rf"table {table_info.name} has should_be_processed flag set to False. Skipping.")
                 continue
             table=Table(table_name)
-            if( hasattr(table_info, 'table_images')):
-                table.table_images=table_info.table_images
-            if( hasattr(table_info, 'table_title')):
-                if(os.path.isfile(table_info.table_title)):
+            if( hasattr(table_info, 'images')):
+                table.table_images=table_info.images
+            if( hasattr(table_info, 'title')):
+                if(os.path.isfile(table_info.title)):
                    # Provide file with table title ( e.g. website out)
-                   table.table_title=open(table_info.table_title).read()
+                   table.title=open(table_info.title).read()
                 else:
-                   table.table_title=table_info.table_title
-            if( hasattr(table_info, 'table_location')):
-                table.table_location=table_info.table_location
-            if( hasattr(table_info, 'table_keywords')):
-                table.table_keywords=table_info.table_keywords
+                   table.title=table_info.title
+            if( hasattr(table_info, 'location')):
+                table.location=table_info.location
+            if( hasattr(table_info, 'keywords')):
+                table.keywords=table_info.keywords
             for variable_info in table_info.variables:
-                #print(f"Adding variable: {variable_info.variable_name}")
+                #print(f"Adding variable: {variable_info.name}")
                 ## TODO check that var_name does not contain any special characters (special characters allowe only in fancy names)
-                var_name=variable_info.variable_name
+                var_name=variable_info.name
                 transformations=getattr(variable_info,'transformations',None)
                 var_values=None
 
                 for in_file in variable_info.in_files:
-                    extra_args={k: in_file[k] for k in ('delimiter', 'file_type', 'replace_dict', 'table_loc_decode') if hasattr(in_file,k)}
+                    extra_args={k: in_file[k] for k in ('delimiter', 'file_type', 'replace_dict', 'tabular_loc_decode') if hasattr(in_file,k)}
                     tmp_values=read_data_file(in_file.name,in_file.decode,**extra_args)
                     if(var_values):
                         var_values=np.concatenate((var_values,tmp_values))
                     else:
                         var_values=tmp_values
-                if( hasattr(variable_info, 'astype')):
-                    if(variable_info.astype!='' and var_values is not None):
-                        var_values=var_values.astype(variable_info.astype)
+                if( hasattr(variable_info, 'data_type')):
+                    if(variable_info.data_type!='' and var_values is not None):
+                        var_values=var_values.astype(variable_info.data_type)
                 if(transformations):
                     for transformation in transformations:
                         var_values=eval(transformation,self.__dict__|{"np":np}|{"re":re}|{"scipy.stats":scipy.stats}|{"scipy.special":scipy.special}|{"ufs":ufs},table.__dict__|{var_name:var_values})
-                
+
+                #print("Variable: ",var_name,var_values)
                 var=Variable(var_values,var_name)
                 if( hasattr(variable_info, 'is_visible')):
                         var.is_visible=variable_info.is_visible
@@ -454,7 +456,7 @@ class Submission():
                             err_values=None
                             for in_file in error_info.in_files:
                                 tmp_values=tmp_values_up=tmp_values_down=np.empty(0)
-                                extra_args={k: in_file[k] for k in ('delimiter', 'file_type', 'replace_dict', 'table_loc_decode') if hasattr(in_file,k)}
+                                extra_args={k: in_file[k] for k in ('delimiter', 'file_type', 'replace_dict', 'tabular_loc_decode') if hasattr(in_file,k)}
 
                                 # if decode is present we have either 2-dim specification of [up,down] or 1-dim symmetric error
                                 if( hasattr(in_file, 'decode')):
@@ -481,9 +483,9 @@ class Submission():
                                     err_values=np.concatenate((err_values,tmp_values))
                                 else:
                                     err_values=tmp_values
-                            if( hasattr(error_info, 'astype')):
-                                if(error_info.astype!='' and error_info.astype and err_values is not None):
-                                    err_values=err_values.astype(error_info.astype)
+                            if( hasattr(error_info, 'data_type')):
+                                if(error_info.data_type!='' and error_info.data_type and err_values is not None):
+                                    err_values=err_values.astype(error_info.data_type)
                             if( hasattr(error_info, 'transformations')):
                                 for transformation in error_info.transformations:
                                     err_values=eval(transformation,self.__dict__|{"np":np}|{"re":re}|{"scipy.stats":scipy.stats}|{"scipy.special":scipy.special}|{"ufs":ufs},table.__dict__|{var_name:var_values,err_name:err_values}|{var_err.name:var_err for var_err in var.uncertainties})
@@ -491,15 +493,15 @@ class Submission():
                             unc=Uncertainty(err_values,name=err_name,is_visible=err_is_visible)
                             var.add_uncertainty(unc)
                 if(var.multiplier):
-                    print(var,var.multiplier)
+                    #print(var,var.multiplier)
                     var.qualifiers.append({"multiplier":var.multiplier})
                 table.add_variable(var)
                 if hasattr(variable_info, 'regions'):
-                    var.regions=get_cut_defined_variables(variable_info.regions,table.__dict__|{"np":np},local_dict=None)
+                    var.regions=get_matching_based_variables(variable_info.regions,table.__dict__|{"np":np},local_dict=None)
                 if hasattr(variable_info, 'grids'):
-                    var.grids=get_cut_defined_variables(variable_info.grids,table.__dict__|{"np":np},local_dict=None)
+                    var.grids=get_matching_based_variables(variable_info.grids,table.__dict__|{"np":np},local_dict=None)
                 if hasattr(variable_info, 'signal_names'):
-                    var.signal_names=get_cut_defined_variables(variable_info.signal_names,table.__dict__|{"np":np},local_dict=None)
+                    var.signal_names=get_matching_based_variables(variable_info.signal_names,table.__dict__|{"np":np},local_dict=None)
                 #print(f"added variable {var_name} to table {table.name}")
                 
             self.tables.append(table)
@@ -511,9 +513,9 @@ class Submission():
         # TO DO additional resources
         for table in self.tables:
             hepdata_table = hepdata_lib.Table(table.name)
-            hepdata_table.description = table.table_title
-            hepdata_table.location = table.table_location
-            hepdata_table.keywords = table.table_keywords
+            hepdata_table.description = table.title
+            hepdata_table.location = table.location
+            hepdata_table.keywords = table.keywords
             for image_info in table.table_images:
                 hepdata_table.add_image(image_info['name'])
             for variable in table.variables:
@@ -537,7 +539,7 @@ class Submission():
                             hepdata_variable.add_uncertainty(hepdata_unc)
                     if(len(variable.qualifiers)!=0):
                         for entry in variable.qualifiers:
-                            print(entry)
+                            #print(entry)
                             for key,val in entry.items():
                                 hepdata_variable.add_qualifier(key,val)
                     hepdata_table.add_variable(hepdata_variable)

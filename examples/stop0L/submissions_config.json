@@ -3,12 +3,12 @@
     "tables":
     [
 	{
-            "table_name":"stop_xSecUpperLimit_obs",
+            "name":"stop_xSecUpperLimit_obs",
             "should_be_processed":true,
-            "table_title":"Model dependent upper limit on the cross section for the $(\\tilde{t},\\tilde{\\chi}^{0}_{1})$ signal grid. The column titled 'Leading Region' stores information on which of the fit regions (SRA-B, SRC or SRD) is the dominant based on the expected CLs values.",
-            "table_location":"Data from figaux. 01a and 01b.",
-            "table_grid":"tN",
-            "table_images":[
+            "title":"Model dependent upper limit on the cross section for the $(\\tilde{t},\\tilde{\\chi}^{0}_{1})$ signal grid. The column titled 'Leading Region' stores information on which of the fit regions (SRA-B, SRC or SRD) is the dominant based on the expected CLs values.",
+            "location":"Data from figaux. 01a and 01b.",
+            "grid":"tN",
+            "images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_01a.png",
 		    "label":"??"
@@ -18,69 +18,65 @@
 		    "label":"??"
 		}
             ],
-            "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
+            "keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
             "variables":[
 		{
-		    "variable_name":"mt",
+		    "name":"mt",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_upperLimits/SignalPointsInfo.json",
 			    "decode":".[].mt"
 			}
 		    ],
-		    "astype":"int",
-		    "transformation":[],
-		    "errors":null
+		    "data_type":"int",
+		    "transformations":[]
 		},
 		{
-		    "variable_name":"mn",
+		    "name":"mn",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_upperLimits/SignalPointsInfo.json",
 			    "decode":".[].mn"
 			}
 		    ],
-		    "astype":"int",
-		    "transformation":[]
+		    "data_type":"int",
+		    "transformations":[]
 		},
 		{
-		    "variable_name":"XsecUL",
+		    "name":"XsecUL",
 		    "unit":"pb",
 		    "is_independent":false,
 		    "is_visible":true,
-		    "fancy_variable_name":"$\\sigma^{95\\% CL}_{upper}\\ \\mathrm{[pb]}$",
-		    "variable_qualifiers":null,
-		    "type":"",
+		    "fancy_name":"$\\sigma^{95\\% CL}_{upper}\\ \\mathrm{[pb]}$",
+		    "interpretation":"xsec_obs",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_upperLimits/SignalPointsInfo.json",
 			    "decode":".[].UpperLimitXsec_pb"
 			}
 		    ],
-		    "astype":"float",
-		    "transformation":[]
+		    "data_type":"float",
+		    "transformations":[]
 		}
             ]
 	},
 	{
-            "table_name":"stop_xSecUpperLimit_exp",
+            "name":"stop_xSecUpperLimit_exp",
             "should_be_processed":true,
-            "table_title":"Expected model dependent upper limit on the cross section for the $(\\tilde{t},\\tilde{\\chi}^{0}_{1})$ signal grid. The column titled 'Leading Region' stores information on which of the fit regions (SRA-B, SRC or SRD) is the dominant based on the expected CLs values.",
-            "table_location":"Data from figaux. 02a and 02b.",
-            "table_grid":"tN",
-            "table_images":[
+            "title":"Expected model dependent upper limit on the cross section for the $(\\tilde{t},\\tilde{\\chi}^{0}_{1})$ signal grid. The column titled 'Leading Region' stores information on which of the fit regions (SRA-B, SRC or SRD) is the dominant based on the expected CLs values.",
+            "location":"Data from figaux. 02a and 02b.",
+            "grid":"tN",
+            "images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_02a.png",
 		    "label":"??"
@@ -90,110 +86,103 @@
 		    "label":"??"
 		}
             ],
-            "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
+            "keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
             "variables":[
 		{
-		    "variable_name":"mt",
+		    "name":"mt",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_upperLimits/SignalPointsInfo.json",
 			    "decode":".[].mt"
 			}
 		    ],
-		    "astype":"int",
-		    "transformation":[],
-		    "errors":null
+		    "data_type":"int",
+		    "transformations":[]
 		},
 		{
-		    "variable_name":"mn",
+		    "name":"mn",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_upperLimits/SignalPointsInfo.json",
 			    "decode":".[].mn"
 			}
 		    ],
-		    "astype":"int",
-		    "transformation":[]
+		    "data_type":"int",
+		    "transformations":[]
 		},
 		{
-		    "variable_name":"XsecUL",
+		    "name":"XsecUL",
 		    "unit":"pb",
 		    "is_independent":false,
 		    "is_visible":true,
-		    "fancy_variable_name":"$\\sigma^{95\\% CL}_{upper}\\ \\mathrm{[pb]}$",
-		    "variable_qualifiers":null,
-		    "type":"",
+		    "fancy_name":"$\\sigma^{95\\% CL}_{upper}\\ \\mathrm{[pb]}$",
+		    "interpretation":"xsec_exp",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_upperLimits/SignalPointsInfo.json",
 			    "decode":".[].ExpUpperLimitXsec_pb"
 			}
 		    ],
-		    "astype":"float",
-		    "transformation":[]
+		    "data_type":"float",
+		    "transformations":[]
 		}
             ]
 	},
 	{
-            "table_name":"SRATW_metsigST",
+            "name":"SRATW_metsigST",
             "should_be_processed":true,
-            "table_title":"The distributions of $S$ in SRA-TW. For each bin yields for the data, total SM prediction and a representative signal point are provided. The SM prediction is provided with the MC statistical uncertainties, labeled 'stat', and the remaining uncertainties, labeled 'syst' that include detector-related systematic uncertainties and theoretical uncertainties. The signal predictions is provided with the MC statistical uncertainties only. The rightmost bin includes overflow events.",
-            "table_location":"Data from fig. 12a.",
-            "table_region":"SRATW",
-            "table_images":[
+            "title":"The distributions of $S$ in SRA-TW. For each bin yields for the data, total SM prediction and a representative signal point are provided. The SM prediction is provided with the MC statistical uncertainties, labeled 'stat', and the remaining uncertainties, labeled 'syst' that include detector-related systematic uncertainties and theoretical uncertainties. The signal predictions is provided with the MC statistical uncertainties only. The rightmost bin includes overflow events.",
+            "location":"Data from fig. 12a.",
+            "region":"SRATW",
+            "images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/fig_12a.png",
 		    "label":"SRATW metsigST kinematic distribution."
 		}
             ],
-            "table_keywords":{"observables":["N"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
+            "keywords":{"observables":["N"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
             "variables":[
 		{
-		    "variable_name":"metsig_bins",
+		    "name":"metsig_bins",
 		    "unit":"",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "is_binned":true,
-		    "fancy_variable_name":"$S$",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"$S$",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_kinplots/SRATW_metsigST_afterFit_individHists.root:SM_total",
 			    "decode":"x_edges"
 			}
 		    ],
-		    "transformation":[],
-		    "errors":null
+		    "transformations":[]
 		},
 		{
-		    "variable_name":"SM_values",
+		    "name":"SM_values",
 		    "unit":"",
 		    "is_independent":false,
 		    "is_visible":true,
-		    "fancy_variable_name":"$S$",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"$S$",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_kinplots/SRATW_metsigST_afterFit_individHists.root:SM_total",
 			    "decode":"y"
 			}
 		    ],
-		    "astype":"float",
-		    "transformation":[],
+		    "data_type":"float",
+		    "transformations":[],
 		    "errors":[
 			{
 			    "name":"total",
@@ -204,7 +193,7 @@
 				"decode":"dy"
 				}
 			    ],
-			    "astype":"float"
+			    "data_type":"float"
 			},
 			{
 			    "name":"stat",
@@ -215,34 +204,33 @@
 				    "decode":"dy"
 				}
 			    ],
-			    "astype":"float"
+			    "data_type":"float"
 			},
 			{
 			    "name":"syst",
 			    "is_visible":true,
 			    "in_files":[],
 			    "transformations":["np.sqrt(total**2-stat**2)"],
-			    "astype":"float"
+			    "data_type":"float"
 			}
 
 		    ]
 		},
 		{
-		    "variable_name":"signal_values",
+		    "name":"signal_values",
 		    "unit":"",
 		    "is_independent":false,
 		    "is_visible":true,
-		    "fancy_variable_name":"$S$",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"$S$",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_kinplots/SRATW_metsigST_afterFit_individHists.root:sig_436179",
 			    "decode":"y"
 			}
 		    ],
-		    "astype":"float",
-		    "transformation":[],
+		    "data_type":"float",
+		    "transformations":[],
 		    "errors":[
 			{
 			    "name":"stat",
@@ -253,1035 +241,1077 @@
 				    "decode":"dy"
 				}
 			    ],
-			    "astype":"float"
+			    "data_type":"float"
 			}
 		    ]
 		}
             ]
 	},
 	{
-            "table_name":"cutflow_SRATT",
+            "name":"cutflow_SRATT",
             "should_be_processed":true,
-            "table_title":"Cutflow for the reference point $(\\it{m}_{\\tilde{t}}, \\it{m}_{\\tilde{\\chi}^{0}_{1}})= (1300,1)\\ \\mathrm{GeV} $ in SRA-TT. The column labelled ''Weighted yield'' shows the results including all correction factors applied to simulation, and is normalised to 139 fb$^{-1}$. A notable exception concerns results in the first row, labelled ''Total'', that corresponds to plain $\\sigma \\cdot \\mathcal{L}$ expected.  The ''Derivation skim'' includes the requirements that $H_{T}$, the scalar sum of $p_{T}$ of jets and leptons, $H_{T}>150\\ \\mathrm{GeV}$ or that a ''baseline'' electron or muon has $p_{T}>20\\ \\mathrm{GeV}$. The definition of ''baseline'' electron/muons, lepton and $\\tau$ vetos are described in the main body of the paper. In total 30000 raw MC events were generated prior to the specified cuts, with the column ''Unweighted yield'' collecting the numbers after each cut.",
-            "table_location":"Data from tabaux. 01.",
-            "table_images":[
+            "title":"Cutflow for the reference point $(\\it{m}_{\\tilde{t}}, \\it{m}_{\\tilde{\\chi}^{0}_{1}})= (1300,1)\\ \\mathrm{GeV} $ in SRA-TT. The column labelled ''Weighted yield'' shows the results including all correction factors applied to simulation, and is normalised to 139 fb$^{-1}$. A notable exception concerns results in the first row, labelled ''Total'', that corresponds to plain $\\sigma \\cdot \\mathcal{L}$ expected.  The ''Derivation skim'' includes the requirements that $H_{T}$, the scalar sum of $p_{T}$ of jets and leptons, $H_{T}>150\\ \\mathrm{GeV}$ or that a ''baseline'' electron or muon has $p_{T}>20\\ \\mathrm{GeV}$. The definition of ''baseline'' electron/muons, lepton and $\\tau$ vetos are described in the main body of the paper. In total 30000 raw MC events were generated prior to the specified cuts, with the column ''Unweighted yield'' collecting the numbers after each cut.",
+            "location":"Data from tabaux. 01.",
+            "images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/tabaux_01.png",
 		    "label":"Cutflow towards SRATT"
 		}
             ],
-            "table_keywords":{"observables":["N"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
+            "keywords":{"observables":["N"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
             "variables":[
 		{
-		    "variable_name":"cut",
+		    "name":"cut",
 		    "unit":"",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"",
-		    "variable_qualifiers":null,
-		    "type":"cut",
+		    "fancy_name":"",
+		    "interpretation":"cut",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_cutflows/cutflow_SRATT.yaml",
 			    "decode":".[]['Cut']"
 			}
 		    ],
-		    "astype":"str",
-		    "transformation":[],
-		    "errors":null
+		    "data_type":"str",
+		    "transformations":[]
 		},
 		{
-		    "variable_name":"weighted_yield",
+		    "name":"weighted_yield",
 		    "unit":"",
 		    "is_independent":false,
 		    "is_visible":true,
-		    "fancy_variable_name":"",
-		    "variable_qualifiers":null,
-		    "type":"events",
+		    "fancy_name":"",
+		    "interpretation":"yield",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_cutflows/cutflow_SRATT.yaml",
 			    "decode":".[]['Weighted yield']"
 			}
 		    ],
-		    "astype":"float",
-		    "transformation":[]
+		    "data_type":"float",
+		    "transformations":[]
 		},
 		{
-		    "variable_name":"unweighted_yield",
+		    "name":"unweighted_yield",
 		    "unit":"",
 		    "is_independent":false,
 		    "is_visible":true,
-		    "fancy_variable_name":"",
-		    "variable_qualifiers":null,
-		    "type":"events",
+		    "fancy_name":"",
+		    "interpretation":"yield",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_cutflows/cutflow_SRATT.yaml",
 			    "decode":".[]['Unweighted yield']"
 			}
 		    ],
-		    "astype":"int",
-		    "transformation":[]
+		    "data_type":"int",
+		    "transformations":[]
 		}
 		
             ]
 	},
 	{
-            "table_name":"stop_obs",
+            "name":"stop_obs",
             "should_be_processed":true,
-            "table_title":"The observed exclusion contour at 95% CL as a function of the $\\it{m}_{\\tilde{\\chi}^{0}_{1}}$  vs. $\\it{m}_{\\tilde{t}}$. Masses that are within the contours are excluded.",
-            "table_location":"Data from fig. 13a.",
-	    "table_grid":"tN",
-            "table_images":[
+            "title":"The observed exclusion contour at 95% CL as a function of the $\\it{m}_{\\tilde{\\chi}^{0}_{1}}$  vs. $\\it{m}_{\\tilde{t}}$. Masses that are within the contours are excluded.",
+            "location":"Data from fig. 13a.",
+	    "grid":"tN",
+            "images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/fig_13a.png",
 		    "label":"SRATT acceptance"
 		}
             ],
-            "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
+            "keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
             "variables":[
 		{
-		    "variable_name":"mt",
+		    "name":"mt",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_contours/MergeABCD_NormalView_FromStopDMview_NotSmoothed_FixedFunny.root:Obs_0",
 			    "decode":"x"
 			}
 		    ],
-		    "astype":"int",
-		    "transformation":[],
-		    "errors":null
+		    "data_type":"int",
+		    "transformations":[]
 		},
 		{
-		    "variable_name":"mn",
+		    "name":"mn",
 		    "unit":"GeV",
 		    "is_independent":false,
 		    "is_visible":true,
-		    "fancy_variable_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_contours/MergeABCD_NormalView_FromStopDMview_NotSmoothed_FixedFunny.root:Obs_0",
 			    "decode":"y"
 			}
 		    ],
-		    "astype":"int",
-		    "transformation":[]
+		    "data_type":"int",
+		    "transformations":[]
 		},
 		{
-		    "variable_name":"dm",
+		    "name":"dm",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":false,
-		    "fancy_variable_name":"",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"",
+		    "interpretation":"kin",
 		    "in_files":[],
-		    "transformation":["mt-mn"]
+		    "transformations":["mt-mn"]
 		}
             ]
 	},
 	{
-            "table_name":"stop_exp",
+            "name":"stop_exp",
             "should_be_processed":true,
-            "table_title":"The expected exclusion contour at 95% CL as a function of the $\\it{m}_{\\tilde{\\chi}^{0}_{1}}$  vs. $\\it{m}_{\\tilde{t}}$. Masses that are within the contours are excluded.",
-            "table_location":"Data from fig. 13a.",
-	    "table_grid":"tN",
-            "table_images":[
+            "title":"The expected exclusion contour at 95% CL as a function of the $\\it{m}_{\\tilde{\\chi}^{0}_{1}}$  vs. $\\it{m}_{\\tilde{t}}$. Masses that are within the contours are excluded.",
+            "location":"Data from fig. 13a.",
+	    "grid":"tN",
+            "images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/fig_13a.png",
 		    "label":"SRATT acceptance"
 		}
             ],
-            "table_keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
+            "keywords":{"observables":["CLS"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
             "variables":[
 		{
-		    "variable_name":"mt",
+		    "name":"mt",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_contours/MergeABCD_NormalView_FromStopDMview_NotSmoothed_FixedFunny.root:Exp_0",
 			    "decode":"x"
 			}
 		    ],
-		    "astype":"int",
-		    "transformation":[],
-		    "errors":null
+		    "data_type":"int",
+		    "transformations":[]
 		},
 		{
-		    "variable_name":"mn",
+		    "name":"mn",
 		    "unit":"GeV",
 		    "is_independent":false,
 		    "is_visible":true,
-		    "fancy_variable_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_contours/MergeABCD_NormalView_FromStopDMview_NotSmoothed_FixedFunny.root:Exp_0",
 			    "decode":"y"
 			}
 		    ],
-		    "astype":"int",
-		    "transformation":[]
+		    "data_type":"int",
+		    "transformations":[]
 		},
 		{
-		    "variable_name":"dm",
+		    "name":"dm",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":false,
-		    "fancy_variable_name":"",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"",
+		    "interpretation":"kin",
 		    "in_files":[],
-		    "transformation":["mt-mn"]
+		    "transformations":["mt-mn"]
 		}
             ]
 	},
 	{
-            "table_name":"Acc_SRATT",
+            "name":"Acc_SRATT",
             "should_be_processed":true,
-            "table_title":"Signal acceptance in SRA-TT for simplified $(\\tilde{t},\\tilde{\\chi^{0}_1})$ model. Please mind that the acceptance given in the table is multiplied by factor of $10^{3}$",
-            "table_location":"figaux. 03a",
-            "table_region":"SRATT",
-	    "table_grid":"tN",
-            "table_images":[
+            "title":"Signal acceptance in SRA-TT for simplified $(\\tilde{t},\\tilde{\\chi^{0}_1})$ model. Please mind that the acceptance given in the table is multiplied by factor of $10^{3}$",
+            "location":"figaux. 03a",
+            "region":"SRATT",
+	    "grid":"tN",
+            "images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_03a.png",
 		    "label":"SRATT acceptance"
 		}
             ],
-            "table_keywords":{"observables":["ACC"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
+            "keywords":{"observables":["ACC"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
             "variables":[
 		{
-		    "variable_name":"mt",
+		    "name":"mt",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_ACCEFF/AccEff.json",
 			    "decode":".['SRATT']|keys_unsorted[] | split('_')[0]"
 			}
 		    ],
-		    "astype":"float",
-		    "transformation":[],
-		    "errors":null
+		    "data_type":"float",
+		    "transformations":[]
 		},
 		{
-		    "variable_name":"mn",
+		    "name":"mn",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_ACCEFF/AccEff.json",
 			    "decode":".['SRATT']|keys_unsorted[] | split('_')[1]"
 			}
 		    ],
-		    "astype":"float",
-		    "transformation":[]
+		    "data_type":"float",
+		    "transformations":[]
 		},
 		{
-		    "variable_name":"dm",
+		    "name":"dm",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":false,
-		    "fancy_variable_name":"",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"",
+		    "interpretation":"kin",
 		    "in_files":[],
-		    "transformation":["mt-mn"]
+		    "transformations":["mt-mn"]
 		},
 		{
-		    "variable_name":"acc",
+		    "name":"acc",
 		    "unit":"%",
 		    "is_independent":false,
 		    "is_visible":true,
-		    "fancy_variable_name":"Acceptance",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"Acceptance",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_ACCEFF/AccEff.json",
 			    "decode":".['SRATT'][].Acc"
 			}
 		    ],
-		    "transformation":null,
-		    "regions":{"SRATT":["~np.isnan(acc)"]},
-		    "grids":{"tN":["~np.isnan(acc)"]}
+		    "regions":[
+			{
+			    "name":"SRATT",
+			    "matching":["~np.isnan(acc)"]
+			}
+		    ],
+		    "grids":[
+			{
+			    "name":"tN",
+			    "matching":["~np.isnan(acc)"]
+			}
+		    ]
 		}
             ]
 	},
 	{
-            "table_name":"Acc_SRATW",
+            "name":"Acc_SRATW",
             "should_be_processed":true,
-            "table_title":"Signal acceptance in SRA-TW for simplified $(\\tilde{t},\\tilde{\\chi^{0}_1})$ model. Please mind that the acceptance given in the table is multiplied by factor of $10^{3}$",
-            "table_location":"figaux. 03a",
-            "table_region":"SRATW",
-	    "table_grid":"tN",
-            "table_images":[
+            "title":"Signal acceptance in SRA-TW for simplified $(\\tilde{t},\\tilde{\\chi^{0}_1})$ model. Please mind that the acceptance given in the table is multiplied by factor of $10^{3}$",
+            "location":"figaux. 03a",
+            "region":"SRATW",
+	    "grid":"tN",
+            "images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_03a.png",
 		    "label":"SRATW acceptance"
 		}
             ],
-            "table_keywords":{"observables":["ACC"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
+            "keywords":{"observables":["ACC"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
             "variables":[
 		{
-		    "variable_name":"mt",
+		    "name":"mt",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_ACCEFF/AccEff.json",
 			    "decode":".['SRATW']|keys_unsorted[] | split('_')[0]"
 			}
 		    ],
-		    "astype":"float",
-		    "transformation":[],
-		    "errors":null
+		    "data_type":"float",
+		    "transformations":[]
 		},
 		{
-		    "variable_name":"mn",
+		    "name":"mn",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_ACCEFF/AccEff.json",
 			    "decode":".['SRATW']|keys_unsorted[] | split('_')[1]"
 			}
 		    ],
-		    "astype":"float",
-		    "transformation":[]
+		    "data_type":"float",
+		    "transformations":[]
 		},
 		{
-		    "variable_name":"dm",
+		    "name":"dm",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":false,
-		    "fancy_variable_name":"",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"",
+		    "interpretation":"kin",
 		    "in_files":[],
-		    "transformation":["mt-mn"]
+		    "transformations":["mt-mn"]
 		},
 		{
-		    "variable_name":"acc",
+		    "name":"acc",
 		    "unit":"%",
 		    "is_independent":false,
 		    "is_visible":true,
-		    "fancy_variable_name":"Acceptance",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"Acceptance",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_ACCEFF/AccEff.json",
 			    "decode":".['SRATW'][].Acc"
 			}
 		    ],
-		    "transformation":null,
-		    "regions":{"SRATW":["~np.isnan(acc)"]},
-		    "grids":{"tN":["~np.isnan(acc)"]}
+		    "regions":[
+			{
+			    "name":"SRATW",
+			    "matching":["~np.isnan(acc)"]
+			}
+		    ],
+		    "grids":[
+			{
+			    "name":"tN",
+			    "matching":["~np.isnan(acc)"]
+			}
+		    ]
 		}
             ]
 	},
 	{
-            "table_name":"Acc_SRAT0",
+            "name":"Acc_SRAT0",
             "should_be_processed":true,
-            "table_title":"Signal acceptance in SRA-T0 for simplified $(\\tilde{t},\\tilde{\\chi^{0}_1})$ model. Please mind that the acceptance given in the table is multiplied by factor of $10^{3}$",
-            "table_location":"figaux. 03a",
-            "table_region":"SRAT0",
-	    "table_grid":"tN",
-            "table_images":[
+            "title":"Signal acceptance in SRA-T0 for simplified $(\\tilde{t},\\tilde{\\chi^{0}_1})$ model. Please mind that the acceptance given in the table is multiplied by factor of $10^{3}$",
+            "location":"figaux. 03a",
+            "region":"SRAT0",
+	    "grid":"tN",
+            "images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_03a.png",
 		    "label":"SRAT0 acceptance"
 		}
             ],
-            "table_keywords":{"observables":["ACC"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
+            "keywords":{"observables":["ACC"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
             "variables":[
 		{
-		    "variable_name":"mt",
+		    "name":"mt",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_ACCEFF/AccEff.json",
 			    "decode":".['SRAT0']|keys_unsorted[] | split('_')[0]"
 			}
 		    ],
-		    "astype":"float",
-		    "transformation":[],
-		    "errors":null
+		    "data_type":"float",
+		    "transformations":[]
 		},
 		{
-		    "variable_name":"mn",
+		    "name":"mn",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_ACCEFF/AccEff.json",
 			    "decode":".['SRAT0']|keys_unsorted[] | split('_')[1]"
 			}
 		    ],
-		    "astype":"float",
-		    "transformation":[]
+		    "data_type":"float",
+		    "transformations":[]
 		},
 		{
-		    "variable_name":"dm",
+		    "name":"dm",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":false,
-		    "fancy_variable_name":"",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"",
+		    "interpretation":"kin",
 		    "in_files":[],
-		    "transformation":["mt-mn"]
+		    "transformations":["mt-mn"]
 		},
 		{
-		    "variable_name":"acc",
+		    "name":"acc",
 		    "unit":"%",
 		    "is_independent":false,
 		    "is_visible":true,
-		    "fancy_variable_name":"Acceptance",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"Acceptance",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_ACCEFF/AccEff.json",
 			    "decode":".['SRAT0'][].Acc"
 			}
 		    ],
-		    "transformation":null,
-		    "regions":{"SRAT0":["~np.isnan(acc)"]},
-		    "grids":{"tN":["~np.isnan(acc)"]}
+		    "regions":[
+			{
+			    "name":"SRATT",
+			    "matching":["~np.isnan(acc)"]
+			}
+		    ],
+		    "grids":[
+			{
+			    "name":"tN",
+			    "matching":["~np.isnan(acc)"]
+			}
+		    ]
 		}
             ]
 	},
 	{
-            "table_name":"Acc_SRBTT",
+            "name":"Acc_SRBTT",
             "should_be_processed":true,
-            "table_title":"Signal acceptance in SRB-TT for simplified $(\\tilde{t},\\tilde{\\chi^{0}_1})$ model. Please mind that the acceptance given in the table is multiplied by factor of $10^{3}$",
-            "table_location":"figaux. 03a",
-            "table_region":"SRBTT",
-	    "table_grid":"tN",
-            "table_images":[
+            "title":"Signal acceptance in SRB-TT for simplified $(\\tilde{t},\\tilde{\\chi^{0}_1})$ model. Please mind that the acceptance given in the table is multiplied by factor of $10^{3}$",
+            "location":"figaux. 03a",
+            "region":"SRBTT",
+	    "grid":"tN",
+            "images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_03a.png",
 		    "label":"SRBTT acceptance"
 		}
             ],
-            "table_keywords":{"observables":["ACC"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
+            "keywords":{"observables":["ACC"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
             "variables":[
 		{
-		    "variable_name":"mt",
+		    "name":"mt",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_ACCEFF/AccEff.json",
 			    "decode":".['SRBTT']|keys_unsorted[] | split('_')[0]"
 			}
 		    ],
-		    "astype":"float",
-		    "transformation":[],
-		    "errors":null
+		    "data_type":"float",
+		    "transformations":[]
 		},
 		{
-		    "variable_name":"mn",
+		    "name":"mn",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_ACCEFF/AccEff.json",
 			    "decode":".['SRBTT']|keys_unsorted[] | split('_')[1]"
 			}
 		    ],
-		    "astype":"float",
-		    "transformation":[]
+		    "data_type":"float",
+		    "transformations":[]
 		},
 		{
-		    "variable_name":"dm",
+		    "name":"dm",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":false,
-		    "fancy_variable_name":"",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"",
+		    "interpretation":"kin",
 		    "in_files":[],
-		    "transformation":["mt-mn"]
+		    "transformations":["mt-mn"]
 		},
 		{
-		    "variable_name":"acc",
+		    "name":"acc",
 		    "unit":"%",
 		    "is_independent":false,
 		    "is_visible":true,
-		    "fancy_variable_name":"Acceptance",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"Acceptance",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_ACCEFF/AccEff.json",
 			    "decode":".['SRBTT'][].Acc"
 			}
 		    ],
-		    "transformation":null,
-		    "regions":{"SRBTT":["~np.isnan(acc)"]},
-		    "grids":{"tN":["~np.isnan(acc)"]}
+		    "regions":[
+			{
+			    "name":"SRATT",
+			    "matching":["~np.isnan(acc)"]
+			}
+		    ],
+		    "grids":[
+			{
+			    "name":"tN",
+			    "matching":["~np.isnan(acc)"]
+			}
+		    ]
 		}
             ]
 	},
 	{
-            "table_name":"Acc_SRBTW",
+            "name":"Acc_SRBTW",
             "should_be_processed":true,
-            "table_title":"Signal acceptance in SRB-TW for simplified $(\\tilde{t},\\tilde{\\chi^{0}_1})$ model. Please mind that the acceptance given in the table is multiplied by factor of $10^{3}$",
-            "table_location":"figaux. 03a",
-            "table_region":"SRBTW",
-	    "table_grid":"tN",
-            "table_images":[
+            "title":"Signal acceptance in SRB-TW for simplified $(\\tilde{t},\\tilde{\\chi^{0}_1})$ model. Please mind that the acceptance given in the table is multiplied by factor of $10^{3}$",
+            "location":"figaux. 03a",
+            "region":"SRBTW",
+	    "grid":"tN",
+            "images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_03a.png",
 		    "label":"SRBTW acceptance"
 		}
             ],
-            "table_keywords":{"observables":["ACC"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
+            "keywords":{"observables":["ACC"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
             "variables":[
 		{
-		    "variable_name":"mt",
+		    "name":"mt",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_ACCEFF/AccEff.json",
 			    "decode":".['SRBTW']|keys_unsorted[] | split('_')[0]"
 			}
 		    ],
-		    "astype":"float",
-		    "transformation":[],
-		    "errors":null
+		    "data_type":"float",
+		    "transformations":[]
 		},
 		{
-		    "variable_name":"mn",
+		    "name":"mn",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_ACCEFF/AccEff.json",
 			    "decode":".['SRBTW']|keys_unsorted[] | split('_')[1]"
 			}
 		    ],
-		    "astype":"float",
-		    "transformation":[]
+		    "data_type":"float",
+		    "transformations":[]
 		},
 		{
-		    "variable_name":"dm",
+		    "name":"dm",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":false,
-		    "fancy_variable_name":"",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"",
+		    "interpretation":"kin",
 		    "in_files":[],
-		    "transformation":["mt-mn"]
+		    "transformations":["mt-mn"]
 		},
 		{
-		    "variable_name":"acc",
+		    "name":"acc",
 		    "unit":"%",
 		    "is_independent":false,
 		    "is_visible":true,
-		    "fancy_variable_name":"Acceptance",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"Acceptance",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_ACCEFF/AccEff.json",
 			    "decode":".['SRBTW'][].Acc"
 			}
 		    ],
-		    "transformation":null,
-		    "regions":{"SRBTW":["~np.isnan(acc)"]},
-		    "grids":{"tN":["~np.isnan(acc)"]}
+		    "regions":[
+			{
+			    "name":"SRATT",
+			    "matching":["~np.isnan(acc)"]
+			}
+		    ],
+		    "grids":[
+			{
+			    "name":"tN",
+			    "matching":["~np.isnan(acc)"]
+			}
+		    ]
 		}
             ]
 	},
 	{
-            "table_name":"Acc_SRBT0",
+            "name":"Acc_SRBT0",
             "should_be_processed":true,
-            "table_title":"Signal acceptance in SRB-T0 for simplified $(\\tilde{t},\\tilde{\\chi^{0}_1})$ model. Please mind that the acceptance given in the table is multiplied by factor of $10^{3}$",
-            "table_location":"figaux. 03a",
-            "table_region":"SRBT0",
-	    "table_grid":"tN",
-            "table_images":[
+            "title":"Signal acceptance in SRB-T0 for simplified $(\\tilde{t},\\tilde{\\chi^{0}_1})$ model. Please mind that the acceptance given in the table is multiplied by factor of $10^{3}$",
+            "location":"figaux. 03a",
+            "region":"SRBT0",
+	    "grid":"tN",
+            "images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_03a.png",
 		    "label":"SRBT0 acceptance"
 		}
             ],
-            "table_keywords":{"observables":["ACC"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
+            "keywords":{"observables":["ACC"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
             "variables":[
 		{
-		    "variable_name":"mt",
+		    "name":"mt",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_ACCEFF/AccEff.json",
 			    "decode":".['SRBT0']|keys_unsorted[] | split('_')[0]"
 			}
 		    ],
-		    "astype":"float",
-		    "transformation":[],
-		    "errors":null
+		    "data_type":"float",
+		    "transformations":[]
 		},
 		{
-		    "variable_name":"mn",
+		    "name":"mn",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_ACCEFF/AccEff.json",
 			    "decode":".['SRBT0']|keys_unsorted[] | split('_')[1]"
 			}
 		    ],
-		    "astype":"float",
-		    "transformation":[]
+		    "data_type":"float",
+		    "transformations":[]
 		},
 		{
-		    "variable_name":"dm",
+		    "name":"dm",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":false,
-		    "fancy_variable_name":"",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"",
+		    "interpretation":"kin",
 		    "in_files":[],
-		    "transformation":["mt-mn"]
+		    "transformations":["mt-mn"]
 		},
 		{
-		    "variable_name":"acc",
+		    "name":"acc",
 		    "unit":"%",
 		    "is_independent":false,
 		    "is_visible":true,
-		    "fancy_variable_name":"Acceptance",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"Acceptance",
+		    "interpretation":"kin",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_ACCEFF/AccEff.json",
 			    "decode":".['SRBT0'][].Acc"
 			}
 		    ],
-		    "transformation":null,
-		    "regions":{"SRBT0":["~np.isnan(acc)"]},
-		    "grids":{"tN":["~np.isnan(acc)"]}
+		    "regions":[
+			{
+			    "name":"SRATT",
+			    "matching":["~np.isnan(acc)"]
+			}
+		    ],
+		    "grids":[
+			{
+			    "name":"tN",
+			    "matching":["~np.isnan(acc)"]
+			}
+		    ]
 		}
             ]
 	},
         {
-            "table_name":"Eff_SRATT",
+            "name":"Eff_SRATT",
             "should_be_processed":true,
-            "table_title":"Signal efficiency in SRA-TT for simplified $(\\tilde{t},\\tilde{\\chi^{0}_1})$ model.",
-            "table_location":"figaux. 03b",
-            "table_region":"SRATT",
-	    "table_grid":"tN",
-            "table_images":[
+            "title":"Signal efficiency in SRA-TT for simplified $(\\tilde{t},\\tilde{\\chi^{0}_1})$ model.",
+            "location":"figaux. 03b",
+            "region":"SRATT",
+	    "grid":"tN",
+            "images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_03b.png",
 		    "label":"SRATT efficiency"
 		}
             ],
-            "table_keywords":{"observables":["EFF"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
+            "keywords":{"observables":["EFF"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
             "variables":[
 		{
-		    "variable_name":"mt",
+		    "name":"mt",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
+		    "interpretation":"kin",
 		    "in_files":[],
-		    "transformation":["Acc_SRATT.mt"],
-		    "errors":null
+		    "transformations":["Acc_SRATT.mt"]
 		},
 		{
-		    "variable_name":"mn",
+		    "name":"mn",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"",
+		    "interpretation":"kin",
 		    "in_files":[],
-		    "transformation":["Acc_SRATT.mn"]
+		    "transformations":["Acc_SRATT.mn"]
 		},
 		{
-		    "variable_name":"eff",
+		    "name":"eff",
 		    "unit":"%",
 		    "is_independent":false,
 		    "is_visible":true,
-		    "fancy_variable_name":"Efficiency",
-		    "variable_qualifiers":null,
-		    "type":"eff",
+		    "fancy_name":"Efficiency",
+		    "interpretation":"eff",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_ACCEFF/AccEff.json",
 			    "decode":".['SRATT'][].Eff"
 			}
 		    ],
-		    "transformation":null,
-		    "regions":{"SRATT":["~np.isnan(eff)"]},
-		    "grids":{"tN":["~np.isnan(eff)"]}
+		    "regions":[
+			{
+			    "name":"SRATT",
+			    "matching":["~np.isnan(eff)"]
+			}
+		    ],
+		    "grids":[
+			{
+			    "name":"tN",
+			    "matching":["~np.isnan(eff)"]
+			}
+		    ]
 		}
             ]
 	},
         {
-            "table_name":"Eff_SRATW",
+            "name":"Eff_SRATW",
             "should_be_processed":true,
-            "table_title":"Signal efficiency in SRA-TW for simplified $(\\tilde{t},\\tilde{\\chi^{0}_1})$ model.",
-            "table_location":"figaux. 03b",
-            "table_region":"SRATW",
-	    "table_grid":"tN",
-            "table_images":[
+            "title":"Signal efficiency in SRA-TW for simplified $(\\tilde{t},\\tilde{\\chi^{0}_1})$ model.",
+            "location":"figaux. 03b",
+            "region":"SRATW",
+	    "grid":"tN",
+            "images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_03b.png",
 		    "label":"SRATW efficiency"
 		}
             ],
-            "table_keywords":{"observables":["EFF"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
+            "keywords":{"observables":["EFF"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
             "variables":[
 		{
-		    "variable_name":"mt",
+		    "name":"mt",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
+		    "interpretation":"kin",
 		    "in_files":[],
-		    "transformation":["Acc_SRATW.mt"],
-		    "errors":null
+		    "transformations":["Acc_SRATW.mt"]
 		},
 		{
-		    "variable_name":"mn",
+		    "name":"mn",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"",
+		    "interpretation":"kin",
 		    "in_files":[],
-		    "transformation":["Acc_SRATW.mn"]
+		    "transformations":["Acc_SRATW.mn"]
 		},
 		{
-		    "variable_name":"eff",
+		    "name":"eff",
 		    "unit":"%",
 		    "is_independent":false,
 		    "is_visible":true,
-		    "fancy_variable_name":"Efficiency",
-		    "variable_qualifiers":null,
-		    "type":"eff",
+		    "fancy_name":"Efficiency",
+		    "interpretation":"eff",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_ACCEFF/AccEff.json",
 			    "decode":".['SRATW'][].Eff"
 			}
 		    ],
-		    "transformation":null,
-		    "regions":{"SRATW":["~np.isnan(eff)"]},
-		    "grids":{"tN":["~np.isnan(eff)"]}
+		    "regions":[
+			{
+			    "name":"SRATT",
+			    "matching":["~np.isnan(eff)"]
+			}
+		    ],
+		    "grids":[
+			{
+			    "name":"tN",
+			    "matching":["~np.isnan(eff)"]
+			}
+		    ]
 		}
             ]
 	},
         {
-            "table_name":"Eff_SRAT0",
+            "name":"Eff_SRAT0",
             "should_be_processed":true,
-            "table_title":"Signal efficiency in SRA-T0 for simplified $(\\tilde{t},\\tilde{\\chi^{0}_1})$ model.",
-            "table_location":"figaux. 03b",
-            "table_region":"SRAT0",
-	    "table_grid":"tN",
-            "table_images":[
+            "title":"Signal efficiency in SRA-T0 for simplified $(\\tilde{t},\\tilde{\\chi^{0}_1})$ model.",
+            "location":"figaux. 03b",
+            "region":"SRAT0",
+	    "grid":"tN",
+            "images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_03b.png",
 		    "label":"SRAT0 efficiency"
 		}
             ],
-            "table_keywords":{"observables":["EFF"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
+            "keywords":{"observables":["EFF"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
             "variables":[
 		{
-		    "variable_name":"mt",
+		    "name":"mt",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
+		    "interpretation":"kin",
 		    "in_files":[],
-		    "transformation":["Acc_SRAT0.mt"],
-		    "errors":null
+		    "transformations":["Acc_SRAT0.mt"]
 		},
 		{
-		    "variable_name":"mn",
+		    "name":"mn",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"",
+		    "interpretation":"kin",
 		    "in_files":[],
-		    "transformation":["Acc_SRAT0.mn"]
+		    "transformations":["Acc_SRAT0.mn"]
 		},
 		{
-		    "variable_name":"eff",
+		    "name":"eff",
 		    "unit":"%",
 		    "is_independent":false,
 		    "is_visible":true,
-		    "fancy_variable_name":"Efficiency",
-		    "variable_qualifiers":null,
-		    "type":"eff",
+		    "fancy_name":"Efficiency",
+		    "interpretation":"eff",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_ACCEFF/AccEff.json",
 			    "decode":".['SRAT0'][].Eff"
 			}
 		    ],
-		    "transformation":null,
-		    "regions":{"SRAT0":["~np.isnan(eff)"]},
-		    "grids":{"tN":["~np.isnan(eff)"]}
+		    "regions":[
+			{
+			    "name":"SRATT",
+			    "matching":["~np.isnan(eff)"]
+			}
+		    ],
+		    "grids":[
+			{
+			    "name":"tN",
+			    "matching":["~np.isnan(eff)"]
+			}
+		    ]
 		}
             ]
 	},
         {
-            "table_name":"Eff_SRBTT",
+            "name":"Eff_SRBTT",
             "should_be_processed":true,
-            "table_title":"Signal efficiency in SRB-TT for simplified $(\\tilde{t},\\tilde{\\chi^{0}_1})$ model.",
-            "table_location":"figaux. 03b",
-            "table_region":"SRBTT",
-	    "table_grid":"tN",
-            "table_images":[
+            "title":"Signal efficiency in SRB-TT for simplified $(\\tilde{t},\\tilde{\\chi^{0}_1})$ model.",
+            "location":"figaux. 03b",
+            "region":"SRBTT",
+	    "grid":"tN",
+            "images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_03b.png",
 		    "label":"SRBTT efficiency"
 		}
             ],
-            "table_keywords":{"observables":["EFF"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
+            "keywords":{"observables":["EFF"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
             "variables":[
 		{
-		    "variable_name":"mt",
+		    "name":"mt",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
+		    "interpretation":"kin",
 		    "in_files":[],
-		    "transformation":["Acc_SRBTT.mt"],
-		    "errors":null
+		    "transformations":["Acc_SRBTT.mt"]
 		},
 		{
-		    "variable_name":"mn",
+		    "name":"mn",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"",
+		    "interpretation":"kin",
 		    "in_files":[],
-		    "transformation":["Acc_SRBTT.mn"]
+		    "transformations":["Acc_SRBTT.mn"]
 		},
 		{
-		    "variable_name":"eff",
+		    "name":"eff",
 		    "unit":"%",
 		    "is_independent":false,
 		    "is_visible":true,
-		    "fancy_variable_name":"Efficiency",
-		    "variable_qualifiers":null,
-		    "type":"eff",
+		    "fancy_name":"Efficiency",
+		    "interpretation":"eff",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_ACCEFF/AccEff.json",
 			    "decode":".['SRBTT'][].Eff"
 			}
 		    ],
-		    "transformation":null,
-		    "regions":{"SRBTT":["~np.isnan(eff)"]},
-		    "grids":{"tN":["~np.isnan(eff)"]}
+		    "regions":[
+			{
+			    "name":"SRATT",
+			    "matching":["~np.isnan(eff)"]
+			}
+		    ],
+		    "grids":[
+			{
+			    "name":"tN",
+			    "matching":["~np.isnan(eff)"]
+			}
+		    ]
 		}
             ]
 	},
         {
-            "table_name":"Eff_SRBTW",
+            "name":"Eff_SRBTW",
             "should_be_processed":true,
-            "table_title":"Signal efficiency in SRB-TW for simplified $(\\tilde{t},\\tilde{\\chi^{0}_1})$ model.",
-            "table_location":"figaux. 03b",
-            "table_region":"SRBTW",
-	    "table_grid":"tN",
-            "table_images":[
+            "title":"Signal efficiency in SRB-TW for simplified $(\\tilde{t},\\tilde{\\chi^{0}_1})$ model.",
+            "location":"figaux. 03b",
+            "region":"SRBTW",
+	    "grid":"tN",
+            "images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_03b.png",
 		    "label":"SRBTW efficiency"
 		}
             ],
-            "table_keywords":{"observables":["EFF"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
+            "keywords":{"observables":["EFF"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
             "variables":[
 		{
-		    "variable_name":"mt",
+		    "name":"mt",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
+		    "interpretation":"kin",
 		    "in_files":[],
-		    "transformation":["Acc_SRBTW.mt"],
-		    "errors":null
+		    "transformations":["Acc_SRBTW.mt"]
 		},
 		{
-		    "variable_name":"mn",
+		    "name":"mn",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"",
+		    "interpretation":"kin",
 		    "in_files":[],
-		    "transformation":["Acc_SRBTW.mn"]
+		    "transformations":["Acc_SRBTW.mn"]
 		},
 		{
-		    "variable_name":"eff",
+		    "name":"eff",
 		    "unit":"%",
 		    "is_independent":false,
 		    "is_visible":true,
-		    "fancy_variable_name":"Efficiency",
-		    "variable_qualifiers":null,
-		    "type":"eff",
+		    "fancy_name":"Efficiency",
+		    "interpretation":"eff",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_ACCEFF/AccEff.json",
 			    "decode":".['SRBTW'][].Eff"
 			}
 		    ],
-		    "transformation":null,
-		    "regions":{"SRBTW":["~np.isnan(eff)"]},
-		    "grids":{"tN":["~np.isnan(eff)"]}
+		    "regions":[
+			{
+			    "name":"SRATT",
+			    "matching":["~np.isnan(eff)"]
+			}
+		    ],
+		    "grids":[
+			{
+			    "name":"tN",
+			    "matching":["~np.isnan(eff)"]
+			}
+		    ]
 		}
             ]
 	},
         {
-            "table_name":"Eff_SRBT0",
+            "name":"Eff_SRBT0",
             "should_be_processed":true,
-            "table_title":"Signal efficiency in SRB-T0 for simplified $(\\tilde{t},\\tilde{\\chi^{0}_1})$ model.",
-            "table_location":"figaux. 03b",
-            "table_region":"SRBT0",
-	    "table_grid":"tN",
-            "table_images":[
+            "title":"Signal efficiency in SRB-T0 for simplified $(\\tilde{t},\\tilde{\\chi^{0}_1})$ model.",
+            "location":"figaux. 03b",
+            "region":"SRBT0",
+	    "grid":"tN",
+            "images":[
 		{
 		    "name":"examples/stop0L/rawFiles/webpage/PAPERS/SUSY-2018-12/figaux_03b.png",
 		    "label":"SRBT0 efficiency"
 		}
             ],
-            "table_keywords":{"observables":["EFF"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
+            "keywords":{"observables":["EFF"],"cmenergies":["13000"],"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],"reactions":["P P --> STOP STOP X"]},
             "variables":[
 		{
-		    "variable_name":"mt",
+		    "name":"mt",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
+		    "interpretation":"kin",
 		    "in_files":[],
-		    "transformation":["Acc_SRBT0.mt"],
-		    "errors":null
+		    "transformations":["Acc_SRBT0.mt"]
 		},
 		{
-		    "variable_name":"mn",
+		    "name":"mn",
 		    "unit":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
-		    "fancy_variable_name":"",
-		    "variable_qualifiers":null,
-		    "type":"kin",
+		    "fancy_name":"",
+		    "interpretation":"kin",
 		    "in_files":[],
-		    "transformation":["Acc_SRBT0.mn"]
+		    "transformations":["Acc_SRBT0.mn"]
 		},
 		{
-		    "variable_name":"eff",
+		    "name":"eff",
 		    "unit":"%",
 		    "is_independent":false,
 		    "is_visible":true,
-		    "fancy_variable_name":"Efficiency",
-		    "variable_qualifiers":null,
-		    "type":"eff",
+		    "fancy_name":"Efficiency",
+		    "interpretation":"eff",
 		    "in_files":[
 			{
 			    "name":"examples/stop0L/rawFiles/hepdata_ACCEFF/AccEff.json",
 			    "decode":".['SRBT0'][].Eff"
 			}
 		    ],
-		    "transformation":null,
-		    "regions":{"SRBT0":["~np.isnan(eff)"]},
-		    "grids":{"tN":["~np.isnan(eff)"]}
+		    "regions":[
+			{
+			    "name":"SRATT",
+			    "matching":["~np.isnan(eff)"]
+			}
+		    ],
+		    "grids":[
+			{
+			    "name":"tN",
+			    "matching":["~np.isnan(eff)"]
+			}
+		    ]
 		}
             ]
 	}
