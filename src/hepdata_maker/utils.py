@@ -45,6 +45,7 @@ def check_schema(file_path, schema_name, version=None):
         validator = jsonschema.Draft7Validator(
             schema, resolver=resolver, format_checker=None
         )
+        return validator.validate(file_data)
     except jsonschema.ValidationError as err:
         print("Steering file does not match the schema!")
         raise err
