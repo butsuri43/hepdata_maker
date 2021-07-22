@@ -13,14 +13,15 @@ import hepdata_lib
 import jq
 import uproot
 from hepdata_lib import RootFileReader
-import logging
 import csv
 import os.path
 import regex as re
 import scipy.stats, scipy.special
 from . import useful_functions as ufs
 from . import utils
-log = logging.getLogger("Submission")
+from .logs import logging
+log = logging.getLogger(__name__)
+from .console import console
 
 class objdict(collections.OrderedDict):
     def __init__(self, d):
@@ -62,6 +63,8 @@ class Uncertainty(np.ndarray):
         #else:
         #    raise ValueError("Uncertainty can only be either one or two dimensional.")
         # add the new attribute to the created instance
+        log.debug(f"Creating new Uncertainty object: {name}")
+        log.debug(f"   parameters passed {locals()}")
         obj=np.asarray(input_array).view(cls)
         obj.name = name
         obj.is_visible = is_visible
@@ -88,6 +91,9 @@ class Variable(np.ndarray):
     def __new__(cls, input_array,name, is_independent=True, is_binned=False, is_visible=True, unit="", values=None,digits=5):
         # Input array is an already formed ndarray instance
         # We first cast to be our class type
+        log.debug(f"Creating new Variable (np.ndarray derived) object: {name}")
+        log.debug(f"parameters passed:")
+        log.debug(f"{locals()}")
         obj = np.asarray(input_array).view(cls)
         # add the new attribute to the created instance
         obj.name = name
@@ -107,7 +113,6 @@ class Variable(np.ndarray):
 
     def __array_finalize__(self, obj):
         if obj is None: return
-        #print("In array_finalise of Variable",type(obj))
         self.name = getattr(obj, 'name', None)
         self.is_independent = getattr(obj, 'is_independent', True)
         self.is_binned = getattr(obj, 'is_binned', True)
@@ -125,6 +130,7 @@ class Variable(np.ndarray):
         :param uncertainty: Uncertainty to add.
         :type uncertainty: Uncertainty.
         """
+        log.debug(f"Adding uncertainty to Variable {self.name}. Parameters passed: {locals()}")
         if isinstance(uncertainty, Uncertainty):
             if(self.size!=len(uncertainty)):
                 raise ValueError(f"Uncertainty {uncertainty.name} has different dimention ({len(uncertainty)}) than the corresponding variable {self.name} ({self.size})")
@@ -133,6 +139,7 @@ class Variable(np.ndarray):
         else:
             raise TypeError("Unknown object type: {0}".format(str(type(uncertainty))))
     def update_unc(self,new_unc):
+        log.debug(f"Updating uncertainty {new_unc.name} of variable {self.name}. Parameters passed: {locals()}")
         no_matching=True
         for index,unc in enumerate(self.uncertainties):
             if(unc.name==new_unc.name):
@@ -140,9 +147,7 @@ class Variable(np.ndarray):
                 self.uncertainties[index]=new_unc
                 self.__dict__[new_unc.name]=new_unc
         if(no_matching):
-            # probably need to actually rise an error!
-            print("<< You are proably doing something wrong here")
-            self.add_uncertainty(new_unc)
+            raise ValueError(f"You tried to update unc {new_unc.name} in variable {self.name}, but no uncertainty of such name found in the variable!")
 
 class Table(object):
     """
@@ -152,6 +157,7 @@ class Table(object):
     """
     
     def __init__(self, name):
+        log.debug(f"Creating new Table: {name}")
         self._name = None
         self.name = name
         self._variable_lenght=0
@@ -180,6 +186,7 @@ class Table(object):
         :param variable: Variable to add.
         :type variable: Variable.
         """
+        log.debug(f"Adding variable {variable.name} to the table {self.name}")
         if isinstance(variable, Variable):
             if(self._variable_lenght!=0):
                 if(self._variable_lenght!=len(variable)):
@@ -193,6 +200,10 @@ class Table(object):
             raise TypeError("Unknown object type: {0}".format(str(type(variable))))
 
 def get_array_from_csv(file_path,decode,delimiter=','):
+    log.debug(f"Reading variable information from csv file {file_path}")
+    log.debug(f"decode used: '{decode}'")
+    log.debug(f"decode used: '{decode}'")
+    log.debug("----------------------")
     with open(file_path) as csv_file:    
         csv_reader = csv.DictReader(csv_file,delimiter='\t')
         line_count = 0
@@ -206,18 +217,28 @@ def get_array_from_csv(file_path,decode,delimiter=','):
         return np.array(data)
 
 def get_array_from_json(file_path,decode):
+    log.debug(f"Reading variable information from json file {file_path}")
+    log.debug(f"decode used: '{decode}'")
+    log.debug("----------------------")
     with open(file_path, 'r') as stream:
         data_loaded = json.load(stream,object_pairs_hook=OrderedDict)
     # TODO exception handling
     return np.array(jq.all(decode.replace("'",'"'),data_loaded))
 
 def get_array_from_yaml(file_path,decode):
+    log.debug(f"Reading variable information from yaml file {file_path}")
+    log.debug(f"decode used: '{decode}'")
+    log.debug("----------------------")
     with open(file_path, 'r') as stream:
         data_loaded = yaml.safe_load(stream)
     # TODO exception handling
     return np.array(jq.all(decode.replace("'",'"'),data_loaded))
 
 def get_array_from_root(object_path,decode):
+    log.debug(f"Reading variable information from root file {object_path}")
+    log.debug(f"decode used: '{decode}'")
+    log.debug("----------------------")
+
     file_path=object_path.split(":")[0]
     root_object_path=object_path.split(':')[1]
     
@@ -244,6 +265,11 @@ def get_array_from_root(object_path,decode):
         #return loaded_object_hepdata_lib[decode]
         return np.array([])
 def get_array_from_tex(file_path,decode,tabular_loc_decode,replace_dict={}):
+    log.debug(f"Reading variable information from tex file {file_path}")
+    log.debug(f"decode used: '{decode}'")
+    log.debug(f"tabular_loc_decode used: '{tabular_loc_decode}'")
+    log.debug(f"replace_dict used: '{replace_dict}'")
+    log.debug("----------------------")
     table= get_table_from_tex(file_path,tabular_loc_decode,replace_dict)
     return eval(decode,{"np":np}|{'table':table}|{"re":re}|{"scipy.stats":scipy.stats}|{"scipy.special":scipy.special}|{"ufs":ufs})
     
@@ -378,7 +404,6 @@ def fix_zero_error(variable):
 
 
 class Submission():
-    log = logging.getLogger("Submission")   
     
     def __init__(self):
         self._tables=[]
@@ -398,7 +423,7 @@ class Submission():
         for table_info in [objdict(x) for x in self._config['tables']]:
             # TODO verify table_info here?
             table_name=table_info.name
-            print("processing table",table_name)
+            console.rule(f"table {table_name}")
             if( not table_info.should_be_processed):
                 log.warning(rf"table {table_info.name} has should_be_processed flag set to False. Skipping.")
                 continue
@@ -546,7 +571,7 @@ class Submission():
             hepdata_submission.add_table(hepdata_table)
         hepdata_submission.create_files(outdir)
         if(os.path.isdir(outdir) and os.path.isfile('submission.tar.gz')):
-            print(f"Submission files created and available under directory {outdir} and as a tarball in submission.tar.gz")
+            console.print(f"Submission files created and available under directory {outdir} and as a tarball in submission.tar.gz")
     @property
     def tables(self):
         """tables getter."""
