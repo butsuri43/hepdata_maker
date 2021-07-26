@@ -23,31 +23,6 @@ from .logs import logging
 log = logging.getLogger(__name__)
 from .console import console
 
-class objdict(collections.OrderedDict):
-    def __init__(self, d):
-        new_dict=collections.OrderedDict()
-        for key, value in d.items():
-            if(isinstance(value, collections.abc.Mapping)):
-                new_dict[key]=objdict(value)
-            elif(isinstance(value, collections.abc.Iterable) and type(value)!=str):
-                new_dict[key]=[objdict(entry) if (isinstance(entry, collections.abc.Mapping) and type(value)!=str) else entry for entry in value]
-            else:
-                new_dict[key]=value
-        super().__init__(d)
-        self.__dict__.update(new_dict)
-
-class objdict_np(collections.OrderedDict):
-    def __init__(self, d):
-        new_dict=collections.OrderedDict()
-        for key, value in d.items():
-            if(isinstance(value, collections.abc.Mapping)):
-                new_dict[key]=objdict(value)
-            elif(isinstance(value, collections.abc.Iterable) and type(value)!=str):
-                new_dict[key]=np.array([objdict(entry) if isinstance(entry, collections.abc.Mapping) else entry for entry in value])
-            else:
-                new_dict[key]=value
-        super().__init__(d)
-        self.__dict__.update(new_dict)
 
 class Uncertainty(np.ndarray):
     def __new__(cls, input_array, name, is_visible=True, digits=5):
@@ -198,7 +173,6 @@ class Table(object):
             self.__dict__[variable.name]=variable
         else:
             raise TypeError("Unknown object type: {0}".format(str(type(variable))))
-
 def get_array_from_csv(file_path,decode,delimiter=','):
     log.debug(f"Reading variable information from csv file {file_path}")
     log.debug(f"decode used: '{decode}'")
@@ -418,18 +392,21 @@ class Submission():
         # TODO check loaded config
         
         self._config=config_loaded
-    def implement_table_config(self,data_root: str='./'):
+    def implement_table_config(self,data_root: str='./',selected_table_names=[]):
         # TODO check not to do the config multiple times
-        for table_info in [objdict(x) for x in self._config['tables']]:
+        for table_info in [utils.objdict(x) for x in self._config['tables']]:
             # TODO verify table_info here?
             table_name=table_info.name
-            console.rule(f"table {table_name}")
             if( not table_info.should_be_processed):
                 log.warning(rf"table {table_info.name} has should_be_processed flag set to False. Skipping.")
                 continue
+            if(len(selected_table_names)>0 and (table_name not in selected_table_names)):
+                log.debug(f"skipping loading table {table_name} as not present in selected_table_names: {selected_table_names}")
+                continue
+            console.rule(f"table {table_name}")
             table=Table(table_name)
             if( hasattr(table_info, 'images')):
-                table.table_images=table_info.images
+                table.images=table_info.images
             if( hasattr(table_info, 'title')):
                 if(os.path.isfile(table_info.title)):
                    # Provide file with table title ( e.g. website out)
@@ -532,6 +509,7 @@ class Submission():
             self.tables.append(table)
             #TODO give warning when name already in the dictionary
             self.__dict__[table_name]=table
+            
     def create_hepdata_record(self,data_root:str='./',outdir='submission_files'):
         # Actual record creation based on information stored
         hepdata_submission = hepdata_lib.Submission()
@@ -541,7 +519,7 @@ class Submission():
             hepdata_table.description = table.title
             hepdata_table.location = table.location
             hepdata_table.keywords = table.keywords
-            for image_info in table.table_images:
+            for image_info in table.images:
                 hepdata_table.add_image(utils.resolve_file_name(image_info['name'],data_root))
             for variable in table.variables:
                 if(variable.is_visible):
@@ -561,7 +539,7 @@ class Submission():
                             
                             hepdata_unc = hepdata_lib.Uncertainty(unc.name, is_symmetric=unc.is_symmetric)
                             hepdata_unc.values=fixed_zero_variable[index].tolist()
-                            hepdata_variable.add_uncertainty(hepdata_unc)
+                            hepdata_variable.add_ertainty(hepdata_unc)
                     if(len(variable.qualifiers)!=0):
                         for entry in variable.qualifiers:
                             #print(entry)

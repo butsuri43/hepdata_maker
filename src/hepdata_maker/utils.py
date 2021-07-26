@@ -2,6 +2,8 @@ import json
 import jsonschema
 import pkg_resources
 from pathlib import Path
+from collections import OrderedDict
+import collections
 import os
 
 SCHEMA_CACHE = {}
@@ -54,3 +56,23 @@ def resolve_file_name(file_name,root_dir):
     # return the file_name for file if absolute path given,
     # return root_dir/file_name if file_name is not an absolute path
     return os.path.join(root_dir,file_name)
+
+class objdict(collections.OrderedDict):
+    def __init__(self, d):
+        new_dict=collections.OrderedDict()
+        for key, value in d.items():
+            if(isinstance(value, collections.abc.Mapping)):
+                new_dict[key]=objdict(value)
+            elif(isinstance(value, collections.abc.Iterable) and type(value)!=str):
+                new_dict[key]=[objdict(entry) if (isinstance(entry, collections.abc.Mapping) and type(value)!=str) else entry for entry in value]
+            else:
+                new_dict[key]=value
+        super().__init__(d)
+        self.__dict__.update(new_dict)
+def get_available_tables(config_file_path):
+    result=[]
+    with open(config_file_path, 'r') as stream:
+        config_loaded = json.load(stream,object_pairs_hook=OrderedDict)
+    for table_info in [objdict(x) for x in config_loaded['tables']]:
+        result.append((table_info.name,table_info.should_be_processed))
+    return result

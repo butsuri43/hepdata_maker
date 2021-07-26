@@ -5,14 +5,16 @@ Package to help creating and verifying submissions.
 # Usage
 
 ```
-Usage: submission_maker.py [OPTIONS] STEERING_SCRIPT
+Usage: hepdata_maker [OPTIONS] STEERING_SCRIPT
 
 Options:
 --help  Show this message and exit.
 
 Commands:
   check-schema
+  check-table	
   create-submission
+  
 ```
 
 currently can only check the steering file schema (for now identity) and  create submission file assuming it gets a correct steering file. 
@@ -34,17 +36,17 @@ Two examples currently are available:
 * stop0L (all table types but not full submission yet):
 > run:
 > ```
-> python3 submission_maker.py examples/stop0L/submissions_config.json
+> hepdata_maker create-submission examples/stop0L/submissions_config.json
 > ```
-> this produces output in `test_submission`,
+> this produces output in `submission_files` as well as `submission.tar.gz`, which is the tar-archive of the former one.
 > The output loaded to hepdata can be seen here: https://www.hepdata.net/record/sandbox/1623174132
 
-* stopZh ( only exclusion contours for now):
+* stopZh:
 > run:
 > ```
-> python3 submission_maker.py examples/stopZh/submissions_config.json
+> hepdata_maker create-submission examples/stopZh/submissions_config.json
 > ```
-> this produces output in `test_submission`.
+> this produces output in `submission_files`as well as `submission.tar.gz`, which is the tar-archive of the former one.
 > The output loaded to hepdata can be seen here:
 > https://www.hepdata.net/record/sandbox/1623246991
 
