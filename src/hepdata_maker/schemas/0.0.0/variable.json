@@ -1,0 +1,5 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "file:///home/krzysiek/nauka/Freiburg/HepData/TowardsAuthomaticScriptCreation/submission_maker/src/hepdata_maker/schemas/0.0.0/variable.json",
+    "$ref": "defs.json#/definitions/variable"
+}

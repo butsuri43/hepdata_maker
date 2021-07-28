@@ -2,18 +2,10 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 import numpy as np
-import pytest
-import yaml
-import copy
 import json
 from collections import OrderedDict
-from TexSoup import TexSoup
 import collections
 import hepdata_lib
-import jq
-import uproot
-from hepdata_lib import RootFileReader
-import csv
 import os.path
 import regex as re
 import scipy.stats, scipy.special
@@ -22,7 +14,7 @@ from . import utils
 from .logs import logging
 log = logging.getLogger(__name__)
 from .console import console
-
+from . import variable_loading
 
 class Uncertainty(np.ndarray):
     def __new__(cls, input_array, name, is_visible=True, digits=5):
@@ -173,117 +165,31 @@ class Table(object):
             self.__dict__[variable.name]=variable
         else:
             raise TypeError("Unknown object type: {0}".format(str(type(variable))))
-def get_array_from_csv(file_path,decode,delimiter=','):
-    log.debug(f"Reading variable information from csv file {file_path}")
-    log.debug(f"decode used: '{decode}'")
-    log.debug(f"decode used: '{decode}'")
-    log.debug("----------------------")
-    with open(file_path) as csv_file:    
-        csv_reader = csv.DictReader(csv_file,delimiter='\t')
-        line_count = 0
-        data=[]
-        for row in csv_reader:
-            if line_count == 0:
-                line_count += 1
-            else:
-                data.append(row[decode])
-                line_count += 1
-        return np.array(data)
 
-def get_array_from_json(file_path,decode):
-    log.debug(f"Reading variable information from json file {file_path}")
-    log.debug(f"decode used: '{decode}'")
-    log.debug("----------------------")
-    with open(file_path, 'r') as stream:
-        data_loaded = json.load(stream,object_pairs_hook=OrderedDict)
-    # TODO exception handling
-    return np.array(jq.all(decode.replace("'",'"'),data_loaded))
-
-def get_array_from_yaml(file_path,decode):
-    log.debug(f"Reading variable information from yaml file {file_path}")
-    log.debug(f"decode used: '{decode}'")
-    log.debug("----------------------")
-    with open(file_path, 'r') as stream:
-        data_loaded = yaml.safe_load(stream)
-    # TODO exception handling
-    return np.array(jq.all(decode.replace("'",'"'),data_loaded))
-
-def get_array_from_root(object_path,decode):
-    log.debug(f"Reading variable information from root file {object_path}")
-    log.debug(f"decode used: '{decode}'")
-    log.debug("----------------------")
-
-    file_path=object_path.split(":")[0]
-    root_object_path=object_path.split(':')[1]
+def fix_zero_error(variable):
+    tmp_need_zero_error_fix=(variable==np.zeros_like(variable))
+    tmp_need_zero_error_fix=np.array([tmp_need_zero_error_fix,tmp_need_zero_error_fix]).T # translating to the (2,N) shape of errors
+    tmp_need_zero_error_fix_sym=np.zeros_like(tmp_need_zero_error_fix)
+    for error in variable.uncertainties:
+        if(error.is_symmetric): # error is 1D np array. We need to expand it to 2D
+            tmp_error=np.array([error,error]).T
+        else: # error is already 2D
+            tmp_error=error
+        tmp_need_zero_error_fix=tmp_need_zero_error_fix&(tmp_error==np.zeros_like(tmp_need_zero_error_fix))
+    need_zero_error_fix=tmp_need_zero_error_fix
     
-    rreader=RootFileReader(file_path)
-    loaded_object_hepdata_lib=None
-    
-    # need to get information about object type from uproot:
-    object_to_be_loaded=uproot.open(file_path).get(root_object_path)
-    if(not object_to_be_loaded):
-        print(f"Cannot find object {root_object_path} inside {file_path}. Check this file.")
-        return np.array([])
-    if( "TH1" in object_to_be_loaded.classname):
-        loaded_object_hepdata_lib=rreader.read_hist_1d(root_object_path)
-        return np.array(loaded_object_hepdata_lib[decode])
-    elif( "TH2" in object_to_be_loaded.classname):
-        loaded_object_hepdata_lib=rreader.read_hist_2d(root_object_path)
-        return np.array(loaded_object_hepdata_lib[decode])
-    elif("RooHist" in object_to_be_loaded.classname or "TGraph" in object_to_be_loaded.classname):
-        loaded_object_hepdata_lib=rreader.read_graph(root_object_path)
-        return np.array(loaded_object_hepdata_lib[decode])
-    else:
-        # TODO come up with way to work with general root objects (this is what is returned here).
-        #loaded_object_hepdata_lib=rreader.retrieve_object(root_object_path)
-        #return loaded_object_hepdata_lib[decode]
-        return np.array([])
-def get_array_from_tex(file_path,decode,tabular_loc_decode,replace_dict={}):
-    log.debug(f"Reading variable information from tex file {file_path}")
-    log.debug(f"decode used: '{decode}'")
-    log.debug(f"tabular_loc_decode used: '{tabular_loc_decode}'")
-    log.debug(f"replace_dict used: '{replace_dict}'")
-    log.debug("----------------------")
-    table= get_table_from_tex(file_path,tabular_loc_decode,replace_dict)
-    return eval(decode,{"np":np}|{'table':table}|{"re":re}|{"scipy.stats":scipy.stats}|{"scipy.special":scipy.special}|{"ufs":ufs})
-    
-def get_table_from_tex(file_path,tabular_loc_decode,replace_dict={}):
-    soup = TexSoup(open(file_path))
-    tabular_info=eval(tabular_loc_decode,{'latex':soup}).expr
-    tabular_info.string=re.sub('%.*','',tabular_info.string)
-    for key,value in {**replace_dict, **{r'\hline':'',r'\n':'','\cline{.?}':''}}.items():
-        tabular_info.string=re.sub(key.replace('\\','\\\\'),value,tabular_info.string)
-    table=[[y.rstrip().strip() for y in x.split(r'&')] for x in tabular_info.string.replace(r'\hline','').replace('\n','').split(r'\\')]
+    fixed_variables=[]
 
-    nrepeated_row_list=[{'n':0, 'item':''} for i in range(max([len(x) for x in table]))]
-    new_table=[]
-    for nrow in range(len(table)):
-        row=[]
-        ncol_offset=0
-        for ncol in range(len(table[nrow])):
-            matched_multicol=re.match("\\\\multicolumn\s?{\s?(\d+)\s?}\s?{.?}\s?{(.*)}",table[nrow][ncol])
-            if(matched_multicol):
-                n_repeat_col=int(matched_multicol.groups()[0])
-                entry=matched_multicol.groups()[1]
-            else:
-                n_repeat_col=1
-                entry=table[nrow][ncol]
-            for col_repeat_index in range(n_repeat_col):
-                if(col_repeat_index>0):
-                    ncol_offset+=1
-                matched_multirow=re.match("\\\\multirow\s?{\s?(\d+)\s?}\s?{.?}\s?{(.*)}",entry)
-                if(matched_multirow):
-                    nrepeated_row_list[ncol+ncol_offset]['n']=int(matched_multirow.groups()[0])
-                    nrepeated_row_list[ncol+ncol_offset]['item']=matched_multirow.groups()[1]
-                if(nrepeated_row_list[ncol+ncol_offset]['n']>0):
-                    row.append(nrepeated_row_list[ncol+ncol_offset]['item'])
-                    nrepeated_row_list[ncol+ncol_offset]['n']=nrepeated_row_list[ncol+ncol_offset]['n']-1
-                else:
-                    row.append(entry)
-        new_table.append(row)
-    new_table=np.array([x for x in new_table if (x!=[] and not all([(y=='' or y==None) for y in x]))])
-    return new_table
+    # For assymetric case if one error is present we do not need to apply fix ( thus logical and for up-down pairs):
+    need_zero_error_fix=np.repeat(np.logical_and.reduce(need_zero_error_fix,axis=1)[:,np.newaxis], 2, axis=1)
     
+    for index,error in enumerate(variable.uncertainties):
+        if(error.is_symmetric):
+            fixed_variables.append(np.where(np.logical_and.reduce(need_zero_error_fix,axis=1),np.full_like(error,'',dtype=str),error))
+        else:
+            fixed_variables.append(np.where(need_zero_error_fix,np.full_like(error,['',''],dtype=str),error))
+    return fixed_variables
+
 def get_matching_based_variables(matchDefinitions,global_dict=None,local_dict=None):
     result=None
     for specification in matchDefinitions:
@@ -310,72 +216,6 @@ def get_matching_based_variables(matchDefinitions,global_dict=None,local_dict=No
             else:
                 raise TypeError("Variable cutDefinitions has improper content.")
     return result
-
-def read_data_file(file_name,decode,**extra_args):
-    tmp_values=None
-    delimiter=extra_args.get('delimiter',',')
-    replace_dict=extra_args.get('replace_dict',',')
-    tabular_loc_decode=extra_args.get('tabular_loc_decode',None)
-    file_type=extra_args.get('file_type',None)
-    if file_type: # file_type is specified. It takes precedence over type-guessing
-        if(file_type=='json'):
-            tmp_values=get_array_from_json(file_name,decode)
-        elif(file_type=='yaml'):
-            tmp_values=get_array_from_yaml(file_name,decode)
-        elif(file_type=='root'):
-            tmp_values=get_array_from_root(file_name,decode)
-        elif(file_type=='csv'):
-            tmp_values=get_array_from_csv(file_name,decode,delimiter)
-        elif(file_type=='tex'):
-            if(tabular_loc_decode):
-                tmp_values=get_array_from_tex(file_name,decode,tabular_loc_decode=tabular_loc_decode,replace_dict=replace_dict)
-            else:
-                raise TypeError(f"File {file_name}: when reading tex file, variable tabular_loc_decode must be set!")
-        else:
-            raise TypeError(f"File {file_name}: unsuported file type (file type: {file_type})!")            
-
-    # Guess the file type from the name
-    elif file_name.lower().endswith(".json"): 
-        tmp_values=get_array_from_json(file_name,decode)
-    elif file_name.lower().endswith(".yaml"):
-        tmp_values=get_array_from_yaml(file_name,decode)
-    elif file_name.split(":")[0].lower().endswith(".root"):
-        tmp_values=get_array_from_root(file_name,decode)
-    elif file_name.split(":")[0].lower().endswith(".csv"):
-        tmp_values=get_array_from_csv(file_name,decode,delimiter)
-    elif file_name.split(":")[0].lower().endswith(".tex"):
-        if(tabular_loc_decode):
-            tmp_values=get_array_from_tex(file_name,decode,tabular_loc_decode=tabular_loc_decode,replace_dict=replace_dict)
-        else:
-            raise TypeError(f"File {file_name}: when reading tex file, variable tabular_loc_decode must be set!")
-    else:
-        raise TypeError(f"File {file_name}: unsuported file type!")
-    return tmp_values
-
-def fix_zero_error(variable):
-    tmp_need_zero_error_fix=(variable==np.zeros_like(variable))
-    tmp_need_zero_error_fix=np.array([tmp_need_zero_error_fix,tmp_need_zero_error_fix]).T # translating to the (2,N) shape of errors
-    tmp_need_zero_error_fix_sym=np.zeros_like(tmp_need_zero_error_fix)
-    for error in variable.uncertainties:
-        if(error.is_symmetric): # error is 1D np array. We need to expand it to 2D
-            tmp_error=np.array([error,error]).T
-        else: # error is already 2D
-            tmp_error=error
-        tmp_need_zero_error_fix=tmp_need_zero_error_fix&(tmp_error==np.zeros_like(tmp_need_zero_error_fix))
-    need_zero_error_fix=tmp_need_zero_error_fix
-    
-    fixed_variables=[]
-
-    # For assymetric case if one error is present we do not need to apply fix ( thus logical and for up-down pairs):
-    need_zero_error_fix=np.repeat(np.logical_and.reduce(need_zero_error_fix,axis=1)[:,np.newaxis], 2, axis=1)
-    
-    for index,error in enumerate(variable.uncertainties):
-        if(error.is_symmetric):
-            fixed_variables.append(np.where(np.logical_and.reduce(need_zero_error_fix,axis=1),np.full_like(error,'',dtype=str),error))
-        else:
-            fixed_variables.append(np.where(need_zero_error_fix,np.full_like(error,['',''],dtype=str),error))
-    return fixed_variables
-
 
 class Submission():
     
@@ -425,8 +265,8 @@ class Submission():
                 var_values=None
 
                 for in_file in variable_info.in_files:
-                    extra_args={k: in_file[k] for k in ('delimiter', 'file_type', 'replace_dict', 'tabular_loc_decode') if hasattr(in_file,k)}
-                    tmp_values=read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode,**extra_args)
+                    extra_args={k: in_file[k] for k in ('delimiter', 'file_type', 'replace_dict', 'tabular_loc_decode') if k in in_file}
+                    tmp_values=variable_loading.read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode,**extra_args)
                     if(var_values):
                         var_values=np.concatenate((var_values,tmp_values))
                     else:
@@ -436,7 +276,7 @@ class Submission():
                         var_values=var_values.astype(variable_info.data_type)
                 if(transformations):
                     for transformation in transformations:
-                        var_values=eval(transformation,self.__dict__|{"np":np}|{"re":re}|{"scipy.stats":scipy.stats}|{"scipy.special":scipy.special}|{"ufs":ufs},table.__dict__|{var_name:var_values})
+                        var_values=variable_loading.perform_transformation(transformation,self.__dict__,table.__dict__|{var_name:var_values})
 
                 #print("Variable: ",var_name,var_values)
                 var=Variable(var_values,var_name)
@@ -462,15 +302,15 @@ class Submission():
 
                                 # if decode is present we have either 2-dim specification of [up,down] or 1-dim symmetric error
                                 if( hasattr(in_file, 'decode')):
-                                    tmp_values=read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode,**extra_args)
+                                    tmp_values=variable_loading.read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode,**extra_args)
                                     
                                 # if decode_up is present we have either 2-dim specification of [decode_up,decode_down] or [decode_up,None]
                                 if( hasattr(in_file, 'decode_up')):
-                                    tmp_values_up=read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode_up,**extra_args)
+                                    tmp_values_up=variable_loading.read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode_up,**extra_args)
 
                                 # if decode_down is present we have either 2-dim specification of [decode_up,decode_down] or [None,decode_down]
                                 if( hasattr(in_file, 'decode_down')):
-                                    tmp_values_down=read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode_down,**extra_args)
+                                    tmp_values_down=variable_loading.read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode_down,**extra_args)
 
                                 if(tmp_values_up.size>0 or tmp_values_down.size>0):
                                     if(not tmp_values_down.size>0):
@@ -490,8 +330,7 @@ class Submission():
                                     err_values=err_values.astype(error_info.data_type)
                             if( hasattr(error_info, 'transformations')):
                                 for transformation in error_info.transformations:
-                                    err_values=eval(transformation,self.__dict__|{"np":np}|{"re":re}|{"scipy.stats":scipy.stats}|{"scipy.special":scipy.special}|{"ufs":ufs},table.__dict__|{var_name:var_values,err_name:err_values}|{var_err.name:var_err for var_err in var.uncertainties})
-
+                                    err_values=variable_loading.perform_transformation(transformation,self.__dict__,table.__dict__|{var_name:var_values,err_name:err_values}|{var_err.name:var_err for var_err in var.uncertainties})
                             unc=Uncertainty(err_values,name=err_name,is_visible=err_is_visible)
                             var.add_uncertainty(unc)
                 if(var.multiplier):
@@ -539,7 +378,7 @@ class Submission():
                             
                             hepdata_unc = hepdata_lib.Uncertainty(unc.name, is_symmetric=unc.is_symmetric)
                             hepdata_unc.values=fixed_zero_variable[index].tolist()
-                            hepdata_variable.add_ertainty(hepdata_unc)
+                            hepdata_variable.add_uncertainty(hepdata_unc)
                     if(len(variable.qualifiers)!=0):
                         for entry in variable.qualifiers:
                             #print(entry)
