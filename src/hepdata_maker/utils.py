@@ -33,10 +33,8 @@ def load_schema(schema_id, version=None):
 # load the defs.json as it is included by $ref
 load_schema('defs.json')
 
-def check_schema(file_path, schema_name, version=None):
+def check_schema(json_data, schema_name, version=None):
     schema = load_schema(schema_name, version=version)
-    with open(file_path, 'r') as fstream:
-        file_data = json.load(fstream)
     try:
         resolver = jsonschema.RefResolver(
             base_uri=f"file://{pkg_resources.resource_filename(__name__, 'schemas/'):s}",
@@ -47,7 +45,7 @@ def check_schema(file_path, schema_name, version=None):
         validator = jsonschema.Draft7Validator(
             schema, resolver=resolver, format_checker=None
         )
-        return validator.validate(file_data)
+        return validator.validate(json_data)
     except jsonschema.ValidationError as err:
         print("Steering file does not match the schema!")
         raise err
