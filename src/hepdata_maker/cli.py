@@ -191,12 +191,11 @@ def check_variable(in_file,data_root,file_type,decode,data_type,tabular_loc_deco
     variable_loading.log.setLevel(logging.DEBUG)
     log.info("For better idea of transformations performed a debug mode is turned on!")
     tmp_values=variable_loading.read_data_file(utils.resolve_file_name(in_file,data_root),decode,**extra_args)
-
     # Let's print what we have so far
     var_table_init=rich.table.Table(show_header=False,box=rich.box.SQUARE)
     var_table_init.add_row(f"[bold]len={len(tmp_values)}")
     for value in tmp_values:
-        var_table_init.add_row(value)
+        var_table_init.add_row(str(value))
     console.print("The variable loaded directly from the input file (before transformations) looks the following:",var_table_init)
 
     show_tables_dict=collections.OrderedDict([("From_file",var_table_init)])
