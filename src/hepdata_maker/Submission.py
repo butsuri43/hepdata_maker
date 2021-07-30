@@ -70,7 +70,7 @@ class Variable(np.ndarray):
         obj.qualifiers = []
         obj.unit = unit
         obj.multiplier=None
-        obj.uncertainties = []
+        obj._uncertainties = []
         obj.regions=np.array([[]]*len(obj))
         obj.grids=np.array([[]]*len(obj))
         obj.signal_names=np.array([[]]*len(obj))
@@ -86,11 +86,20 @@ class Variable(np.ndarray):
         self.is_visble = getattr(obj, 'is_visible', True)
         self.qualifiers = getattr(obj, 'qualifiers', [])
         self.unit = getattr(obj, 'unit', "")
-        self.uncertainties = getattr(obj, 'uncertainties', [])
+        self._uncertainties = getattr(obj, 'uncertainties', [])
         self.region = getattr(obj,'region',np.array([[]]*len(self)))
         self.grid = getattr(obj,'grid',np.array([[]]*len(self)))
         self.signal = getattr(obj,'signal',np.array([[]]*len(self)))
-        self.digits = getattr(obj, 'digits', 5)  
+        self.digits = getattr(obj, 'digits', 5)
+    def get_uncertainty_names(self):
+        return [unc.name for unc in self.uncertainties]
+    def _add_unc_to_dict_safely(self,uncertainty):
+        if(not isinstance(uncertainty, Uncertainty)):
+            raise TypeError("Unknown object type: {0}".format(str(type(uncertainty))))
+        name=uncertainty.name
+        if(name in self.__dict__):
+            raise ValueError(f"You try to add uncertainty with name {name} to variable {self.name}. This name cannot be used as is already taken, see __dict__:{__dict__}.")
+        self.__dict__[name]=uncertainty
     def add_uncertainty(self, uncertainty):
         """
         Add a uncertainty to the table
@@ -101,11 +110,13 @@ class Variable(np.ndarray):
         if isinstance(uncertainty, Uncertainty):
             if(self.size!=len(uncertainty)):
                 raise ValueError(f"Uncertainty {uncertainty.name} has different dimention ({len(uncertainty)}) than the corresponding variable {self.name} ({self.size})")
+            if(uncertainty.name in self.get_uncertainty_names()):
+                raise ValueError(f"Uncertainty {uncertainty.name} is already present in the variable variable {self.name}.")
             self.uncertainties.append(uncertainty)
-            self.__dict__[uncertainty.name]=uncertainty
+            self._add_unc_to_dict_safely(uncertainty)
         else:
             raise TypeError("Unknown object type: {0}".format(str(type(uncertainty))))
-    def update_unc(self,new_unc):
+    def update_uncertainty(self,new_unc):
         log.debug(f"Updating uncertainty {new_unc.name} of variable {self.name}. Parameters passed: {locals()}")
         no_matching=True
         for index,unc in enumerate(self.uncertainties):
@@ -114,7 +125,42 @@ class Variable(np.ndarray):
                 self.uncertainties[index]=new_unc
                 self.__dict__[new_unc.name]=new_unc
         if(no_matching):
-            raise ValueError(f"You tried to update unc {new_unc.name} in variable {self.name}, but no uncertainty of such name found in the variable!")
+            log.warning(f"You tried to update unc {new_unc.name} in variable {self.name}, but no uncertainty of such name found in the variable!")
+    def del_uncertainty(self,uncertainty_name):
+        if(uncertainty_name not in self.get_uncertainty_names()):
+            log.warning(f"You try to remove uncertainty {uncertainty_name} that is not found in the variable {self.name}.")
+            return
+        else:
+            if(uncertainty_name not in self.__dict__):
+                log.warning(f"The uncertainty {uncertainty_name} to be removed was not found in __dict__ of variable {self.name} however it is part of variables' uncertainties list... You probably use the code not as it was intended to be used!")
+                # We nonetheless continue as the unc is present in the uncertainties()
+            else:
+                self.__dict__.pop(uncertainty_name)
+            del uncertainties[uncertainty_name]
+
+    @property
+    def uncertainties(self):
+        """uncertainties getter."""
+        return self._uncertainties
+
+    @uncertainties.setter
+    def uncertainties(self, uncertainties):
+        """uncertainties setter."""
+        
+        # Remove names of the uncertainties already present in the instance's __dict__:
+        for old_uncertainty in self.uncertainties:
+            if(old_uncertainty.name in self.__dict__):
+                self.__dict__.pop(old_uncertainty.name)
+            else:
+                log.warning(f"Name of the uncertainty {old_uncertainty.name} to be removed was not found in __dict__ of variable {self.name}.")
+        # Check that new tables are of correct type and update the instance's dict
+        for uncertainty in uncertainties:
+            if not isinstance(uncertainty, Uncertainty):
+                raise TypeError("Unknown object type: {0}".format(str(type(uncertainty))))
+            else:
+                self._add_unc_to_dict_safely(uncertainty)
+        # finally set the table list
+        self._uncertainties = uncertainties
 
 class Table(object):
     """
@@ -128,7 +174,7 @@ class Table(object):
         self._name = None
         self.name = name
         self._variable_lenght=0
-        self.variables = []
+        self._variables = []
         self.title = "Example description"
         self.location = "Example location"
         self.keywords = {}
@@ -147,6 +193,14 @@ class Table(object):
             raise ValueError("Table name must not be longer than 64 characters.")
         self._name = name
 
+    def _add_var_to_dict_safely(self,variable):
+        if(not isinstance(variable, Variable)):
+            raise TypeError("Unknown object type: {0}".format(str(type(variable))))
+        name=variable.name
+        if(name in self.__dict__):
+            raise ValueError(f"You try to add variable with name {name} to table {self.name}. This name, however, cannot be used as is already taken, see __dict__:{__dict__}.")
+        self.__dict__[name]=variable
+
     def add_variable(self, variable):
         """
         Add a variable to the table
@@ -162,9 +216,56 @@ class Table(object):
                 if(variable.is_visible):
                     self._variable_lenght=len(variable)
             self.variables.append(variable)
-            self.__dict__[variable.name]=variable
+            self._add_var_to_dict_safely(variable)
         else:
             raise TypeError("Unknown object type: {0}".format(str(type(variable))))
+    def update_variable(self,new_var):
+        log.debug(f"Updating variable {new_var.name} of variable {self.name}. Parameters passed: {locals()}")
+        no_matching=True
+        for index,var in enumerate(self.variables):
+            if(var.name==new_var.name):
+                no_matching=False
+                self.variables[index]=new_var
+                if(not new_var.name in self.__dict__):
+                    log.warning(f"The variable {variable_name} to be updated was not found in __dict__ of table {self.name} however it should be there... You probably use the code not as it was intended to be used!")
+                self.__dict__[new_var.name]=new_var # here we do not use _add_var_to_dict_safely as the variable name should already be in __dict__ (or not be there at all)
+        if(no_matching):
+            log.warning(f"You tried to update variable {new_var.name} in table {self.name}, but no variable of such name found in the table!")
+    def del_variable(self,variable_name):
+        if(variable_name not in self.get_variable_names()):
+            log.warning(f"You try to remove variable {variable_name} that is not found in the table {self.name}.")
+            return
+        else:
+            if(variable_name not in self.__dict__):
+                log.warning(f"The variable {variable_name} to be removed was not found in __dict__ of table {self.name} however it should be there... You probably use the code not as it was intended to be used!")
+                # we continue nonetheless
+            else:
+                self.__dict__.pop(variable_name)
+            del variables[variable_name]
+
+    @property
+    def variables(self):
+        """variables getter."""
+        return self._variables
+
+    @variables.setter
+    def variables(self, variables):
+        """variables setter."""
+        
+        # Remove names of the variables already present in the instance's __dict__:
+        for old_variable in self.variables:
+            if(old_variable.name in self.__dict__):
+                self.__dict__.pop(old_variable.name)
+            else:
+                log.warning(f"Name of the variable {old_variable.name} to be removed was not found in __dict__ of variable {self.name}.")
+        # Check that new tables are of correct type and update the instance's dict
+        for variable in variables:
+            if not isinstance(variable, Variable):
+                raise TypeError("Unknown object type: {0}".format(str(type(variable))))
+            else:
+                self._add_var_to_dict_safely(variable)
+        # finally set the table list
+        self._variables = variables
 
 def fix_zero_error(variable):
     tmp_need_zero_error_fix=(variable==np.zeros_like(variable))
@@ -346,8 +447,7 @@ class Submission():
                 #print(f"added variable {var_name} to table {table.name}")
                 
             self.tables.append(table)
-            #TODO give warning when name already in the dictionary
-            self.__dict__[table_name]=table
+            self._add_tab_to_dict_safely(table)
             
     def create_hepdata_record(self,data_root:str='./',outdir='submission_files'):
         # Actual record creation based on information stored
@@ -389,6 +489,39 @@ class Submission():
         hepdata_submission.create_files(outdir)
         if(os.path.isdir(outdir) and os.path.isfile('submission.tar.gz')):
             console.print(f"Submission files created and available under directory {outdir} and as a tarball in submission.tar.gz")
+
+    def _add_tab_to_dict_safely(self,table):
+        if(not isinstance(table, Table)):
+            raise TypeError("Unknown object type: {0}".format(str(type(table))))
+        name=table.name
+        if(name in self.__dict__):
+            raise ValueError(f"You try to add table with name {name}. This name, however, cannot be used as is already taken, see __dict__:{__dict__}.")
+        self.__dict__[name]=table
+
+    def update_table(self,new_tab):
+        log.debug(f"Updating table {new_tab.name}. Parameters passed: {locals()}")
+        no_matching=True
+        for index,tab in enumerate(self.tables):
+            if(tab.name==new_tab.name):
+                no_matching=False
+                self.tables[index]=new_tab
+                if(not new_tab.name in self.__dict__):
+                    log.warning(f"The table {table_name} to be updated was not found in __dict__ of submission object however it should be there... You probably use the code not as it was intended to be used!")
+                self.__dict__[new_tab.name]=new_tab # here we do not use _add_tab_to_dict_safely as the table name should already be in __dict__ (or not be there at all)
+        if(no_matching):
+            log.warning(f"You tried to update table {new_tab.name}, but no table of such name found in the table!")
+    def del_table(self,table_name):
+        if(table_name not in self.get_table_names()):
+            log.warning(f"You try to remove table {table_name} that is not found in the submission object.")
+            return
+        else:
+            if(table_name not in self.__dict__):
+                log.warning(f"The table {table_name} to be removed was not found in __dict__ of submission object however it should be there... You probably use the code not as it was intended to be used!")
+                # we continue nonetheless
+            else:
+                self.__dict__.pop(table_name)
+            del tables[table_name]
+
     @property
     def tables(self):
         """tables getter."""
@@ -406,7 +539,6 @@ class Submission():
             if not isinstance(table, Table):
                 raise TypeError("Unknown object type: {0}".format(str(type(table))))
             else:
-                #TODO give warning when name already in the dictionary
-                self.__dict__[table.name]=table
+                self._add_tab_to_dict_safely(table)
         # finally set the table list
         self._tables = tables
