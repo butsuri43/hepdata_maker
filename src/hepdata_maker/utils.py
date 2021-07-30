@@ -67,6 +67,12 @@ class objdict(collections.OrderedDict):
                 new_dict[key]=value
         super().__init__(d)
         self.__dict__.update(new_dict)
+    def __setitem__(self, key, value):
+        super().__setitem__(key,value)
+        self.__dict__[key]=value
+    def __delitem__(self, key):
+        super().__delitem__(key)
+        del self.__dict__[key]
 def get_available_tables(config_file_path):
     result=[]
     with open(config_file_path, 'r') as stream:
