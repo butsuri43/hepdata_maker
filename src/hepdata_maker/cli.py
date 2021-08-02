@@ -1,5 +1,7 @@
 import click
 from .Submission import Submission
+from .Submission import print_dict_highlighting_objects
+from .Submission import perform_transformation
 from . import utils
 from .logs import logging
 from .console import console
@@ -229,9 +231,16 @@ def check_variable(in_file,data_root,file_type,decode,data_type,tabular_loc_deco
     transformation_tables=[]
     if(transformations):
         for index,transformation in enumerate(transformations):
-            console.print(f"Applying transformation '{transformation}' to variable of following properties: size={len(tmp_values)},shape={tmp_values.shape},dtype={tmp_values.dtype}.")
+            console.print(f"Applying transformation '{transformation}' to the variable. Prior to the transformation your variable has the following properties: size={len(tmp_values)},shape={tmp_values.shape},dtype={tmp_values.dtype}.")
             #
-            tmp_values=variable_loading.perform_transformation(transformation,submission_dict,{"VAR":tmp_values})
+            tmp_values=perform_transformation(transformation,submission_dict,{"VAR":tmp_values})
+            if(not isinstance(tmp_values,np.ndarray)):
+                console.rule()
+                console.print("Output of transformation needs to be a numpy array.")
+                console.print("You can construct those from the following objects:")
+                print_dict_highlighting_objects(submission_dict)
+                raise TypeError(f"Transformation '{transformation}' has returned a variable not of the type Variable.")
+
             #
             # Let's store what we have so far for displaying later
             transformation_tables.append(rich.table.Table(show_header=False,box=rich.box.SQUARE))
