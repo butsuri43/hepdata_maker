@@ -14,8 +14,94 @@ from . import utils
 from .logs import logging
 log = logging.getLogger(__name__)
 from .console import console
+import rich.panel
+import rich.tree
 from . import variable_loading
 
+def add_error_tree_from_var(variable,baseTree=False):
+    if(not baseTree):
+        baseTree=rich.tree.Tree()
+    if(not isinstance(baseTree,rich.tree.Tree)):
+        raise ValueError(f"I require baseTree to be of type rich.tree.Tree (is: {type(baseTree)}).")
+    if(not isinstance(variable,Variable)):
+        raise ValueError(f"arugument 'variable' needs to be of type Submission.Variable")
+    if(len(variable.uncertainties)>0):
+        baseTreeLabel=baseTree.label.split()[0]+'.' if len(baseTree.label)>0 else ''
+        for err in variable.uncertainties:
+            if(not hasattr(err,'name')):
+                raise ValueError(f"I need error to has attribute name")
+            baseTree.add(baseTreeLabel+err.name+" (err)")
+    return baseTree
+
+def add_var_tree_from_table(table,baseTree=False):
+    if(not baseTree):
+        baseTree=rich.tree.Tree()
+    if(not isinstance(baseTree,rich.tree.Tree)):
+        raise ValueError(f"I require baseTree to be of type rich.tree.Tree (is: {type(baseTree)}).")
+    if(not isinstance(table,Table)):
+        raise ValueError(f"arugument 'table' needs to be of type Submission.Table")
+    if(len(table.variables)>0):
+        baseTreeLabel=baseTree.label.split()[0]+'.' if len(baseTree.label)>0 else ''
+        for var in table.variables:
+            spec_var_tree=rich.tree.Tree(baseTreeLabel+str(var.name)+" (var)")
+            spec_var_tree=add_error_tree_from_var(var,spec_var_tree)
+            baseTree.add(spec_var_tree)
+    return baseTree
+
+def perform_transformation(transformation,submission_dict,local_vars):
+    try:
+        global_vars=submission_dict|{"np":np}|{"re":re}|{"scipy.stats":scipy.stats}|{"scipy.special":scipy.special}|{"ufs":ufs}
+        return eval(transformation,global_vars,local_vars)
+    except Exception as exc:
+        log.error(f"Transformation '{transformation}' has failed.")
+        log.error(f"Make sure your numpy array data is of the correct type (by specifying 'data-type')!")
+        log.error(f"You can use following global variables:")
+        print_dict_highlighting_objects(global_vars,title="global variables")
+        log.error(f"and local variables:")
+        print_dict_highlighting_objects(local_vars,title="local variables")
+        raise exc
+
+def print_dict_highlighting_objects(dictionary,title=''):
+    log.debug("Inside 'print_dict_highlighting_objects' function")
+    if(not isinstance(dictionary,dict)):
+        raise ValueError("Object provided to function {__name__} should be dictionary, it is {type(dictionary)}. Full object for reference: {dictionary}")
+    variable_list=[]
+    table_list=[]
+    other_list=[]
+    for key, value in dictionary.items():
+        if(isinstance(value,Variable)):
+            variable_list.append((key,value))
+        if(isinstance(value,Table)):
+            table_list.append((key,value))
+        else:
+            if(not key.startswith("_")): # exclude internal variables
+                other_list.append((key,value))
+    objects_to_show=[]
+    if(len(table_list)>0):
+        table_tree=rich.tree.Tree("[bold]Available tables:")        
+        for key,value in table_list:
+            spec_tab_tree=rich.tree.Tree(key+" (tab)")
+            spec_tab_tree=add_var_tree_from_table(value,spec_tab_tree)
+            table_tree.add(spec_tab_tree)
+        objects_to_show.append(table_tree)
+    if(len(variable_list)>0):
+        var_tree=rich.tree.Tree("[bold]Available variables:")        
+        for key,value in variable_list:
+            spec_var_tree=rich.tree.Tree(key+" (var)")
+            spec_var_tree=add_error_tree_from_var(value,spec_tab_tree)
+            table_tree.add(spec_tab_tree)
+        objects_to_show.append(var_tree)
+    if(len(other_list)>0):
+        other_tree=rich.tree.Tree("[bold]Other objects:")
+        for key,value in other_list:
+            val_type=value.__name__ if hasattr(value,'__name__') else None
+            if(val_type):
+                other_tree.add(key+f" ({val_type})")
+            else:
+                other_tree.add(key)
+        objects_to_show.append(other_tree)
+    render_group=rich.console.RenderGroup(*objects_to_show)
+    console.print(rich.panel.Panel(render_group,expand=False,title=title))
 class Uncertainty(np.ndarray):
     def __new__(cls, input_array, name, is_visible=True, digits=5):
         # Input array is an already formed ndarray instance
@@ -364,6 +450,7 @@ class Submission():
                 var_name=variable_info.name
                 transformations=getattr(variable_info,'transformations',None)
                 var_values=None
+                log.debug(f"adding variable {var_name}")
 
                 for in_file in variable_info.in_files:
                     extra_args={k: in_file[k] for k in ('delimiter', 'file_type', 'replace_dict', 'tabular_loc_decode') if k in in_file}
@@ -377,7 +464,7 @@ class Submission():
                         var_values=var_values.astype(variable_info.data_type)
                 if(transformations):
                     for transformation in transformations:
-                        var_values=variable_loading.perform_transformation(transformation,self.__dict__,table.__dict__|{var_name:var_values})
+                        var_values=perform_transformation(transformation,self.__dict__,table.__dict__|{var_name:var_values})
 
                 #print("Variable: ",var_name,var_values)
                 var=Variable(var_values,var_name)
@@ -431,7 +518,7 @@ class Submission():
                                     err_values=err_values.astype(error_info.data_type)
                             if( hasattr(error_info, 'transformations')):
                                 for transformation in error_info.transformations:
-                                    err_values=variable_loading.perform_transformation(transformation,self.__dict__,table.__dict__|{var_name:var_values,err_name:err_values}|{var_err.name:var_err for var_err in var.uncertainties})
+                                    err_values=perform_transformation(transformation,self.__dict__,table.__dict__|{var_name:var_values,err_name:err_values}|{var_err.name:var_err for var_err in var.uncertainties})
                             unc=Uncertainty(err_values,name=err_name,is_visible=err_is_visible)
                             var.add_uncertainty(unc)
                 if(var.multiplier):

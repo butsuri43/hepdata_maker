@@ -284,15 +284,6 @@ def read_data_file(file_name,decode,**extra_args):
 
     return tmp_values
 
-def perform_transformation(transformation,submission_dict,local_vars):
-    try:
-        global_vars=submission_dict|{"np":np}|{"re":re}|{"scipy.stats":scipy.stats}|{"scipy.special":scipy.special}|{"ufs":ufs}
-        return eval(transformation,global_vars,local_vars)
-    except Exception as exc:
-        log.error(f"Transformation '{transformation}' has failed.")
-        log.error(f"Make sure your numpy array data is of the correct type (by specifying 'data-type')!")
-        log.error(f"You can use following global:{list(global_vars.keys())} and local:{list(local_vars.keys())} variables.")
-        raise exc
 
 def get_variable_steering_snipped(in_file,decode,data_type,transformations,**extra_args):
     delimiter=extra_args.get('delimiter',',')
