@@ -19,12 +19,12 @@ import rich.tree
 from . import variable_loading
 
 def add_error_tree_from_var(variable,baseTree=False):
-    if(not baseTree):
-        baseTree=rich.tree.Tree()
-    if(not isinstance(baseTree,rich.tree.Tree)):
-        raise ValueError(f"I require baseTree to be of type rich.tree.Tree (is: {type(baseTree)}).")
     if(not isinstance(variable,Variable)):
         raise ValueError(f"arugument 'variable' needs to be of type Submission.Variable")
+    if(not baseTree):
+        baseTree=rich.tree.Tree(variable.name+" (var)")
+    if(not isinstance(baseTree,rich.tree.Tree)):
+        raise ValueError(f"I require baseTree to be of type rich.tree.Tree (is: {type(baseTree)}).")
     if(len(variable.uncertainties)>0):
         baseTreeLabel=baseTree.label.split()[0]+'.' if len(baseTree.label)>0 else ''
         for err in variable.uncertainties:
@@ -34,12 +34,12 @@ def add_error_tree_from_var(variable,baseTree=False):
     return baseTree
 
 def add_var_tree_from_table(table,baseTree=False):
-    if(not baseTree):
-        baseTree=rich.tree.Tree()
-    if(not isinstance(baseTree,rich.tree.Tree)):
-        raise ValueError(f"I require baseTree to be of type rich.tree.Tree (is: {type(baseTree)}).")
     if(not isinstance(table,Table)):
         raise ValueError(f"arugument 'table' needs to be of type Submission.Table")
+    if(not baseTree):
+        baseTree=rich.tree.Tree(table.name)
+    if(not isinstance(baseTree,rich.tree.Tree)):
+        raise ValueError(f"I require baseTree to be of type rich.tree.Tree (is: {type(baseTree)}).")
     if(len(table.variables)>0):
         baseTreeLabel=baseTree.label.split()[0]+'.' if len(baseTree.label)>0 else ''
         for var in table.variables:
@@ -64,7 +64,9 @@ def perform_transformation(transformation,submission_dict,local_vars):
 def print_dict_highlighting_objects(dictionary,title=''):
     log.debug("Inside 'print_dict_highlighting_objects' function")
     if(not isinstance(dictionary,dict)):
-        raise ValueError("Object provided to function {__name__} should be dictionary, it is {type(dictionary)}. Full object for reference: {dictionary}")
+        raise ValueError("Object provided to function {__name__} should be dictionary, while it is {type(dictionary)}. Full object for reference: {dictionary}")
+    if(not isinstance(title,str)):
+        raise ValueError("Title provided to function {__name__} should be string, while it is {type(title)}. Full object for reference: {title}")
     variable_list=[]
     table_list=[]
     other_list=[]
@@ -127,8 +129,11 @@ class Uncertainty(np.ndarray):
         elif(obj.ndim==1):
             obj.is_symmetric=True
         else:
-            raise ValueError("Uncertainty can only be either one or two dimensional.")
-        
+            raise TypeError(f"Uncertainty can only be either one or two dimensional. Provided: {input_array}.")
+        if(obj.dtype=='object'):
+            raise TypeError(f"Uncertainty can be only either 1-D or 2-D list (and not a 1/2-D hybrid). Provided: {input_array}.")
+        if(not (isinstance(name,str) or name is None)):
+            raise TypeError(f"Uncertainty's name has to be string (or None). It cannot be {type(name)} as provided with {name}.")
         # Finally, we must return the newly created object:
         return obj
 
@@ -137,8 +142,8 @@ class Uncertainty(np.ndarray):
         self.name = getattr(obj, 'name', None)
         self.is_visible = getattr(obj, 'is_visible', True)        
         self.digits = getattr(obj, 'digits', 5)        
-    def is_error_symmetric(self):
-        return pytest.approx(self[:,0])==-self[:,1]
+    #def is_error_symmetric(self):
+    #    return pytest.approx(self[:,0])==-self[:,1]
 
 class Variable(np.ndarray):
     def __new__(cls, input_array,name, is_independent=True, is_binned=False, is_visible=True, unit="", values=None,digits=5):
@@ -149,6 +154,14 @@ class Variable(np.ndarray):
         log.debug(f"{locals()}")
         obj = np.asarray(input_array).view(cls)
         # add the new attribute to the created instance
+        if(obj.dtype=='object'):
+            raise TypeError(f"Variable can be only either 1-D or 2-D list (and not a 1/2-D hybrid). Provided: {input_array}.")
+        if(not (isinstance(name,str) or name is None)):
+            raise TypeError(f"Variable's name has to be string (or None). It cannot be {type(name)} as provided with {name}.")
+        if(obj.ndim>2):
+            raise TypeError(f"Variable can be at most 2-D. The input {input_array} has dimension {obj.ndim}.")
+        if(obj.ndim==2 and not is_binned):
+            raise TypeError("Variable ({name}) can be 2-D and not be binned. Provided: input_array:{input_array}, is_binned:{is_binned}.")
         obj.name = name
         obj.is_independent = is_independent
         obj.is_binned = is_binned
@@ -173,9 +186,9 @@ class Variable(np.ndarray):
         self.qualifiers = getattr(obj, 'qualifiers', [])
         self.unit = getattr(obj, 'unit', "")
         self._uncertainties = getattr(obj, 'uncertainties', [])
-        self.region = getattr(obj,'region',np.array([[]]*len(self)))
-        self.grid = getattr(obj,'grid',np.array([[]]*len(self)))
-        self.signal = getattr(obj,'signal',np.array([[]]*len(self)))
+        self.region = getattr(obj,'region',np.array([[]]*len(obj)))
+        self.grid = getattr(obj,'grid',np.array([[]]*len(obj)))
+        self.signal = getattr(obj,'signal',np.array([[]]*len(obj)))
         self.digits = getattr(obj, 'digits', 5)
     def get_uncertainty_names(self):
         return [unc.name for unc in self.uncertainties]
@@ -184,7 +197,7 @@ class Variable(np.ndarray):
             raise TypeError("Unknown object type: {0}".format(str(type(uncertainty))))
         name=uncertainty.name
         if(name in self.__dict__):
-            raise ValueError(f"You try to add uncertainty with name {name} to variable {self.name}. This name cannot be used as is already taken, see __dict__:{__dict__}.")
+            raise ValueError(f"You try to add uncertainty with name {name} to variable {self.name}. This name cannot be used as is already taken, see __dict__: {self.__dict__}.")
         self.__dict__[name]=uncertainty
     def add_uncertainty(self, uncertainty):
         """
@@ -203,6 +216,8 @@ class Variable(np.ndarray):
         else:
             raise TypeError("Unknown object type: {0}".format(str(type(uncertainty))))
     def update_uncertainty(self,new_unc):
+        if not isinstance(new_unc, Uncertainty):
+            raise TypeError(f"In order to update uncertainty for variable ({self.name}) one needs to provide an uncertainty. Here, unknown object of type: {type(new_unc)}")
         log.debug(f"Updating uncertainty {new_unc.name} of variable {self.name}. Parameters passed: {locals()}")
         no_matching=True
         for index,unc in enumerate(self.uncertainties):
@@ -211,8 +226,13 @@ class Variable(np.ndarray):
                 self.uncertainties[index]=new_unc
                 self.__dict__[new_unc.name]=new_unc
         if(no_matching):
-            log.warning(f"You tried to update unc {new_unc.name} in variable {self.name}, but no uncertainty of such name found in the variable!")
-    def del_uncertainty(self,uncertainty_name):
+            log.warning(f"You tried to update unc {new_unc.name} in variable {self.name}, but no uncertainty of such name found in the variable! Adding the uncertainty instead.")
+            self.add_uncertainty(new_unc)
+    def uncertainty_index(self,uncertainty_name):
+        if(not isinstance(uncertainty_name,str)):
+            raise TypeError(f"Uncertainty's name needs to be a string. Trying to find uncertainty based on object type ({type(uncertainty_name)}) failed!")
+        return self.get_uncertainty_names().index(uncertainty_name)
+    def delete_uncertainty(self,uncertainty_name):
         if(uncertainty_name not in self.get_uncertainty_names()):
             log.warning(f"You try to remove uncertainty {uncertainty_name} that is not found in the variable {self.name}.")
             return
@@ -222,7 +242,7 @@ class Variable(np.ndarray):
                 # We nonetheless continue as the unc is present in the uncertainties()
             else:
                 self.__dict__.pop(uncertainty_name)
-            del uncertainties[uncertainty_name]
+            del self.uncertainties[self.uncertainty_index(uncertainty_name)]
 
     @property
     def uncertainties(self):
@@ -257,6 +277,8 @@ class Table(object):
     
     def __init__(self, name):
         log.debug(f"Creating new Table: {name}")
+        if(name is None or not isinstance(name,str)):
+            raise TypeError(f"Table's name needs to be of type string, not {type(name)}.")
         self._name = None
         self.name = name
         self._variable_lenght=0
@@ -279,12 +301,20 @@ class Table(object):
             raise ValueError("Table name must not be longer than 64 characters.")
         self._name = name
 
+    def get_variable_names(self):
+        return [var.name for var in self.variables]
+
+    def variable_index(self,variable_name):
+        if(not isinstance(variable_name,str)):
+            raise TypeError(f"Variable's name needs to be a string. Trying to find variable based on object type ({type(variable_name)}) failed!")
+        return self.get_variable_names().index(variable_name)
+
     def _add_var_to_dict_safely(self,variable):
         if(not isinstance(variable, Variable)):
             raise TypeError("Unknown object type: {0}".format(str(type(variable))))
         name=variable.name
         if(name in self.__dict__):
-            raise ValueError(f"You try to add variable with name {name} to table {self.name}. This name, however, cannot be used as is already taken, see __dict__:{__dict__}.")
+            raise ValueError(f"You try to add variable with name {name} to table {self.name}. This name, however, cannot be used as is already taken, see __dict__:{self.__dict__}.")
         self.__dict__[name]=variable
 
     def add_variable(self, variable):
@@ -293,10 +323,10 @@ class Table(object):
         :param variable: Variable to add.
         :type variable: Variable.
         """
-        log.debug(f"Adding variable {variable.name} to the table {self.name}")
         if isinstance(variable, Variable):
+            log.debug(f"Adding variable {variable.name} to the table {self.name}")
             if(self._variable_lenght!=0):
-                if(self._variable_lenght!=len(variable)):
+                if(self._variable_lenght!=len(variable) and variable.is_visible):
                     raise ValueError(f"Variable {variable.name} has different number of parameters ({len(variable)}) than other variables in the table {self.name} ({self._variable_lenght})")
             else:
                 if(variable.is_visible):
@@ -306,6 +336,8 @@ class Table(object):
         else:
             raise TypeError("Unknown object type: {0}".format(str(type(variable))))
     def update_variable(self,new_var):
+        if(not isinstance(new_var, Variable)):
+            raise TypeError("Table can be updated with a variable, not with object type: {0}".format(str(type(new_var))))
         log.debug(f"Updating variable {new_var.name} of variable {self.name}. Parameters passed: {locals()}")
         no_matching=True
         for index,var in enumerate(self.variables):
@@ -316,8 +348,10 @@ class Table(object):
                     log.warning(f"The variable {variable_name} to be updated was not found in __dict__ of table {self.name} however it should be there... You probably use the code not as it was intended to be used!")
                 self.__dict__[new_var.name]=new_var # here we do not use _add_var_to_dict_safely as the variable name should already be in __dict__ (or not be there at all)
         if(no_matching):
-            log.warning(f"You tried to update variable {new_var.name} in table {self.name}, but no variable of such name found in the table!")
-    def del_variable(self,variable_name):
+            log.warning(f"You tried to update variable {new_var.name} in table {self.name}, but no variable of such name found in the table! Adding variable instead!")
+            self.add_variable(new_var)
+
+    def delete_variable(self,variable_name):
         if(variable_name not in self.get_variable_names()):
             log.warning(f"You try to remove variable {variable_name} that is not found in the table {self.name}.")
             return
@@ -327,7 +361,7 @@ class Table(object):
                 # we continue nonetheless
             else:
                 self.__dict__.pop(variable_name)
-            del variables[variable_name]
+            del self.variables[self.variable_index(variable_name)]
 
     @property
     def variables(self):
