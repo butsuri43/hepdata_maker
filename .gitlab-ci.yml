@@ -18,7 +18,7 @@ package_build:
    - python3 setup.py sdist
   artifacts:
     paths:
-      - dist/submission_maker-0.0.0.tar.gz
+      - dist/hepdata_submission_maker-0.0.0.tar.gz
     expire_in: 1 week
     
 package_publish:
