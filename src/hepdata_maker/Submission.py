@@ -50,7 +50,7 @@ def add_var_tree_from_table(table,baseTree=False):
 
 def perform_transformation(transformation,submission_dict,local_vars):
     try:
-        global_vars=submission_dict|{"np":np}|{"re":re}|{"scipy.stats":scipy.stats}|{"scipy.special":scipy.special}|{"ufs":ufs}
+        global_vars=utils.merge_dictionaries(submission_dict,{"np":np},{"re":re},{"scipy.stats":scipy.stats},{"scipy.special":scipy.special},{"ufs":ufs})
         return eval(transformation,global_vars,local_vars)
     except Exception as exc:
         log.error(f"Transformation '{transformation}' has failed.")
@@ -146,7 +146,7 @@ class Uncertainty(np.ndarray):
     #    return pytest.approx(self[:,0])==-self[:,1]
 
 class Variable(np.ndarray):
-    def __new__(cls, input_array,name, is_independent=True, is_binned=False, is_visible=True, unit="", values=None,digits=5):
+    def __new__(cls, input_array,name, is_independent=True, is_binned=None, is_visible=True, unit="", values=None,digits=5):
         # Input array is an already formed ndarray instance
         # We first cast to be our class type
         log.debug(f"Creating new Variable (np.ndarray derived) object: {name}")
@@ -154,14 +154,22 @@ class Variable(np.ndarray):
         log.debug(f"{locals()}")
         obj = np.asarray(input_array).view(cls)
         # add the new attribute to the created instance
-        if(obj.dtype=='object'):
-            raise TypeError(f"Variable can be only either 1-D or 2-D list (and not a 1/2-D hybrid). Provided: {input_array}.")
+        try:
+            obj.astype(str) # if passes this it should pass hepdata_lib conversion
+        except:
+            raise ValueError(f"Variable can be only either 1-D or 2-D list (and not a 1/2-D hybrid). Provided: {input_array}.")
         if(not (isinstance(name,str) or name is None)):
             raise TypeError(f"Variable's name has to be string (or None). It cannot be {type(name)} as provided with {name}.")
         if(obj.ndim>2):
             raise TypeError(f"Variable can be at most 2-D. The input {input_array} has dimension {obj.ndim}.")
+        if(is_binned is None):
+            # Auto-discover whether data is binned or not
+            if(obj.ndim==1):
+                is_binned=False
+            else:
+                is_binned=True
         if(obj.ndim==2 and not is_binned):
-            raise TypeError("Variable ({name}) can be 2-D and not be binned. Provided: input_array:{input_array}, is_binned:{is_binned}.")
+            raise TypeError(f"Variable ({name}) can be 2-D and not be binned. Provided: input_array:{input_array}, is_binned:{is_binned}.")
         obj.name = name
         obj.is_independent = is_independent
         obj.is_binned = is_binned
@@ -181,7 +189,7 @@ class Variable(np.ndarray):
         if obj is None: return
         self.name = getattr(obj, 'name', None)
         self.is_independent = getattr(obj, 'is_independent', True)
-        self.is_binned = getattr(obj, 'is_binned', True)
+        self.is_binned = getattr(obj, 'is_binned', False)
         self.is_visble = getattr(obj, 'is_visible', True)
         self.qualifiers = getattr(obj, 'qualifiers', [])
         self.unit = getattr(obj, 'unit', "")
@@ -457,7 +465,6 @@ class Submission():
         with open(config_file_path, 'r') as stream:
             config_loaded = json.load(stream,object_pairs_hook=OrderedDict)
         self.config=config_loaded
-        print(self.config)
     def load_table_config(self,data_root: str='./',selected_table_names=[]):
         if(self._has_loaded):
             log.warning("You have already loaded information from a(nother?) steering file. If any table names will be loaded again (without prior explicite deletions) expect errors being raised!")
@@ -514,7 +521,7 @@ class Submission():
                                 var_values=var_values.astype(variable_info.data_type)
                         if(transformations):
                             for transformation in transformations:
-                                var_values=perform_transformation(transformation,self.__dict__,table.__dict__|{var_name:var_values})
+                                var_values=perform_transformation(transformation,self.__dict__,utils.merge_dictionaries(table.__dict__,{var_name:var_values}))
 
                         var=Variable(var_values,var_name)
                         if( hasattr(variable_info, 'is_visible')):
@@ -567,18 +574,18 @@ class Submission():
                                             err_values=err_values.astype(error_info.data_type)
                                     if( hasattr(error_info, 'transformations')):
                                         for transformation in error_info.transformations:
-                                            err_values=perform_transformation(transformation,self.__dict__,table.__dict__|{var_name:var_values,err_name:err_values}|{var_err.name:var_err for var_err in var.uncertainties})
+                                            err_values=perform_transformation(transformation,self.__dict__,utils.merge_dictionaries(table.__dict__,{var_name:var_values,err_name:err_values},{var_err.name:var_err for var_err in var.uncertainties}))
                                     unc=Uncertainty(err_values,name=err_name,is_visible=err_is_visible)
                                     var.add_uncertainty(unc)
                         if(var.multiplier):
                             var.qualifiers.append({"multiplier":var.multiplier})
                         table.add_variable(var)
                         if hasattr(variable_info, 'regions'):
-                            var.regions=get_matching_based_variables(variable_info.regions,table.__dict__|{"np":np},local_dict=None)
+                            var.regions=get_matching_based_variables(variable_info.regions,utils.merge_dictionaries(table.__dict__,{"np":np}),local_dict=None)
                         if hasattr(variable_info, 'grids'):
-                            var.grids=get_matching_based_variables(variable_info.grids,table.__dict__|{"np":np},local_dict=None)
+                            var.grids=get_matching_based_variables(variable_info.grids,utils.merge_dictionaries(table.__dict__,{"np":np}),local_dict=None)
                         if hasattr(variable_info, 'signal_names'):
-                            var.signal_names=get_matching_based_variables(variable_info.signal_names,table.__dict__|{"np":np},local_dict=None)
+                            var.signal_names=get_matching_based_variables(variable_info.signal_names,utils.merge_dictionaries(table.__dict__,{"np":np}),local_dict=None)
 
                 self.add_table(table)
             

@@ -9,7 +9,8 @@ import numpy as np
                           ([0.1,0.2],"test",False),
                           ([],"test",False),
                           ([[0,1],[1,2]],"test",True),
-                          ([["0","1"],["2","1"]],"test",True)]
+                          ([["0","1"],["2","1"]],"test",True),
+                          (np.array([1,2],dtype=object),"test",False)]
                          )
 def test_variable_constructor(var_data,var_name,is_binned):
     var=Variable(var_data,var_name,is_binned=is_binned)
@@ -20,12 +21,18 @@ def test_variable_constructor(var_data,var_name,is_binned):
 
 
 @pytest.mark.filterwarnings("ignore::numpy.VisibleDeprecationWarning")
-@pytest.mark.parametrize("var_data,var_name,is_binned", [([1,[2,3],4],"",False),                   # unspecified dimensionality of the data_array
-                                                         ([1,2,3,4],["this should fail"],False),   # array instead of string for the name
+@pytest.mark.parametrize("var_data,var_name,is_binned", [([1,2,3,4],["this should fail"],False),   # array instead of string for the name
                                                          ([[[1,2],[2,3]],[[3,4],[5,6]]],"",False), # 3-D input array
                                                          (23,"",False)])                           # 0-D input array
 def test_variable_constructor_raise_TypeError(var_data,var_name,is_binned):
     with pytest.raises(TypeError):
+        Variable(var_data,var_name,is_binned=is_binned)
+
+@pytest.mark.filterwarnings("ignore::numpy.VisibleDeprecationWarning")
+@pytest.mark.parametrize("var_data,var_name,is_binned", [([1,[2,3],4],"",False),                   # unspecified dimensionality of the data_array
+                                                         ])
+def test_variable_constructor_raise_ValueError(var_data,var_name,is_binned):
+    with pytest.raises(ValueError):
         Variable(var_data,var_name,is_binned=is_binned)
 
 @pytest.mark.parametrize("error_data,error_name",[([1,2],""),
