@@ -287,7 +287,7 @@ class Table(object):
         self.location = "Example location"
         self.keywords = {}
         #self.additional_resources = []
-        self.image_files = []
+        self.images = []
 
     @property
     def name(self):
@@ -442,133 +442,145 @@ class Submission():
     
     def __init__(self):
         self._tables=[]
-        self._config=[]
-    #__init__(self) -- automatic initialisation from hepdata_lib
-    def load_table_config(self,
+        self._config={}
+        self._has_loaded=False
+    def get_table_names(self):
+        return [tab.name for tab in self.tables]
+    def table_index(self,table_name):
+        if(not isinstance(table_name,str)):
+            raise TypeError(f"Table's name needs to be a string. Trying to find uncertainty based on object type ({type(table_name)}) failed!")
+        return self.get_table_names().index(table_name)
+    def read_table_config(self,
                           config_file_path: str=''):
-        # TODO check config_file_path
+        if(not os.path.isfile(config_file_path)):
+            raise ValueError(f"Could not find config file {config_file_path}. Please check the path provided.")
         with open(config_file_path, 'r') as stream:
             config_loaded = json.load(stream,object_pairs_hook=OrderedDict)
-        
-        # TODO check loaded config
-        
-        self._config=config_loaded
-    def implement_table_config(self,data_root: str='./',selected_table_names=[]):
-        # TODO check not to do the config multiple times
-        for table_info in [utils.objdict(x) for x in self._config['tables']]:
-            # TODO verify table_info here?
-            table_name=table_info.name
-            if( not table_info.should_be_processed):
-                log.warning(rf"table {table_info.name} has should_be_processed flag set to False. Skipping.")
-                continue
-            if(len(selected_table_names)>0 and (table_name not in selected_table_names)):
-                log.debug(f"skipping loading table {table_name} as not present in selected_table_names: {selected_table_names}")
-                continue
-            console.rule(f"table {table_name}")
-            table=Table(table_name)
-            if( hasattr(table_info, 'images')):
-                table.images=table_info.images
-            if( hasattr(table_info, 'title')):
-                if(os.path.isfile(table_info.title)):
-                   # Provide file with table title ( e.g. website out)
-                   table.title=open(utils.resolve_file_name(table_info.title,data_root)).read()
-                else:
-                   table.title=table_info.title
-            if( hasattr(table_info, 'location')):
-                table.location=table_info.location
-            if( hasattr(table_info, 'keywords')):
-                table.keywords=table_info.keywords
-            for variable_info in table_info.variables:
-                #print(f"Adding variable: {variable_info.name}")
-                ## TODO check that var_name does not contain any special characters (special characters allowe only in fancy names)
-                var_name=variable_info.name
-                transformations=getattr(variable_info,'transformations',None)
-                var_values=None
-                log.debug(f"adding variable {var_name}")
+        self.config=config_loaded
+        print(self.config)
+    def load_table_config(self,data_root: str='./',selected_table_names=[]):
+        if(self._has_loaded):
+            log.warning("You have already loaded information from a(nother?) steering file. If any table names will be loaded again (without prior explicite deletions) expect errors being raised!")
+        self._has_loaded=True
 
-                for in_file in variable_info.in_files:
-                    extra_args={k: in_file[k] for k in ('delimiter', 'file_type', 'replace_dict', 'tabular_loc_decode') if k in in_file}
-                    tmp_values=variable_loading.read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode,**extra_args)
-                    if(var_values):
-                        var_values=np.concatenate((var_values,tmp_values))
+        # self._config should aready have the correct information as checked on schema check in read_table_config
+        if('tables' in self.config):
+            for table_info in [utils.objdict(x) for x in self.config['tables']]:
+                table_name=table_info.name
+                if( hasattr(table_info,'should_be_processed') and not table_info.should_be_processed):
+                    log.warning(rf"table {table_info.name} has should_be_processed flag set to False. Skipping.")
+                    continue
+                if(len(selected_table_names)>0 and (table_name not in selected_table_names)):
+                    log.debug(f"skipping loading table {table_name} as not present in selected_table_names: {selected_table_names}")
+                    continue
+                console.rule(f"table {table_name}")
+                table=Table(table_name)
+                if( hasattr(table_info, 'images')):
+                    table.images=table_info.images
+                    for image_info in table.images:
+                        current_image_path=utils.resolve_file_name(image_info['name'],data_root)
+                        if(not os.path.isfile(current_image_path)):
+                            raise ValueError(f"Cannot find image file of table '{table_name}' under the path '{current_image_path}'. Please check it!")
+                if( hasattr(table_info, 'title')):
+                    potential_file_path=utils.resolve_file_name(table_info.title,data_root)
+                    if(os.path.isfile(potential_file_path)):
+                        # Provide file with table title ( e.g. website out)
+                        log.debug(f"Title field of table {table_name} points to a text file. Content of the file will be used as table title.")
+                        table.title=open(potential_file_path).read()
                     else:
-                        var_values=tmp_values
-                if( hasattr(variable_info, 'data_type')):
-                    if(variable_info.data_type!='' and var_values is not None):
-                        var_values=var_values.astype(variable_info.data_type)
-                if(transformations):
-                    for transformation in transformations:
-                        var_values=perform_transformation(transformation,self.__dict__,table.__dict__|{var_name:var_values})
+                        log.debug(f"Title fielf of table {table_name} points to a text file. Content of the file will be used as table title.")
+                        table.title=table_info.title
+                if( hasattr(table_info, 'location')):
+                    table.location=table_info.location
+                if( hasattr(table_info, 'keywords')):
+                    table.keywords=table_info.keywords
+                if(hasattr(table_info,'variables')):
+                    for variable_info in table_info.variables:
+                        var_name=variable_info.name
+                        transformations=getattr(variable_info,'transformations',None)
+                        var_values=None
+                        log.debug(f"adding variable {var_name}")
 
-                #print("Variable: ",var_name,var_values)
-                var=Variable(var_values,var_name)
-                if( hasattr(variable_info, 'is_visible')):
-                        var.is_visible=variable_info.is_visible
-                if( hasattr(variable_info, 'is_independent')):
-                        var.is_independent=variable_info.is_independent
-                if( hasattr(variable_info, 'is_binned')):
-                        var.is_binned=variable_info.is_binned
-                if( hasattr(variable_info, 'unit')):
-                        var.unit=variable_info.unit
-                if( hasattr(variable_info, 'multiplier')):
-                        var.multiplier=variable_info.multiplier
-                if( hasattr(variable_info, 'errors')):
-                    if(variable_info.errors):
-                        for error_info in variable_info.errors:
-                            err_name=error_info.name
-                            err_is_visible=error_info.is_visible
-                            err_values=None
-                            for in_file in error_info.in_files:
-                                tmp_values=tmp_values_up=tmp_values_down=np.empty(0)
-                                extra_args={k: in_file[k] for k in ('delimiter', 'file_type', 'replace_dict', 'tabular_loc_decode') if hasattr(in_file,k)}
-
-                                # if decode is present we have either 2-dim specification of [up,down] or 1-dim symmetric error
-                                if( hasattr(in_file, 'decode')):
-                                    tmp_values=variable_loading.read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode,**extra_args)
-                                    
-                                # if decode_up is present we have either 2-dim specification of [decode_up,decode_down] or [decode_up,None]
-                                if( hasattr(in_file, 'decode_up')):
-                                    tmp_values_up=variable_loading.read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode_up,**extra_args)
-
-                                # if decode_down is present we have either 2-dim specification of [decode_up,decode_down] or [None,decode_down]
-                                if( hasattr(in_file, 'decode_down')):
-                                    tmp_values_down=variable_loading.read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode_down,**extra_args)
-
-                                if(tmp_values_up.size>0 or tmp_values_down.size>0):
-                                    if(not tmp_values_down.size>0):
-                                        tmp_values_down=np.full_like(tmp_values_up,np.nan)
-                                    if(not tmp_values_up.size>0):
-                                        tmp_values_up=np.full_like(tmp_values_down,np.nan)
-                                    tmp_values=np.array([tmp_values_up,tmp_values_down]).T
-
-                                if(not (tmp_values_up.size>0 or tmp_values_down.size>0 or tmp_values.size>0)):
-                                    raise TypeError("Something went wrong. Could not read errors")
-                                if(err_values):
-                                    err_values=np.concatenate((err_values,tmp_values))
+                        if(hasattr(variable_info,'in_files')):
+                            for in_file in variable_info.in_files:
+                                extra_args={k: in_file[k] for k in ('delimiter', 'file_type', 'replace_dict', 'tabular_loc_decode') if k in in_file}
+                                tmp_values=variable_loading.read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode,**extra_args)
+                                if(var_values):
+                                    var_values=np.concatenate((var_values,tmp_values))
                                 else:
-                                    err_values=tmp_values
-                            if( hasattr(error_info, 'data_type')):
-                                if(error_info.data_type!='' and error_info.data_type and err_values is not None):
-                                    err_values=err_values.astype(error_info.data_type)
-                            if( hasattr(error_info, 'transformations')):
-                                for transformation in error_info.transformations:
-                                    err_values=perform_transformation(transformation,self.__dict__,table.__dict__|{var_name:var_values,err_name:err_values}|{var_err.name:var_err for var_err in var.uncertainties})
-                            unc=Uncertainty(err_values,name=err_name,is_visible=err_is_visible)
-                            var.add_uncertainty(unc)
-                if(var.multiplier):
-                    #print(var,var.multiplier)
-                    var.qualifiers.append({"multiplier":var.multiplier})
-                table.add_variable(var)
-                if hasattr(variable_info, 'regions'):
-                    var.regions=get_matching_based_variables(variable_info.regions,table.__dict__|{"np":np},local_dict=None)
-                if hasattr(variable_info, 'grids'):
-                    var.grids=get_matching_based_variables(variable_info.grids,table.__dict__|{"np":np},local_dict=None)
-                if hasattr(variable_info, 'signal_names'):
-                    var.signal_names=get_matching_based_variables(variable_info.signal_names,table.__dict__|{"np":np},local_dict=None)
-                #print(f"added variable {var_name} to table {table.name}")
-                
-            self.tables.append(table)
-            self._add_tab_to_dict_safely(table)
+                                    var_values=tmp_values
+                        if( hasattr(variable_info, 'data_type')):
+                            if(variable_info.data_type!='' and var_values is not None):
+                                var_values=var_values.astype(variable_info.data_type)
+                        if(transformations):
+                            for transformation in transformations:
+                                var_values=perform_transformation(transformation,self.__dict__,table.__dict__|{var_name:var_values})
+
+                        var=Variable(var_values,var_name)
+                        if( hasattr(variable_info, 'is_visible')):
+                                var.is_visible=variable_info.is_visible
+                        if( hasattr(variable_info, 'is_independent')):
+                                var.is_independent=variable_info.is_independent
+                        if( hasattr(variable_info, 'is_binned')):
+                                var.is_binned=variable_info.is_binned
+                        if( hasattr(variable_info, 'unit')):
+                                var.unit=variable_info.unit
+                        if( hasattr(variable_info, 'multiplier')):
+                                var.multiplier=variable_info.multiplier
+                        if( hasattr(variable_info, 'errors')):
+                            if(variable_info.errors):
+                                for error_info in variable_info.errors:
+                                    err_name=error_info.name
+                                    err_is_visible=error_info.is_visible
+                                    err_values=None
+                                    for in_file in error_info.in_files:
+                                        tmp_values=tmp_values_up=tmp_values_down=np.empty(0)
+                                        extra_args={k: in_file[k] for k in ('delimiter', 'file_type', 'replace_dict', 'tabular_loc_decode') if hasattr(in_file,k)}
+
+                                        # if decode is present we have either 2-dim specification of [up,down] or 1-dim symmetric error
+                                        if( hasattr(in_file, 'decode')):
+                                            tmp_values=variable_loading.read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode,**extra_args)
+
+                                        # if decode_up is present we have either 2-dim specification of [decode_up,decode_down] or [decode_up,None]
+                                        if( hasattr(in_file, 'decode_up')):
+                                            tmp_values_up=variable_loading.read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode_up,**extra_args)
+
+                                        # if decode_down is present we have either 2-dim specification of [decode_up,decode_down] or [None,decode_down]
+                                        if( hasattr(in_file, 'decode_down')):
+                                            tmp_values_down=variable_loading.read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode_down,**extra_args)
+
+                                        if(tmp_values_up.size>0 or tmp_values_down.size>0):
+                                            if(not tmp_values_down.size>0):
+                                                tmp_values_down=np.full_like(tmp_values_up,np.nan)
+                                            if(not tmp_values_up.size>0):
+                                                tmp_values_up=np.full_like(tmp_values_down,np.nan)
+                                            tmp_values=np.array([tmp_values_up,tmp_values_down]).T
+
+                                        if(not (tmp_values_up.size>0 or tmp_values_down.size>0 or tmp_values.size>0)):
+                                            raise TypeError("Something went wrong. Could not read errors")
+                                        if(err_values):
+                                            err_values=np.concatenate((err_values,tmp_values))
+                                        else:
+                                            err_values=tmp_values
+                                    if( hasattr(error_info, 'data_type')):
+                                        if(error_info.data_type!='' and error_info.data_type and err_values is not None):
+                                            err_values=err_values.astype(error_info.data_type)
+                                    if( hasattr(error_info, 'transformations')):
+                                        for transformation in error_info.transformations:
+                                            err_values=perform_transformation(transformation,self.__dict__,table.__dict__|{var_name:var_values,err_name:err_values}|{var_err.name:var_err for var_err in var.uncertainties})
+                                    unc=Uncertainty(err_values,name=err_name,is_visible=err_is_visible)
+                                    var.add_uncertainty(unc)
+                        if(var.multiplier):
+                            var.qualifiers.append({"multiplier":var.multiplier})
+                        table.add_variable(var)
+                        if hasattr(variable_info, 'regions'):
+                            var.regions=get_matching_based_variables(variable_info.regions,table.__dict__|{"np":np},local_dict=None)
+                        if hasattr(variable_info, 'grids'):
+                            var.grids=get_matching_based_variables(variable_info.grids,table.__dict__|{"np":np},local_dict=None)
+                        if hasattr(variable_info, 'signal_names'):
+                            var.signal_names=get_matching_based_variables(variable_info.signal_names,table.__dict__|{"np":np},local_dict=None)
+
+                self.add_table(table)
             
     def create_hepdata_record(self,data_root:str='./',outdir='submission_files'):
         # Actual record creation based on information stored
@@ -616,22 +628,39 @@ class Submission():
             raise TypeError("Unknown object type: {0}".format(str(type(table))))
         name=table.name
         if(name in self.__dict__):
-            raise ValueError(f"You try to add table with name {name}. This name, however, cannot be used as is already taken, see __dict__:{__dict__}.")
+            raise ValueError(f"You try to add table with name '{name}'. This name, however, cannot be used as is already taken, see __dict__:{self.__dict__}.")
         self.__dict__[name]=table
 
+    def add_table(self, table):
+        """
+        Add a table to the submission
+        :param table: Table to add.
+        :type table: Table.
+        """
+        if isinstance(table, Table):
+            log.debug(f"Adding table {table.name} to the submission")
+            self.tables.append(table)
+            self._add_tab_to_dict_safely(table)
+        else:
+            raise TypeError("Unknown object type: {0}".format(str(type(table))))
     def update_table(self,new_tab):
+        if not isinstance(new_tab, Table):
+            raise TypeError(f"In order to update table in submission one needs to provide a table. Here, unknown object of type: {type(new_tab)}")
         log.debug(f"Updating table {new_tab.name}. Parameters passed: {locals()}")
         no_matching=True
         for index,tab in enumerate(self.tables):
             if(tab.name==new_tab.name):
+                if(not no_matching):
+                    raise ValueError(f"Table name '{tab.name}' appears twice in the submission while updating table. Fix this (hint, aren't you shallow-copy from another table that is in the submission?).")
                 no_matching=False
                 self.tables[index]=new_tab
                 if(not new_tab.name in self.__dict__):
                     log.warning(f"The table {table_name} to be updated was not found in __dict__ of submission object however it should be there... You probably use the code not as it was intended to be used!")
                 self.__dict__[new_tab.name]=new_tab # here we do not use _add_tab_to_dict_safely as the table name should already be in __dict__ (or not be there at all)
         if(no_matching):
-            log.warning(f"You tried to update table {new_tab.name}, but no table of such name found in the table!")
-    def del_table(self,table_name):
+            log.warning(f"You tried to update table {new_tab.name}, but no table of such name found in the table! Simply adding the table instead.")
+            self.add_table(new_tab)
+    def delete_table(self,table_name):
         if(table_name not in self.get_table_names()):
             log.warning(f"You try to remove table {table_name} that is not found in the submission object.")
             return
@@ -641,8 +670,20 @@ class Submission():
                 # we continue nonetheless
             else:
                 self.__dict__.pop(table_name)
-            del tables[table_name]
+            del self.tables[self.table_index(table_name)]
 
+    @property
+    def config(self):
+        """config getter."""
+        return self._config
+
+    @config.setter
+    def config(self, config):
+        """config setter."""
+        # Check schema of the submission steering file:
+        utils.check_schema(config,'steering_file.json')
+        self._config=config
+        
     @property
     def tables(self):
         """tables getter."""

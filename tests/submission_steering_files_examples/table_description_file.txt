@@ -1,0 +1,12 @@
+Here is table description.
+It can be attached to steering file. For example
+{
+    "type": "submission",
+    "tables":
+    [
+	{
+            "name":"table1_name",
+            "title":"table_description_file.txt"
+	}
+    ]
+}

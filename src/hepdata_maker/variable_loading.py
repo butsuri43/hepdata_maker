@@ -16,6 +16,7 @@ from TexSoup import TexSoup
 import regex as re
 import scipy.stats, scipy.special
 from collections import OrderedDict
+import os.path
 
 def get_array_from_csv(file_path,decode,delimiter=','):
     log.debug("--------- csv file read -------------")
@@ -247,6 +248,9 @@ def get_table_from_tex(file_path,tabular_loc_decode,replace_dict={}):
     
 def read_data_file(file_name,decode,**extra_args):
     tmp_values=None
+    if(not os.path.isfile(file_name)):
+        raise ValueError(f"Could not find data file '{file_name}'. Please check the path provided.")
+
     delimiter=extra_args.get('delimiter',',')
     replace_dict=extra_args.get('replace_dict',{})
     tabular_loc_decode=extra_args.get('tabular_loc_decode',None)

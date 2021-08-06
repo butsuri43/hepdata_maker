@@ -1,0 +1,29 @@
+{
+    "type": "submission",
+    "tables":
+    [
+	{
+            "name":"stop_xSecUpperLimit_obs",
+            "should_be_processed":true,
+            "title":"",
+            "location":"Data from figaux. 01a and 01b.",
+            "grid":"tN",
+            "images":[
+		{
+		    "name":"/this/file/does/not/exists"
+		}
+	    ],
+            "keywords":{
+		"observables":["CLS"],
+		"cmenergies":["13000"],
+		"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],
+		"reactions":["P P --> STOP STOP X"]},
+            "variables":[
+		{
+		    "name":"mt",
+		    "transformations":["np.array([1,2,3])"]
+		}
+            ]
+	}
+    ]
+}

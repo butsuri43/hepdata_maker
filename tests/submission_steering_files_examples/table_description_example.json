@@ -1,0 +1,15 @@
+{
+    "type": "submission",
+    "tables":
+    [
+	{
+            "name":"table1_name",
+            "title":"table_description_file.txt"
+	},
+	{
+            "name":"table2_name",
+            "title":"This is normal title"
+	}
+
+    ]
+}

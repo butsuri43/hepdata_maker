@@ -41,8 +41,8 @@ def create_submission(steering_file,data_root,output_dir):
     console.rule("create_submission",characters="=")
     console.print(f"Loading submission information based on {steering_file}")
     submission=Submission()
-    submission.load_table_config(steering_file)
-    submission.implement_table_config(data_root)
+    submission.read_table_config(steering_file)
+    submission.load_table_config(data_root)
     # TODO require user to confirm overwriting output_dir if it already exist
     with console.status("Creating hepdata files (this might take a while)..."):
         submission.create_hepdata_record(data_root,output_dir)
@@ -83,11 +83,11 @@ def get_requested_table_list(steering_file,indices,names):
 def submission_for_selected_tables(steering_file,data_root,load_all_tables,requested_tables):
     console.print(f"Loading requested tables based on {steering_file}")
     submission=Submission()
-    submission.load_table_config(steering_file)
+    submission.read_table_config(steering_file)
     if(load_all_tables):
-        submission.implement_table_config(data_root)
+        submission.load_table_config(data_root)
     else:
-        submission.implement_table_config(data_root,selected_table_names=requested_tables)
+        submission.load_table_config(data_root,selected_table_names=requested_tables)
 
     return submission
 
