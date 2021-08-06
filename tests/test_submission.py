@@ -8,6 +8,22 @@ import numpy as np
 import jsonschema
 import os.path
 
+# 
+# See https://stackoverflow.com/a/431747 (from where working_directory function was copied)
+# Code below provides a safe way to change working dir
+# We need this to check outputs produced by create_hepdata_record
+import os
+from contextlib import contextmanager    
+@contextmanager
+def working_directory(directory):
+    owd = os.getcwd()
+    try:
+        os.chdir(directory)
+        yield directory
+    finally:
+        os.chdir(owd)
+
+
 @pytest.fixture
 def sub_ex1():
     return Submission()
@@ -155,25 +171,25 @@ def test_replace_tables_raise(sub_ex1,table_ex1):
     with pytest.raises(TypeError):
         sub_ex1.tables=[table_ex1,{"name":"This should fail"}]
 
-def test_read_table_config(sub_ex1):
-    sub_ex1.read_table_config("submission_steering_files_examples/basic_example.json")
+def test_read_table_config(datadir,sub_ex1):
+    sub_ex1.read_table_config(datadir.join("basic_example.json"))
     assert True
 
 @pytest.mark.parametrize("submission_file",["/this/path/does/not/exist",
-                                            "submission_steering_files_examples/should_fail/not_json_steering_file.json"
+                                            "should_fail/not_json_steering_file.json"
                                             ]
                          )
-def test_read_table_config_raise_ValueError(sub_ex1,submission_file):
+def test_read_table_config_raise_ValueError(datadir,sub_ex1,submission_file):
     with pytest.raises(ValueError):
-        sub_ex1.read_table_config(submission_file)
+        sub_ex1.read_table_config(datadir.join(submission_file,abs=1)) # in the case for absolute submission_file the datadir path is ignored! 
 
 @pytest.mark.parametrize("submission_file",[["this/is/list/"]])
 def test_read_table_config_raise_TypeError(sub_ex1,submission_file):
     with pytest.raises(TypeError):
         sub_ex1.read_table_config(submission_file)
 
-def test_load_table_config_basic_example(sub_ex1):
-    sub_ex1.read_table_config("submission_steering_files_examples/basic_example.json")
+def test_load_table_config_basic_example(datadir,sub_ex1):
+    sub_ex1.read_table_config(datadir.join("basic_example.json"))
     sub_ex1.load_table_config()
     assert len(sub_ex1.tables)==1
     assert sub_ex1.get_table_names()==['table1_name']
@@ -188,14 +204,14 @@ def test_load_table_config_basic_example(sub_ex1):
     assert np.all(sub_ex1.tables[0].variables[2].name=='XsecUL')
     assert np.all(sub_ex1.tables[0].variables[2]==[3.1,3.2,3.3])
 
-def test_load_table_config_should_be_processed(sub_ex1):
-    sub_ex1.read_table_config("submission_steering_files_examples/basic_example.json")
+def test_load_table_config_should_be_processed(datadir,sub_ex1):
+    sub_ex1.read_table_config(datadir.join("basic_example.json"))
     sub_ex1._config['tables'][0]['should_be_processed']=False
     sub_ex1.load_table_config()
     assert len(sub_ex1.tables)==0
 
-def test_load_table_config_selected_table_names(sub_ex1):
-    sub_ex1.read_table_config("submission_steering_files_examples/basic_example.json")
+def test_load_table_config_selected_table_names(datadir,sub_ex1):
+    sub_ex1.read_table_config(datadir.join("basic_example.json"))
     sub_ex1._config['tables'].append(copy.copy(sub_ex1._config['tables'][0]))
     sub_ex1._config['tables'][1]['name']='table2_name'
     print(sub_ex1._config)
@@ -203,8 +219,8 @@ def test_load_table_config_selected_table_names(sub_ex1):
     assert len(sub_ex1.tables)==1
     assert sub_ex1.tables[0].name=='table2_name'
 
-def test_load_table_config_double_load(sub_ex1,caplog):
-    sub_ex1.read_table_config("submission_steering_files_examples/basic_example.json")
+def test_load_table_config_double_load(datadir,sub_ex1,caplog):
+    sub_ex1.read_table_config(datadir.join("basic_example.json"))
     sub_ex1.load_table_config()
     with pytest.raises(ValueError):
         sub_ex1.load_table_config() # loading of the same file should raise an error
@@ -216,21 +232,22 @@ def test_load_table_config_double_load(sub_ex1,caplog):
     sub_ex1.load_table_config()
     assert set(sub_ex1.get_table_names())==set(['table1_name','table2_name'])
 
-@pytest.mark.parametrize("submission_file",["submission_steering_files_examples/should_fail/not_readable_image_file.json",
-                                            "submission_steering_files_examples/should_fail/not_readable_data_file.json",
-                                            "submission_steering_files_examples/should_fail/not_readable_error_file.json"
+@pytest.mark.parametrize("submission_file",["should_fail/not_readable_image_file.json",
+                                            "should_fail/not_readable_data_file.json",
+                                            "should_fail/not_readable_error_file.json"
                                             ]
                          )
-def test_load_table_config_raise_ValueError(sub_ex1,submission_file):
-    sub_ex1.read_table_config(submission_file)
+def test_load_table_config_raise_ValueError(datadir,sub_ex1,submission_file):
+    sub_ex1.read_table_config(datadir.join(submission_file))
     with pytest.raises(ValueError):
         sub_ex1.load_table_config()
 
 
-def test_load_table_config_table_description(sub_ex1):
-    sub_ex1.read_table_config("submission_steering_files_examples/table_description_example.json")
-    sub_ex1.load_table_config(data_root="submission_steering_files_examples/")
-    assert sub_ex1.tables[0].title=="""Here is table description.
+def test_load_table_config_table_description(datadir,sub_ex1):
+    sub_ex1.read_table_config(datadir.join("table_description_example.json"))
+    with working_directory(datadir):
+        sub_ex1.load_table_config()
+        assert sub_ex1.tables[0].title=="""Here is table description.
 It can be attached to steering file. For example
 {
     "type": "submission",
@@ -243,7 +260,7 @@ It can be attached to steering file. For example
     ]
 }
 """
-    assert sub_ex1.tables[1].title=="This is normal title"
+        assert sub_ex1.tables[1].title=="This is normal title"
 
 
 @pytest.mark.parametrize("forbidden_name",["dolar_$_is_not_allowed",
@@ -280,24 +297,18 @@ def test_load_table_config_table_names(sub_ex1,allowed_name):
     sub_ex1.load_table_config()
     assert sub_ex1.tables[0].name==allowed_name
 
-# 
-# See https://stackoverflow.com/a/431747 (from where working_directory function was copied)
-# Code below provides a safe way to change working dir
-# We need this to check outputs produced by create_hepdata_record
-import os
-from contextlib import contextmanager    
-@contextmanager
-def working_directory(directory):
-    owd = os.getcwd()
-    try:
-        os.chdir(directory)
-        yield directory
-    finally:
-        os.chdir(owd)
 
-@pytest.mark.parametrize("submission_file,data_root",[("submission_steering_files_examples/basic_example.json","./"),
-                                                     ("submission_steering_files_examples/table_description_example.json","submission_steering_files_examples/")])
-def test_create_hepdata_record(tmp_path,sub_ex1,submission_file,data_root):
+@pytest.mark.parametrize("submission_file",["basic_example.json",
+                                            "table_description_example.json"])
+def test_create_hepdata_record(datadir,tmp_path,sub_ex1,submission_file):
+
+    sub_ex1.read_table_config(datadir.join(submission_file))
+    with working_directory(datadir):
+        sub_ex1.load_table_config()
+        sub_ex1.create_hepdata_record()
+        assert os.path.isdir('submission_files')
+        assert os.path.isfile('submission.tar.gz')
+    """
     directory_with_example_file=os.path.dirname(os.path.abspath(submission_file))
     path_link_to_directory_with_example=tmp_path/os.path.basename(directory_with_example_file)
     path_link_to_directory_with_example.symlink_to(directory_with_example_file)
@@ -311,3 +322,4 @@ def test_create_hepdata_record(tmp_path,sub_ex1,submission_file,data_root):
         sub_ex1.create_hepdata_record()
         assert (tmp_path/'submission_files').is_dir()
         assert (tmp_path/'submission.tar.gz').is_file()
+    """

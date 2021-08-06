@@ -5,8 +5,11 @@ stages:
 
 scheme_checks:
   stage: checks
+  image:  gitlab-registry.cern.ch/bozek/hepdata-docker:master-072a0b4b
   script:
-   - echo "To do! Unit tests on example submissions."
+   - echo "Running unit tests!"
+   - pip3 install --upgrade --editable .
+   - pytest -r sx
 
 package_build:
   stage: build

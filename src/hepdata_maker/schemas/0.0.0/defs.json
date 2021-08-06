@@ -32,7 +32,7 @@
 		"name":{
 		    "description":"name of the table (simple names only!)",
 		    "type":"string",
-		    "pattern": "^([a-zA-Z0-9\\._;/])*$"
+		    "pattern": "^([a-zA-Z0-9\\._;/+])*$"
 		},
 		"should_be_processed":{
 		    "description":"flag whether table should be processed (checked and information used) or just skipped",
@@ -93,7 +93,7 @@
 		"name":{
 		    "description":"variable name",
 		    "type":"string",
-		    "pattern": "^([a-zA-Z0-9\\._;/])*$"
+		    "pattern": "^([a-zA-Z0-9\\._;/+])*$"
 		},
 		"unit":{
 		    "description":"variable unit (using pint, see https://pint.readthedocs.io/en/stable/)",
@@ -175,7 +175,7 @@
 		"name":{
 		    "description":"",
 		    "type":"string",
-		    "pattern": "^([a-zA-Z0-9\\._;/])*$"
+		    "pattern": "^([a-zA-Z0-9\\._;/+])*$"
 		},
 		"matching":{
 		    "description":"",
@@ -194,7 +194,7 @@
 		"name":{
 		    "description":"variable name",
 		    "type":"string",
-		    "pattern": "^([a-zA-Z0-9\\._;/])*$"
+		    "pattern": "^([a-zA-Z0-9\\._;/+])*$"
 		},
 		"unit":{
 		    "description":"variable unit (using pint, see https://pint.readthedocs.io/en/stable/)",
