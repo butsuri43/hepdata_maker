@@ -31,7 +31,8 @@
 	    "properties":{
 		"name":{
 		    "description":"name of the table (simple names only!)",
-		    "type":"string"
+		    "type":"string",
+		    "pattern": "^([a-zA-Z0-9\\._;/])*$"
 		},
 		"should_be_processed":{
 		    "description":"flag whether table should be processed (checked and information used) or just skipped",
@@ -91,7 +92,8 @@
 	    "properties":{
 		"name":{
 		    "description":"variable name",
-		    "type":"string"
+		    "type":"string",
+		    "pattern": "^([a-zA-Z0-9\\._;/])*$"
 		},
 		"unit":{
 		    "description":"variable unit (using pint, see https://pint.readthedocs.io/en/stable/)",
@@ -172,7 +174,8 @@
 	    "properties":{
 		"name":{
 		    "description":"",
-		    "type":"string"
+		    "type":"string",
+		    "pattern": "^([a-zA-Z0-9\\._;/])*$"
 		},
 		"matching":{
 		    "description":"",
@@ -190,7 +193,8 @@
 	    "properties":{
 		"name":{
 		    "description":"variable name",
-		    "type":"string"
+		    "type":"string",
+		    "pattern": "^([a-zA-Z0-9\\._;/])*$"
 		},
 		"unit":{
 		    "description":"variable unit (using pint, see https://pint.readthedocs.io/en/stable/)",
@@ -258,6 +262,7 @@
 		}
 		
 	    },
+	    "required": ["name", "decode"],
 	    "additionalProperties":false
 	},
 	"additional_file":{
