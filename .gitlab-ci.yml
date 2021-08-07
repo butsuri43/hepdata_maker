@@ -4,21 +4,21 @@ stages:
   - build
   - publish
 
-.checks_template: &job_configuration
+.checks_template:
   stage: checks
   image:  gitlab-registry.cern.ch/bozek/hepdata-docker:master-072a0b4b
-  script:
+  before_script:
    - echo "Pip-installing hepdata_submission_maker"
    - pip3 install --upgrade --editable .
 
 unittests_checks:
-  <<: *job_configuration
+  extends: .checks_template
   script:
    - echo "Running unit tests!"
    - pytest -r sx --ignore tests/full_workflow/
 
 example1_record_creation:
-  <<: *job_configuration
+  extends: .checks_template
   script:
    - echo "'pseudo' stop0L record creation!"
    - hepdata_maker create-submission ../examples/stop0L/submissions_config.json
