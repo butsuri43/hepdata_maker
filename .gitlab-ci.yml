@@ -21,7 +21,7 @@ example1_record_creation:
   extends: .checks_template
   script:
    - echo "'pseudo' stop0L record creation!"
-   - hepdata_maker create-submission ../examples/stop0L/submissions_config.json
+   - hepdata_maker create-submission examples/stop0L/submissions_config.json
   artifacts:
     paths:
      - submission.tar.gz
