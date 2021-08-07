@@ -16,6 +16,8 @@ from TexSoup import TexSoup
 import regex as re
 import scipy.stats, scipy.special
 from collections import OrderedDict
+import os.path
+from . import utils
 
 def get_array_from_csv(file_path,decode,delimiter=','):
     log.debug("--------- csv file read -------------")
@@ -192,7 +194,7 @@ def get_array_from_tex(file_path,decode,tabular_loc_decode,replace_dict={}):
         For reference, 'table' (you should use in your 'decode') contains following information:
 {table}""")
     try:
-        result=eval(decode,{"np":np}|{'table':table}|{"re":re}|{"scipy.stats":scipy.stats}|{"scipy.special":scipy.special}|{"ufs":ufs})
+        result=eval(decode,utils.merge_dictionaries({"np":np},{'table':table},{"re":re},{"scipy.stats":scipy.stats},{"scipy.special":scipy.special},{"ufs":ufs}))
     except Exception as exc:
         log.error(f"""Check your 'decode' settings!
 Your 'table' looks the following:
@@ -247,6 +249,9 @@ def get_table_from_tex(file_path,tabular_loc_decode,replace_dict={}):
     
 def read_data_file(file_name,decode,**extra_args):
     tmp_values=None
+    if(not os.path.isfile(file_name.split(":")[0])): # split is for ROOT files
+        raise ValueError(f"Could not find data file '{file_name}'. Please check the path provided.")
+
     delimiter=extra_args.get('delimiter',',')
     replace_dict=extra_args.get('replace_dict',{})
     tabular_loc_decode=extra_args.get('tabular_loc_decode',None)
@@ -303,7 +308,7 @@ def get_variable_steering_snipped(in_file,decode,data_type,transformations,**ext
         additional_properties['tabular_loc_decode']=extra_args['tabular_loc_decode']
     if('file_type' in extra_args and file_type):
         additional_properties['file_type']=extra_args['file_type']
-    result_json['in_files']=[{"name":in_file, "decode":decode}|additional_properties]
+    result_json['in_files']=[utils.merge_dictionaries({"name":in_file, "decode":decode},additional_properties)]
     
     if(data_type):
         result_json['data_type']=data_type
