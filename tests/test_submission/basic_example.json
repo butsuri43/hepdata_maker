@@ -1,0 +1,30 @@
+{
+    "type": "submission",
+    "tables":
+    [
+	{
+            "name":"table1_name",
+            "title":"Description of table1",
+            "location":"Where can it be located in the corresponding publication?",
+            "keywords":{
+		"observables":["CLS"],
+		"cmenergies":["13000"],
+		"phrases":["SUSY","Supersymmetry","Proton-Proton Scattering"],
+		"reactions":["P P --> STOP STOP X"]},
+            "variables":[
+		{
+		    "name":"mt",
+		    "transformations":["np.array([1,2,3])"]
+		},
+		{
+		    "name":"mn",
+		    "transformations":["np.array([2,3,4])"]
+		},
+		{
+		    "name":"XsecUL",
+		    "transformations":["np.array([3.1,3.2,3.3])"]
+		}
+            ]
+	}
+    ]
+}

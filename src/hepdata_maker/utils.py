@@ -5,10 +5,21 @@ from pathlib import Path
 from collections import OrderedDict
 import collections
 import os
+from collections.abc import Mapping
 
 SCHEMA_CACHE = {}
 SCHEMA_BASE = "schemas"
 SCHEMA_VERSION = '0.0.0'
+
+def merge_dictionaries(*args):
+    # This is easily done in python 3.9 with dict1|dict2, however for 3.8 we need this 
+    for arg in args:
+        if(not isinstance(arg,Mapping)):
+            raise ValueError(f"Only dictionary-like objects can be merged together. Provided were {args}")
+    result = {}
+    for dictionary in args:
+        result.update(dictionary)
+    return result
 
 #
 # Schema functionality copied/inspired from/by https://github.com/scikit-hep/pyhf/blob/master/src/pyhf/utils.py 

@@ -1,12 +1,39 @@
 stages:
   - checks
+  - second_stage_checks
   - build
   - publish
 
-scheme_checks:
+.checks_template:
   stage: checks
+  image:  gitlab-registry.cern.ch/bozek/hepdata-docker:master-072a0b4b
+  before_script:
+   - echo "Pip-installing hepdata_submission_maker"
+   - pip3 install --upgrade --editable .
+
+unittests_checks:
+  extends: .checks_template
   script:
-   - echo "To do! Unit tests on example submissions."
+   - echo "Running unit tests!"
+   - pytest -r sx --ignore tests/full_workflow/
+
+example1_record_creation:
+  extends: .checks_template
+  script:
+   - echo "'pseudo' stop0L record creation!"
+   - hepdata_maker create-submission examples/stop0L/submissions_config.json
+  artifacts:
+    paths:
+     - submission.tar.gz
+    expire_in: 1 hour
+
+example1_record_check:
+  stage: second_stage_checks
+  image: python:latest
+  script:
+   - python tests/full_workflow/test_stop0L_example.py
+  dependencies:
+    - example1_record_creation
 
 package_build:
   stage: build
@@ -15,7 +42,7 @@ package_build:
    - python3 setup.py sdist
   artifacts:
     paths:
-      - dist/submission_maker-0.0.0.tar.gz
+      - dist/hepdata_submission_maker-0.0.0.tar.gz
     expire_in: 1 week
     
 package_publish:
