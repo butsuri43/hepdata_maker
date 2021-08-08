@@ -57,8 +57,10 @@ def check_schema(steering_file):
     utils.check_schema(json_data,'steering_file.json')
     console.print(f"    All ok!    ")
 
-def get_requested_table_list(steering_file,indices,names):
+def get_requested_table_list(steering_file,load_all_tables,indices,names):
     available_tables=utils.get_available_tables(steering_file)
+    if(load_all_tables):
+        return available_tables
     if(not (indices or names)):
         raise TypeError(f"You need to provide the name/index of the table you want to print. Choose from: (name,index)={[(tuple[0],index) for index,tuple in enumerate(available_tables)]}")
     if(indices and (max(indices)>len(available_tables) or min(indices)<0)):
@@ -99,7 +101,7 @@ def submission_for_selected_tables(steering_file,data_root,load_all_tables,reque
 @click.option('--names', '-n', type=str,multiple=True)
 def check_table(steering_file,data_root,load_all_tables,indices,names):
     console.rule("check_table",characters="=")
-    requested_tables=get_requested_table_list(steering_file,indices,names)
+    requested_tables=get_requested_table_list(steering_file,load_all_tables,indices,names)
     submission=submission_for_selected_tables(steering_file,data_root,load_all_tables,requested_tables)
     console.print(f"Printing requested tables:")
     for table in submission.tables:
@@ -207,7 +209,7 @@ def check_variable(in_file,data_root,file_type,decode,data_type,tabular_loc_deco
     submission_dict={}
     if(steering_file):
         log.debug(f"Steering file {steering_file} has been provided and is being read.")
-        requested_tables=get_requested_table_list(steering_file,indices,names)
+        requested_tables=get_requested_table_list(steering_file,load_all_tables,indices,names)
         submission=submission_for_selected_tables(steering_file,data_root,load_all_tables,requested_tables)
         submission_dict=submission.__dict__
 
@@ -262,9 +264,34 @@ def check_variable(in_file,data_root,file_type,decode,data_type,tabular_loc_deco
     utils.check_schema(variable_json,'variable.json')
     console.print(json.dumps(variable_json,indent=4))
     variable_loading.log.setLevel(current_loaded_module_log_level)
-
+    
+@click.command()
+@click.argument('steering_file',type=click.Path(exists=True))
+@click.option('--data-root', default='./', help='Location of files specified in steering file (if not an absolute location is given there)',type=click.Path(exists=True),)
+@click.option('--load-all-tables/--load-only-selected', '-a/-o', default=True)
+@click.option('--indices', '-i', type=int,multiple=True)
+@click.option('--names', '-n', type=str,multiple=True)
+def create_table_of_content(steering_file,data_root,load_all_tables,indices,names):
+    console.rule("table of content",characters="=")
+    requested_tables=get_requested_table_list(steering_file,load_all_tables,indices,names)
+    submission=submission_for_selected_tables(steering_file,data_root,load_all_tables,requested_tables)
+    print_which_tables="all" if load_all_tables else requested_tables
+    console.print(f"Creating table of content for {print_which_tables} tables.")
+    submission.create_table_of_content()
+    toc=[table for table in submission.tables if table.name=='overview']
+    if(len(toc)<1):
+        log.error("Issue encountered. Somehowe table of content was not created. Seems like but on the side of the hepdata_submission_maker.")
+    if(len(toc)>1):
+        log.error("Several 'overview' tables encountered. You have probably submitted faulty data.")
+    console.rule("retrieved table-of-content:")
+    console.print(toc[0].title)
+    console.rule("steering file snipped")
+    table_json=toc[0].steering_file_snippet()
+    console.rule("You can add following table in your json steering file:")
+    console.print(json.dumps(table_json,indent=4))
 
 hepdata_maker.add_command(create_submission)
 hepdata_maker.add_command(check_schema)
 hepdata_maker.add_command(check_table)
 hepdata_maker.add_command(check_variable)
+hepdata_maker.add_command(create_table_of_content)
