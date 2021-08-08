@@ -144,7 +144,13 @@ class Uncertainty(np.ndarray):
         self.digits = getattr(obj, 'digits', 5)        
     #def is_error_symmetric(self):
     #    return pytest.approx(self[:,0])==-self[:,1]
-
+    def steering_file_snippet(self):
+        out_json={}
+        out_json['name']=self.name
+        out_json['is_visible']=self.is_visible
+        out_json['digits']=self.digits
+        out_json['transformations']=[self.tolist()]
+        return out_json
 class Variable(np.ndarray):
     def __new__(cls, input_array,name, is_independent=True, is_binned=None, is_visible=True, unit="", values=None,digits=5):
         # Input array is an already formed ndarray instance
@@ -275,7 +281,16 @@ class Variable(np.ndarray):
                 self._add_unc_to_dict_safely(uncertainty)
         # finally set the table list
         self._uncertainties = uncertainties
-
+    def steering_file_snippet(self):
+        out_json={}
+        out_json['name']=self.name
+        out_json['is_visible']=self.is_visible
+        out_json['digits']=self.digits
+        out_json['transformations']=[self.tolist()]
+        out_json['uncertainties']=[]
+        for unc in self.uncertainties:
+            out_json['uncertainties'].append(unc.steering_file_snippet())
+        return out_json
 class Table(object):
     """
     A table is a collection of variables.
@@ -291,8 +306,8 @@ class Table(object):
         self.name = name
         self._variable_lenght=0
         self._variables = []
-        self.title = "Example description"
-        self.location = "Example location"
+        self.title = ""
+        self.location = ""
         self.keywords = {}
         #self.additional_resources = []
         self.images = []
@@ -395,6 +410,15 @@ class Table(object):
         # finally set the table list
         self._variables = variables
 
+    def steering_file_snippet(self):
+        output_json={}
+        output_json['name']=self.name
+        output_json['title']=self.title
+        output_json['variables']=[]
+        for variable in self.variables:
+            output_json['variables'].append(variable.steering_file_snippet())
+        return output_json
+        
 def fix_zero_error(variable):
     tmp_need_zero_error_fix=(variable==np.zeros_like(variable))
     tmp_need_zero_error_fix=np.array([tmp_need_zero_error_fix,tmp_need_zero_error_fix]).T # translating to the (2,N) shape of errors
@@ -458,6 +482,18 @@ class Submission():
         if(not isinstance(table_name,str)):
             raise TypeError(f"Table's name needs to be a string. Trying to find uncertainty based on object type ({type(table_name)}) failed!")
         return self.get_table_names().index(table_name)
+    def create_table_of_content(self):
+        if ("overview" in self.get_table_names()):
+            log.warning("Table named 'overview' is already defined. It is assumed that it contains the table of content and it will not be attempted to re-creating it. Rename/remove 'overview' in your steering file if you expect another behaviour.")
+            return
+        table_of_content_list=[]
+        table_of_content_list.append(r"<b>tables:</b><ul>")
+        for table in self.tables:
+            table_of_content_list.append(fr"<li><a href=?table={table.name}>{table.name}</a>")
+        table_of_content_list.append(r"</ul>")
+        toc=Table("overview")
+        toc.title="\n".join(table_of_content_list)
+        self.insert_table(0,toc)
     def read_table_config(self,
                           config_file_path: str=''):
         if(not os.path.isfile(config_file_path)):
@@ -494,6 +530,7 @@ class Submission():
                         # Provide file with table title ( e.g. website out)
                         log.debug(f"Title field of table {table_name} points to a text file. Content of the file will be used as table title.")
                         table.title=open(potential_file_path).read()
+                        print(repr(table.title))
                     else:
                         log.debug(f"Title fielf of table {table_name} points to a text file. Content of the file will be used as table title.")
                         table.title=table_info.title
@@ -638,6 +675,14 @@ class Submission():
             raise ValueError(f"You try to add table with name '{name}'. This name, however, cannot be used as is already taken, see __dict__:{self.__dict__}.")
         self.__dict__[name]=table
 
+    def insert_table(self,index, table):
+        if isinstance(table, Table):
+            log.debug(f"Adding table {table.name} to the submission")
+            self.tables.insert(index,table)
+            self._add_tab_to_dict_safely(table)
+        else:
+            raise TypeError("Unknown object type: {0}".format(str(type(table))))
+        
     def add_table(self, table):
         """
         Add a table to the submission
