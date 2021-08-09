@@ -4,6 +4,7 @@ from __future__ import print_function
 import numpy as np
 import json
 from collections import OrderedDict
+from collections.abc import Iterable
 import collections
 import hepdata_lib
 import os.path
@@ -105,21 +106,88 @@ def print_dict_highlighting_objects(dictionary,title=''):
     render_group=rich.console.RenderGroup(*objects_to_show)
     console.print(rich.panel.Panel(render_group,expand=False,title=title))
 class Uncertainty(np.ndarray):
-    def __new__(cls, input_array, name, is_visible=True, digits=5):
-        # Input array is an already formed ndarray instance
-        # We first cast to be our class type
-        #print("In Uncertainty new")
-        #tmp_array=np.asarray(input_array)
-        #if(len(tmp_array.shape)==2):
-        #    obj = tmp_array.view(cls)
-        #elif(len(tmp_array.shape)==1):
-        #    #  TODO: Problem if we have str given! 
-        #    obj=np.asarray([tmp_array,-1*tmp_array]).T.view(cls)
-        #else:
-        #    raise ValueError("Uncertainty can only be either one or two dimensional.")
-        # add the new attribute to the created instance
+    def __new__(cls,input_array=[],
+                name="unc",
+                is_visible=True,
+                digits=5,
+                unc_steering=None,
+                global_variables={},
+                local_variables={},
+                data_root='./'):
+        # Uncertainty class.
+        # Can be created an the following way:
+        #
+        # 1) data array (could be 1 or 2-dim) and name of error ,
+        # unc=Uncertainty([1,2,3],'my_name')
+        #
+        # 2) explicite argument naming:
+        # unc=Uncertainty(input_array=[1,2,3],name='my_name',)
+        #
+        # 3) providing dictionary following src/hepdata_maker/schemas/0.0.0/uncertainty.json schema.
+        #    The argument name is ('unc_steering')
+        # unc=Uncertainty(unc_steering={"name":"my_name","transformations":[1,2,3]})
+        #
+        # If unc_steering is given, it takes precedence over other arguments.
+        #
+        
+
+        if(unc_steering):
+            if(not isinstance(unc_steering,dict)):
+                raise ValueError("'unc_steering' needs to contain dictionary!")
+            name=unc_steering.get('name',name)
+            is_visible=unc_steering.get('is_visible',is_visible)
+            digits=unc_steering.get('digits',digits)
+            cls.steering_info=unc_steering
+        """else:
+            # without steering file being provided we need to reconstruct it
+            self.steering_info={
+                "name":name,
+                "is_visible":is_visible,
+                "digits":digits,
+                "transforms":[input_array]
+            }
+        """
         log.debug(f"Creating new Uncertainty object: {name}")
         log.debug(f"   parameters passed {locals()}")
+        
+        if(unc_steering):
+            input_array=None
+            for in_file in unc_steering.in_files:
+                tmp_values=tmp_values_up=tmp_values_down=np.empty(0)
+                extra_args={k: in_file[k] for k in ('delimiter', 'file_type', 'replace_dict', 'tabular_loc_decode') if hasattr(in_file,k)}
+
+                # if decode is present we have either 2-dim specification of [up,down] or 1-dim symmetric error
+                if( hasattr(in_file, 'decode')):
+                    tmp_values=variable_loading.read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode,**extra_args)
+
+                # if decode_up is present we have either 2-dim specification of [decode_up,decode_down] or [decode_up,None]
+                if( hasattr(in_file, 'decode_up')):
+                    tmp_values_up=variable_loading.read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode_up,**extra_args)
+
+                # if decode_down is present we have either 2-dim specification of [decode_up,decode_down] or [None,decode_down]
+                if( hasattr(in_file, 'decode_down')):
+                    tmp_values_down=variable_loading.read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode_down,**extra_args)
+
+                if(tmp_values_up.size>0 or tmp_values_down.size>0):
+                    if(not tmp_values_down.size>0):
+                        tmp_values_down=np.full_like(tmp_values_up,np.nan)
+                    if(not tmp_values_up.size>0):
+                        tmp_values_up=np.full_like(tmp_values_down,np.nan)
+                    tmp_values=np.array([tmp_values_up,tmp_values_down]).T
+
+                if(not (tmp_values_up.size>0 or tmp_values_down.size>0 or tmp_values.size>0)):
+                    raise TypeError("Something went wrong. Could not read errors")
+                if(input_array):
+                    input_array=np.concatenate((input_array,tmp_values))
+                else:
+                    input_array=tmp_values
+            if( hasattr(unc_steering, 'data_type')):
+                if(unc_steering.data_type!='' and unc_steering.data_type and input_array is not None):
+                    input_array=input_array.astype(unc_steering.data_type)
+            if( hasattr(unc_steering, 'transformations')):
+                for transformation in unc_steering.transformations:
+                    input_array=perform_transformation(transformation,global_variables,utils.merge_dictionaries(local_variables,{name:input_array}))
+            
         obj=np.asarray(input_array).view(cls)
         obj.name = name
         obj.is_visible = is_visible
@@ -142,15 +210,20 @@ class Uncertainty(np.ndarray):
         self.name = getattr(obj, 'name', None)
         self.is_visible = getattr(obj, 'is_visible', True)        
         self.digits = getattr(obj, 'digits', 5)        
+        self.unc_steering = getattr(obj, 'unc_steering', None)
+        
     #def is_error_symmetric(self):
     #    return pytest.approx(self[:,0])==-self[:,1]
     def steering_file_snippet(self):
-        out_json={}
-        out_json['name']=self.name
-        out_json['is_visible']=self.is_visible
-        out_json['digits']=self.digits
-        out_json['transformations']=[self.tolist()]
-        return out_json
+        if(self.unc_steering): # a steering file was provided:
+            return self.unc_steering
+        else:
+            out_json={}
+            out_json['name']=self.name
+            out_json['is_visible']=self.is_visible
+            out_json['digits']=self.digits
+            out_json['transformations']=[self.tolist()]
+            return out_json
 class Variable(np.ndarray):
     def __new__(cls, input_array,name, is_independent=True, is_binned=None, is_visible=True, unit="", values=None,digits=5):
         # Input array is an already formed ndarray instance
@@ -505,10 +578,11 @@ class Submission():
         if(self._has_loaded):
             log.warning("You have already loaded information from a(nother?) steering file. If any table names will be loaded again (without prior explicite deletions) expect errors being raised!")
         self._has_loaded=True
-
+        
         # self._config should aready have the correct information as checked on schema check in read_table_config
         if('tables' in self.config):
             for table_info in [utils.objdict(x) for x in self.config['tables']]:
+                global_variables=self.__dict__
                 table_name=table_info.name
                 if( hasattr(table_info,'should_be_processed') and not table_info.should_be_processed):
                     log.warning(rf"table {table_info.name} has should_be_processed flag set to False. Skipping.")
@@ -574,45 +648,8 @@ class Submission():
                         if( hasattr(variable_info, 'errors')):
                             if(variable_info.errors):
                                 for error_info in variable_info.errors:
-                                    err_name=error_info.name
-                                    err_is_visible=error_info.is_visible
-                                    err_values=None
-                                    for in_file in error_info.in_files:
-                                        tmp_values=tmp_values_up=tmp_values_down=np.empty(0)
-                                        extra_args={k: in_file[k] for k in ('delimiter', 'file_type', 'replace_dict', 'tabular_loc_decode') if hasattr(in_file,k)}
-
-                                        # if decode is present we have either 2-dim specification of [up,down] or 1-dim symmetric error
-                                        if( hasattr(in_file, 'decode')):
-                                            tmp_values=variable_loading.read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode,**extra_args)
-
-                                        # if decode_up is present we have either 2-dim specification of [decode_up,decode_down] or [decode_up,None]
-                                        if( hasattr(in_file, 'decode_up')):
-                                            tmp_values_up=variable_loading.read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode_up,**extra_args)
-
-                                        # if decode_down is present we have either 2-dim specification of [decode_up,decode_down] or [None,decode_down]
-                                        if( hasattr(in_file, 'decode_down')):
-                                            tmp_values_down=variable_loading.read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode_down,**extra_args)
-
-                                        if(tmp_values_up.size>0 or tmp_values_down.size>0):
-                                            if(not tmp_values_down.size>0):
-                                                tmp_values_down=np.full_like(tmp_values_up,np.nan)
-                                            if(not tmp_values_up.size>0):
-                                                tmp_values_up=np.full_like(tmp_values_down,np.nan)
-                                            tmp_values=np.array([tmp_values_up,tmp_values_down]).T
-
-                                        if(not (tmp_values_up.size>0 or tmp_values_down.size>0 or tmp_values.size>0)):
-                                            raise TypeError("Something went wrong. Could not read errors")
-                                        if(err_values):
-                                            err_values=np.concatenate((err_values,tmp_values))
-                                        else:
-                                            err_values=tmp_values
-                                    if( hasattr(error_info, 'data_type')):
-                                        if(error_info.data_type!='' and error_info.data_type and err_values is not None):
-                                            err_values=err_values.astype(error_info.data_type)
-                                    if( hasattr(error_info, 'transformations')):
-                                        for transformation in error_info.transformations:
-                                            err_values=perform_transformation(transformation,self.__dict__,utils.merge_dictionaries(table.__dict__,{var_name:var_values,err_name:err_values},{var_err.name:var_err for var_err in var.uncertainties}))
-                                    unc=Uncertainty(err_values,name=err_name,is_visible=err_is_visible)
+                                    local_variables=utils.merge_dictionaries(table.__dict__,{var_name:var_values},{var_err.name:var_err for var_err in var.uncertainties})
+                                    unc=Uncertainty(unc_steering=error_info,local_variables=local_variables,global_variables=global_variables,data_root=data_root)
                                     var.add_uncertainty(unc)
                         if(var.multiplier):
                             var.qualifiers.append({"multiplier":var.multiplier})
