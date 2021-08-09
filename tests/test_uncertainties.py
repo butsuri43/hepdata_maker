@@ -16,6 +16,26 @@ def test_uncertainty_constructor(error_data,error_name):
     assert unc.ndim==np.array(error_data).ndim
     assert unc.is_symmetric==(True if np.array(error_data).ndim==1 else False)
 
+@pytest.mark.parametrize("unc_steering,global_variables,local_variables",[({"name":"test_unc",
+                                                                            "transformations":["[1,2]"]
+                                                                            },{},{}),
+                                                                          ({"name":"test_unc",
+                                                                            "transformations":["other_var"]},
+                                                                           {"other_var":[1,2]},{}),
+                                                                          ({"name":"test_unc",
+                                                                            "transformations":["other_var"]},
+                                                                          {},{"other_var":[1,2]})
+                                                                          ])
+def test_uncertainty_constructor_steering_file(unc_steering,global_variables,local_variables):
+    unc=Uncertainty(unc_steering=unc_steering,
+                    global_variables=global_variables,
+                    local_variables=local_variables)
+    assert unc.name=="test_unc"
+    assert unc.is_visible==True
+    assert unc.ndim==1
+    assert unc.is_symmetric==True
+    assert np.all(unc==[1,2])
+
 @pytest.mark.filterwarnings("ignore::numpy.VisibleDeprecationWarning")
 @pytest.mark.parametrize("error_data,error_name", [([1,[2,3],4],""),
                                                    ([1,2,3,4],["this should fail"]),
