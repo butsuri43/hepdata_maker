@@ -19,7 +19,27 @@ def test_variable_constructor(var_data,var_name,is_binned):
     assert var.ndim==np.array(var_data).ndim
     assert var.is_binned==is_binned
 
+@pytest.mark.parametrize("var_steering,global_variables,local_variables",[({"name":"test_var",
+                                                                            "transformations":["[1,2]"]
+                                                                            },{},{}),
+                                                                          ({"name":"test_var",
+                                                                            "transformations":["other_var"]},
+                                                                           {"other_var":[1,2]},{}),
+                                                                          ({"name":"test_var",
+                                                                            "transformations":["other_var"]},
+                                                                          {},{"other_var":[1,2]})
+                                                                          ])
+def test_variable_constructor_steering_file(var_steering,global_variables,local_variables):
+    var=Variable(var_steering=var_steering,
+                    global_variables=global_variables,
+                    local_variables=local_variables)
+    assert var.name=="test_var"
+    assert var.is_visible==True
+    assert var.ndim==1
+    assert var.is_binned==False
+    assert np.all(var==[1,2])
 
+    
 @pytest.mark.filterwarnings("ignore::numpy.VisibleDeprecationWarning")
 @pytest.mark.parametrize("var_data,var_name,is_binned", [([1,2,3,4],["this should fail"],False),   # array instead of string for the name
                                                          ([[[1,2],[2,3]],[[3,4],[5,6]]],"",False), # 3-D input array
