@@ -136,7 +136,7 @@ class Uncertainty(np.ndarray):
                 if (isinstance(unc_steering,dict)):
                     unc_steering=utils.objdict(unc_steering)
                 else:
-                    raise ValueError("'unc_steering' needs to be of type utils.objdict!")
+                    raise ValueError("'unc_steering' needs to be of type utils.objdict or dict!")
             name=unc_steering.get('name',name)
             is_visible=unc_steering.get('is_visible',is_visible)
             digits=unc_steering.get('digits',digits)
@@ -222,12 +222,63 @@ class Uncertainty(np.ndarray):
             out_json['transformations']=[self.tolist()]
             return out_json
 class Variable(np.ndarray):
-    def __new__(cls, input_array,name, is_independent=True, is_binned=None, is_visible=True, unit="", values=None,digits=5):
-        # Input array is an already formed ndarray instance
-        # We first cast to be our class type
+    def __new__(cls, input_array=[],name="var", is_independent=True, is_binned=None, is_visible=True, unit="", digits=5,
+                var_steering=None,
+                global_variables={},
+                local_variables={},
+                data_root='./'):
+        # Variable class.
+        # Can be created an the following way:
+        #
+        # 1) data array (could be 1 or 2-dim) and name of the variable ,
+        # var=Variable([1,2,3],'my_name')
+        #
+        # 2) explicite argument naming:
+        # var=Variable(input_array=[1,2,3],name='my_name'),
+        #
+        # 3) providing dictionary following src/hepdata_maker/schemas/0.0.0/variable.json schema.
+        #    The argument name is ('var_steering')
+        # var=Variable(var_steering={"name":"my_name","transformations":[1,2,3]})
+        #
+        # If var_steering is given, it takes precedence over other arguments.
+        #
+
+        if(var_steering):
+            if(not isinstance(var_steering,utils.objdict)):
+                # TODO Do we really want to go further with objdict?! Either allow (and automatically translate to dict) or just fall back to dict?
+                if (isinstance(var_steering,dict)):
+                    var_steering=utils.objdict(var_steering)
+                else:
+                    raise ValueError("'var_steering' needs to be of type utils.objdict or dict!")
+            name=var_steering.get('name',name)
+            is_independent=var_steering.get('is_independent',is_independent)
+            is_binned=var_steering.get('is_binned',is_binned)
+            unit=var_steering.get('unit',unit)
+            is_visible=var_steering.get('is_visible',is_visible)
+            digits=var_steering.get('digits',digits)
+
         log.debug(f"Creating new Variable (np.ndarray derived) object: {name}")
         log.debug(f"parameters passed:")
         log.debug(f"{locals()}")
+
+        if(var_steering):
+            input_array=None # Steering files overrides arguments
+            if(hasattr(var_steering,'in_files')):
+                for in_file in var_steering.in_files:
+                    extra_args={k: in_file[k] for k in ('delimiter', 'file_type', 'replace_dict', 'tabular_loc_decode') if k in in_file}
+                    tmp_values=variable_loading.read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode,**extra_args)
+                    if(input_array):
+                        input_array=np.concatenate((input_array,tmp_values))
+                    else:
+                        input_array=tmp_values
+            if( hasattr(var_steering, 'data_type')):
+                if(var_steering.data_type!='' and input_array is not None):
+                    input_array=input_array.astype(var_steering.data_type)
+            if(hasattr(var_steering,'transformations')):
+                for transformation in var_steering.transformations:
+                    input_array=perform_transformation(transformation,global_variables,utils.merge_dictionaries(local_variables,{name:input_array}))
+            if(input_array is None):
+                input_array=[]
         obj = np.asarray(input_array).view(cls)
         # add the new attribute to the created instance
         try:
@@ -246,18 +297,30 @@ class Variable(np.ndarray):
                 is_binned=True
         if(obj.ndim==2 and not is_binned):
             raise TypeError(f"Variable ({name}) can be 2-D and not be binned. Provided: input_array:{input_array}, is_binned:{is_binned}.")
+
         obj.name = name
         obj.is_independent = is_independent
         obj.is_binned = is_binned
         obj.is_visible= is_visible
-        obj.qualifiers = []
         obj.unit = unit
-        obj.multiplier=None
-        obj._uncertainties = []
-        obj.regions=np.array([[]]*len(obj))
-        obj.grids=np.array([[]]*len(obj))
-        obj.signal_names=np.array([[]]*len(obj))
         obj.digits = digits
+
+        if(var_steering):
+            if( hasattr(var_steering, 'errors')):
+                if(var_steering.errors):
+                    for error_info in var_steering.errors:
+                        local_variables=utils.merge_dictionaries(local_variables,{name:input_array},{var_err.name:var_err for var_err in obj.uncertainties})
+                        unc=Uncertainty(unc_steering=error_info,local_variables=local_variables,global_variables=global_variables,data_root=data_root)
+                        obj.add_uncertainty(unc)
+            if(obj.multiplier):
+                obj.qualifiers.append({"multiplier":obj.multiplier})
+            if hasattr(var_steering, 'regions'):
+                obj.regions=get_matching_based_variables(var_steering.regions,global_variables,utils.merge_dictionaries(local_variables,self.__dict__))
+            if hasattr(var_steering, 'grids'):
+                obj.grids=get_matching_based_variables(var_steering.grids,global_variables,utils.merge_dictionaries(local_variables,self.__dict__))
+            if hasattr(var_steering, 'signal_names'):
+                obj.signal_names=get_matching_based_variables(var_steering.signal_names,global_variables,utils.merge_dictionaries(local_variables,self.__dict__))
+
         # Finally, we must return the newly created object:
         return obj
 
@@ -268,12 +331,35 @@ class Variable(np.ndarray):
         self.is_binned = getattr(obj, 'is_binned', False)
         self.is_visble = getattr(obj, 'is_visible', True)
         self.qualifiers = getattr(obj, 'qualifiers', [])
+        self.multiplier = getattr(obj, 'multiplier', None)
         self.unit = getattr(obj, 'unit', "")
         self._uncertainties = getattr(obj, 'uncertainties', [])
         self.region = getattr(obj,'region',np.array([[]]*len(obj)))
         self.grid = getattr(obj,'grid',np.array([[]]*len(obj)))
         self.signal = getattr(obj,'signal',np.array([[]]*len(obj)))
         self.digits = getattr(obj, 'digits', 5)
+        self._var_steering=getattr(obj, 'var_steering', None)
+    
+    def _update_unc_steering(self,uncertainty):
+        if(self._var_steering):
+            err_name=uncertainty.name
+            new_unc_steering=uncertainty.steering_file_snippet()
+            if(err_name in self.get_uncertainty_names()):
+                self._var_steering['uncertainties'][self.uncertainty_index(err_name)]=new_unc_steering
+            else:
+                self._var_steering['uncertainties'].append(new_unc_steering)
+    def _delete_unc_steering(self,uncertainty):
+        uncertainty_name=uncertainty.name
+        if(self._var_steering):
+            if(uncertainty_name not in self.get_uncertainty_names()):
+                log.warning(f"You try to remove uncertainty {uncertainty_name} that is not found in the variable {self.name}.")
+                return
+            else:
+                if(uncertainty_name not in self._var_steering['uncertainties']):
+                    log.warning(f"The uncertainty {uncertainty_name} to be removed was not found in steering file of variable {self.name} however it is part of variables' uncertainties list... You probably use the code not as it was intended to be used!")
+                    return
+                else:
+                    self._var_steering['uncertainties'].pop(self.uncertainty_index(uncertainty_name))
     def get_uncertainty_names(self):
         return [unc.name for unc in self.uncertainties]
     def _add_unc_to_dict_safely(self,uncertainty):
@@ -297,6 +383,7 @@ class Variable(np.ndarray):
                 raise ValueError(f"Uncertainty {uncertainty.name} is already present in the variable variable {self.name}.")
             self.uncertainties.append(uncertainty)
             self._add_unc_to_dict_safely(uncertainty)
+            self._update_unc_steering(uncertainty)
         else:
             raise TypeError("Unknown object type: {0}".format(str(type(uncertainty))))
     def update_uncertainty(self,new_unc):
@@ -309,6 +396,7 @@ class Variable(np.ndarray):
                 no_matching=False
                 self.uncertainties[index]=new_unc
                 self.__dict__[new_unc.name]=new_unc
+                self._update_unc_steering(new_unc)
         if(no_matching):
             log.warning(f"You tried to update unc {new_unc.name} in variable {self.name}, but no uncertainty of such name found in the variable! Adding the uncertainty instead.")
             self.add_uncertainty(new_unc)
@@ -326,6 +414,8 @@ class Variable(np.ndarray):
                 # We nonetheless continue as the unc is present in the uncertainties()
             else:
                 self.__dict__.pop(uncertainty_name)
+            uncertainty=self.uncertainties[self.uncertainty_index(uncertainty_name)]
+            self._delete_unc_steering(uncertainty)
             del self.uncertainties[self.uncertainty_index(uncertainty_name)]
 
     @property
@@ -339,6 +429,7 @@ class Variable(np.ndarray):
         
         # Remove names of the uncertainties already present in the instance's __dict__:
         for old_uncertainty in self.uncertainties:
+            self._delete_unc_steering(old_uncertainty)
             if(old_uncertainty.name in self.__dict__):
                 self.__dict__.pop(old_uncertainty.name)
             else:
@@ -349,18 +440,23 @@ class Variable(np.ndarray):
                 raise TypeError("Unknown object type: {0}".format(str(type(uncertainty))))
             else:
                 self._add_unc_to_dict_safely(uncertainty)
+                self._update_unc_steering(uncertainty)
         # finally set the table list
         self._uncertainties = uncertainties
     def steering_file_snippet(self):
-        out_json={}
-        out_json['name']=self.name
-        out_json['is_visible']=self.is_visible
-        out_json['digits']=self.digits
-        out_json['transformations']=[self.tolist()]
-        out_json['uncertainties']=[]
-        for unc in self.uncertainties:
-            out_json['uncertainties'].append(unc.steering_file_snippet())
-        return out_json
+        if(self._var_steering): # a steering file was provided:
+            return self._var_steering
+        else:
+            out_json={}
+            out_json['name']=self.name
+            out_json['is_visible']=self.is_visible
+            out_json['digits']=self.digits
+            out_json['transformations']=[self.tolist()]
+            out_json['uncertainties']=[]
+            for unc in self.uncertainties:
+                out_json['uncertainties'].append(unc.steering_file_snippet())
+            self._var_steering=out_json
+            return out_json
 class Table(object):
     """
     A table is a collection of variables.
@@ -579,7 +675,7 @@ class Submission():
         # self._config should aready have the correct information as checked on schema check in read_table_config
         if('tables' in self.config):
             for table_info in [utils.objdict(x) for x in self.config['tables']]:
-                global_variables=self.__dict__
+                global_variables=utils.merge_dictionaries(self.__dict__,{"np":np},{"re":re},{"scipy.stats":scipy.stats},{"scipy.special":scipy.special},{"ufs":ufs})
                 table_name=table_info.name
                 if( hasattr(table_info,'should_be_processed') and not table_info.should_be_processed):
                     log.warning(rf"table {table_info.name} has should_be_processed flag set to False. Skipping.")
@@ -611,52 +707,9 @@ class Submission():
                     table.keywords=table_info.keywords
                 if(hasattr(table_info,'variables')):
                     for variable_info in table_info.variables:
-                        var_name=variable_info.name
-                        transformations=getattr(variable_info,'transformations',None)
-                        var_values=None
-                        log.debug(f"adding variable {var_name}")
-
-                        if(hasattr(variable_info,'in_files')):
-                            for in_file in variable_info.in_files:
-                                extra_args={k: in_file[k] for k in ('delimiter', 'file_type', 'replace_dict', 'tabular_loc_decode') if k in in_file}
-                                tmp_values=variable_loading.read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode,**extra_args)
-                                if(var_values):
-                                    var_values=np.concatenate((var_values,tmp_values))
-                                else:
-                                    var_values=tmp_values
-                        if( hasattr(variable_info, 'data_type')):
-                            if(variable_info.data_type!='' and var_values is not None):
-                                var_values=var_values.astype(variable_info.data_type)
-                        if(transformations):
-                            for transformation in transformations:
-                                var_values=perform_transformation(transformation,self.__dict__,utils.merge_dictionaries(table.__dict__,{var_name:var_values}))
-
-                        var=Variable(var_values,var_name)
-                        if( hasattr(variable_info, 'is_visible')):
-                                var.is_visible=variable_info.is_visible
-                        if( hasattr(variable_info, 'is_independent')):
-                                var.is_independent=variable_info.is_independent
-                        if( hasattr(variable_info, 'is_binned')):
-                                var.is_binned=variable_info.is_binned
-                        if( hasattr(variable_info, 'unit')):
-                                var.unit=variable_info.unit
-                        if( hasattr(variable_info, 'multiplier')):
-                                var.multiplier=variable_info.multiplier
-                        if( hasattr(variable_info, 'errors')):
-                            if(variable_info.errors):
-                                for error_info in variable_info.errors:
-                                    local_variables=utils.merge_dictionaries(table.__dict__,{var_name:var_values},{var_err.name:var_err for var_err in var.uncertainties})
-                                    unc=Uncertainty(unc_steering=error_info,local_variables=local_variables,global_variables=global_variables,data_root=data_root)
-                                    var.add_uncertainty(unc)
-                        if(var.multiplier):
-                            var.qualifiers.append({"multiplier":var.multiplier})
+                        local_variables=utils.merge_dictionaries(table.__dict__)
+                        var=Variable(var_steering=variable_info,global_variables=global_variables,local_variables=local_variables,data_root=data_root)
                         table.add_variable(var)
-                        if hasattr(variable_info, 'regions'):
-                            var.regions=get_matching_based_variables(variable_info.regions,utils.merge_dictionaries(table.__dict__,{"np":np}),local_dict=None)
-                        if hasattr(variable_info, 'grids'):
-                            var.grids=get_matching_based_variables(variable_info.grids,utils.merge_dictionaries(table.__dict__,{"np":np}),local_dict=None)
-                        if hasattr(variable_info, 'signal_names'):
-                            var.signal_names=get_matching_based_variables(variable_info.signal_names,utils.merge_dictionaries(table.__dict__,{"np":np}),local_dict=None)
 
                 self.add_table(table)
             
