@@ -105,6 +105,7 @@ def print_dict_highlighting_objects(dictionary,title=''):
         objects_to_show.append(other_tree)
     render_group=rich.console.RenderGroup(*objects_to_show)
     console.print(rich.panel.Panel(render_group,expand=False,title=title))
+
 class Uncertainty(np.ndarray):
     def __new__(cls,input_array=[],
                 name="unc",
@@ -310,17 +311,20 @@ class Variable(np.ndarray):
             if( hasattr(var_steering, 'errors')):
                 if(var_steering.errors):
                     for error_info in var_steering.errors:
-                        local_variables=utils.merge_dictionaries(local_variables,{name:input_array},{var_err.name:var_err for var_err in obj.uncertainties})
-                        unc=Uncertainty(unc_steering=error_info,local_variables=local_variables,global_variables=global_variables,data_root=data_root)
+                        current_local_variables=utils.merge_dictionaries(local_variables,{name:input_array},{var_err.name:var_err for var_err in obj.uncertainties})
+                        unc=Uncertainty(unc_steering=error_info,local_variables=current_local_variables,global_variables=global_variables,data_root=data_root)
                         obj.add_uncertainty(unc)
             if(obj.multiplier):
                 obj.qualifiers.append({"multiplier":obj.multiplier})
             if hasattr(var_steering, 'regions'):
-                obj.regions=get_matching_based_variables(var_steering.regions,global_variables,utils.merge_dictionaries(local_variables,self.__dict__))
+                current_local_variables=utils.merge_dictionaries(local_variables,{name:input_array},{var_err.name:var_err for var_err in obj.uncertainties})
+                obj.regions=get_matching_based_variables(var_steering.regions,global_variables,current_local_variables)
             if hasattr(var_steering, 'grids'):
-                obj.grids=get_matching_based_variables(var_steering.grids,global_variables,utils.merge_dictionaries(local_variables,self.__dict__))
+                current_local_variables=utils.merge_dictionaries(local_variables,{name:input_array},{var_err.name:var_err for var_err in obj.uncertainties})
+                obj.grids=get_matching_based_variables(var_steering.grids,global_variables,current_local_variables)
             if hasattr(var_steering, 'signal_names'):
-                obj.signal_names=get_matching_based_variables(var_steering.signal_names,global_variables,utils.merge_dictionaries(local_variables,self.__dict__))
+                current_local_variables=utils.merge_dictionaries(local_variables,{name:input_array},{var_err.name:var_err for var_err in obj.uncertainties})
+                obj.signal_names=get_matching_based_variables(var_steering.signal_names,global_variables,current_local_variables)
 
         # Finally, we must return the newly created object:
         return obj
