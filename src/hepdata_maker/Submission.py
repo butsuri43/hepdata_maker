@@ -136,7 +136,7 @@ class Uncertainty(np.ndarray):
                 if (isinstance(unc_steering,dict)):
                     unc_steering=utils.objdict(unc_steering)
                 else:
-                    raise ValueError("'unc_steering' needs to be of type utils.objdict or dict!")
+                    raise TypeError("'unc_steering' needs to be of type utils.objdict or dict!")
             name=unc_steering.get('name',name)
             is_visible=unc_steering.get('is_visible',is_visible)
             digits=unc_steering.get('digits',digits)
@@ -249,7 +249,7 @@ class Variable(np.ndarray):
                 if (isinstance(var_steering,dict)):
                     var_steering=utils.objdict(var_steering)
                 else:
-                    raise ValueError("'var_steering' needs to be of type utils.objdict or dict!")
+                    raise TypeError("'var_steering' needs to be of type utils.objdict or dict!")
             name=var_steering.get('name',name)
             is_independent=var_steering.get('is_independent',is_independent)
             is_binned=var_steering.get('is_binned',is_binned)
@@ -306,6 +306,7 @@ class Variable(np.ndarray):
         obj.digits = digits
 
         if(var_steering):
+            obj._var_steering=var_steering
             if( hasattr(var_steering, 'errors')):
                 if(var_steering.errors):
                     for error_info in var_steering.errors:
@@ -345,9 +346,9 @@ class Variable(np.ndarray):
             err_name=uncertainty.name
             new_unc_steering=uncertainty.steering_file_snippet()
             if(err_name in self.get_uncertainty_names()):
-                self._var_steering['uncertainties'][self.uncertainty_index(err_name)]=new_unc_steering
+                self._var_steering['errors'][self.uncertainty_index(err_name)]=new_unc_steering
             else:
-                self._var_steering['uncertainties'].append(new_unc_steering)
+                self._var_steering['errors'].append(new_unc_steering)
     def _delete_unc_steering(self,uncertainty):
         uncertainty_name=uncertainty.name
         if(self._var_steering):
@@ -464,8 +465,24 @@ class Table(object):
     the location within the paper, etc.
     """
     
-    def __init__(self, name):
+    def __init__(self, name='table',
+                tab_steering=None,
+                global_variables={},
+                local_variables={},
+                data_root='./'):
+        if(tab_steering):
+            if(not isinstance(tab_steering,utils.objdict)):
+                # TODO Do we really want to go further with objdict?! Either allow (and automatically translate to dict) or just fall back to dict?
+                if (isinstance(tab_steering,dict)):
+                    tab_steering=utils.objdict(tab_steering)
+                else:
+                    raise TypeError("'tab_steering' needs to be of type utils.objdict or dict!")
+            if( hasattr(tab_steering,'should_be_processed') and not tab_steering.should_be_processed):
+                raise ValueError(rf"table {tab_steering.name} has 'should_be_processed' flag set to False. Class Table shoudl not see this flag at all (prune prior to constructor).")
+            name=tab_steering.get('name',name)
+
         log.debug(f"Creating new Table: {name}")
+
         if(name is None or not isinstance(name,str)):
             raise TypeError(f"Table's name needs to be of type string, not {type(name)}.")
         self._name = None
@@ -477,6 +494,35 @@ class Table(object):
         self.keywords = {}
         #self.additional_resources = []
         self.images = []
+        self._tab_steering={}
+        if(tab_steering):
+            self.tab_steering=tab_steering
+            if( hasattr(tab_steering, 'images')):
+                self.images=tab_steering.images
+                for image_info in self.images:
+                    current_image_path=utils.resolve_file_name(image_info['name'],data_root)
+                    if(not os.path.isfile(current_image_path)):
+                        raise ValueError(f"Cannot find image file of table '{name}' under the path '{current_image_path}'. Please check it!")
+            if( hasattr(tab_steering, 'title')):
+                potential_file_path=utils.resolve_file_name(tab_steering.title,data_root)
+                if(os.path.isfile(potential_file_path)):
+                    # Provide file with table title ( e.g. website out)
+                    log.debug(f"Title field of table {name} points to a text file. Content of the file will be used as table title.")
+                    self.title=open(potential_file_path).read()
+                    print(repr(self.title))
+                else:
+                    log.debug(f"Title fielf of table {name} points to a text file. Content of the file will be used as table title.")
+                    self.title=tab_steering.title
+            if( hasattr(tab_steering, 'location')):
+                self.location=tab_steering.location
+            if( hasattr(tab_steering, 'keywords')):
+                self.keywords=tab_steering.keywords
+            if(hasattr(tab_steering,'variables')):
+                for variable_info in tab_steering.variables:
+                    local_variables=utils.merge_dictionaries(self.__dict__)
+                    var=Variable(var_steering=variable_info,global_variables=global_variables,local_variables=local_variables,data_root=data_root)
+                    self.add_variable(var)
+
 
     @property
     def name(self):
@@ -489,6 +535,27 @@ class Table(object):
         if len(name) > 64:
             raise ValueError("Table name must not be longer than 64 characters.")
         self._name = name
+
+    def _update_var_steering(self,variable):
+        if(self._tab_steering):
+            var_name=variable.name
+            new_var_steering=variable.steering_file_snippet()
+            if(var_name in self.get_variable_names()):
+                self._tab_steering['variables'][self.variable_index(var_name)]=new_var_steering
+            else:
+                self._tab_steering['variables'].append(new_var_steering)
+    def _delete_var_steering(self,variable):
+        variable_name=variable.name
+        if(self._tab_steering):
+            if(variable_name not in self.get_variable_names()):
+                log.warning(f"You try to remove variable {variable_name} that is not found in the table {self.name}.")
+                return
+            else:
+                if(variable_name not in self._tab_steering['variables']):
+                    log.warning(f"The variable {variable_name} to be removed was not found in steering file of table {self.name} however it is part of the table's variables list... You probably use the code not as it was intended to be used!")
+                    return
+                else:
+                    self._tab_steering['variables'].pop(self.variable_index(variable_name))
 
     def get_variable_names(self):
         return [var.name for var in self.variables]
@@ -522,6 +589,7 @@ class Table(object):
                     self._variable_lenght=len(variable)
             self.variables.append(variable)
             self._add_var_to_dict_safely(variable)
+            self._update_var_steering(variable)
         else:
             raise TypeError("Unknown object type: {0}".format(str(type(variable))))
     def update_variable(self,new_var):
@@ -539,7 +607,7 @@ class Table(object):
         if(no_matching):
             log.warning(f"You tried to update variable {new_var.name} in table {self.name}, but no variable of such name found in the table! Adding variable instead!")
             self.add_variable(new_var)
-
+            self._update_var_steering(new_var)
     def delete_variable(self,variable_name):
         if(variable_name not in self.get_variable_names()):
             log.warning(f"You try to remove variable {variable_name} that is not found in the table {self.name}.")
@@ -550,8 +618,8 @@ class Table(object):
                 # we continue nonetheless
             else:
                 self.__dict__.pop(variable_name)
+            self._delete_var_steering(self.variables[self.variable_index(variable_name)])
             del self.variables[self.variable_index(variable_name)]
-
     @property
     def variables(self):
         """variables getter."""
@@ -577,13 +645,19 @@ class Table(object):
         self._variables = variables
 
     def steering_file_snippet(self):
-        output_json={}
-        output_json['name']=self.name
-        output_json['title']=self.title
-        output_json['variables']=[]
-        for variable in self.variables:
-            output_json['variables'].append(variable.steering_file_snippet())
-        return output_json
+        if(self._tab_steering): # a steering file was provided:
+            return self._tab_steering
+        else:
+            output_json={}
+            output_json['name']=self.name
+            output_json['title']=self.title
+            output_json['locaion']=self.location
+            output_json['keywords']=self.keywords
+            output_json['images']=self.images
+            output_json['variables']=[]
+            for variable in self.variables:
+                output_json['variables'].append(variable.steering_file_snippet())
+            return output_json
         
 def fix_zero_error(variable):
     tmp_need_zero_error_fix=(variable==np.zeros_like(variable))
@@ -684,33 +758,7 @@ class Submission():
                     log.debug(f"skipping loading table {table_name} as not present in selected_table_names: {selected_table_names}")
                     continue
                 console.rule(f"table {table_name}")
-                table=Table(table_name)
-                if( hasattr(table_info, 'images')):
-                    table.images=table_info.images
-                    for image_info in table.images:
-                        current_image_path=utils.resolve_file_name(image_info['name'],data_root)
-                        if(not os.path.isfile(current_image_path)):
-                            raise ValueError(f"Cannot find image file of table '{table_name}' under the path '{current_image_path}'. Please check it!")
-                if( hasattr(table_info, 'title')):
-                    potential_file_path=utils.resolve_file_name(table_info.title,data_root)
-                    if(os.path.isfile(potential_file_path)):
-                        # Provide file with table title ( e.g. website out)
-                        log.debug(f"Title field of table {table_name} points to a text file. Content of the file will be used as table title.")
-                        table.title=open(potential_file_path).read()
-                        print(repr(table.title))
-                    else:
-                        log.debug(f"Title fielf of table {table_name} points to a text file. Content of the file will be used as table title.")
-                        table.title=table_info.title
-                if( hasattr(table_info, 'location')):
-                    table.location=table_info.location
-                if( hasattr(table_info, 'keywords')):
-                    table.keywords=table_info.keywords
-                if(hasattr(table_info,'variables')):
-                    for variable_info in table_info.variables:
-                        local_variables=utils.merge_dictionaries(table.__dict__)
-                        var=Variable(var_steering=variable_info,global_variables=global_variables,local_variables=local_variables,data_root=data_root)
-                        table.add_variable(var)
-
+                table=Table(tab_steering=table_info,global_variables=global_variables,data_root=data_root)
                 self.add_table(table)
             
     def create_hepdata_record(self,data_root:str='./',outdir='submission_files'):
