@@ -20,6 +20,10 @@
 		    "description":"information about extra files attached to the record, i.e. not data tables",
 		    "type":"array",
 		    "items":{"$ref": "#/definitions/additional_file"}
+		},
+		"generate_table_of_content":{
+		    "description":"flag requestig automated table of content generation",
+		    "type":"boolean"
 		}
 	    },
 	    "additionalProperties":false
@@ -274,6 +278,14 @@
 		},
 		"location":{
 		    "description":"absolute or relative path, alternatively an url to the resources that is to be attached",
+		    "type":"string"
+		},
+		"category":{
+		    "description":"what type of resource is that?",
+		    "type":"string"
+		},
+		"copy_file":{
+		    "description":"Flag whether the resource should be copied (it is a physical file) or should not be copied (a link).",
 		    "type":"string"
 		}
 	    },
