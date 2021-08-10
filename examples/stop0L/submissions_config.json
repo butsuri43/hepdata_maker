@@ -1,5 +1,28 @@
 {
     "type": "submission",
+    "generate_table_of_content":true,
+    "additional_resources":[
+	{
+	    "description":"Webpage with all figures and tables.",
+	    "location":"https://atlas.web.cern.ch/Atlas/GROUPS/PHYSICS/PAPERS/SUSY-2018-12",
+	    "category":"analysis_website"
+	},
+	{
+	    "description":"SLHA file for a 2-body benchmark signal $(\\it{m}_{\\tilde{t}}, \\it{m}_{\\tilde{\\chi^{0}_{1}}})=(1300,1)\\ \\mathrm{GeV}.$",
+	    "location":"examples/stop0L/rawFiles/hepdata_additionalMaterial/param_card_stop_tN_1300_1.dat",
+	    "category":"config_file"
+	},
+	{
+	    "description":"SLHA file for a 2-body benchmark signal $(\\it{m}_{\\tilde{t}}, \\it{m}_{\\tilde{\\chi^{0}_{1}}})=(700,400)\\ \\mathrm{GeV}.$",
+	    "location":"examples/stop0L/rawFiles/hepdata_additionalMaterial/param_card_stop_tN_700_400.dat",
+	    "category":"config_file"
+	},
+	{
+	    "description":"Code snippet with the implementation of the analysis selection at the truth-level.",
+	    "location":"examples/stop0L/rawFiles/hepdata_additionalMaterial/ttbarMET0L2018.cxx",
+	    "category":"SimpleAnalysis_snipped"
+	}
+    ],
     "tables":
     [
 	{

@@ -18,6 +18,7 @@ from .console import console
 import rich.panel
 import rich.tree
 from . import variable_loading
+import validators
 
 def add_error_tree_from_var(variable,baseTree=False):
     if(not isinstance(variable,Variable)):
@@ -714,23 +715,54 @@ def get_matching_based_variables(matchDefinitions,global_dict=None,local_dict=No
                 raise TypeError("Variable cutDefinitions has improper content.")
     return result
 
+class Resource():
+    def __init__(self,location='',description='',res_steering=None,category=None,copy_file=None):
+        if(res_steering):
+            location=res_steering.get('location',location)
+            description=res_steering.get('description',description)
+            category=res_steering.get('category',category)
+            copy_file=res_steering.get('copy_file',copy_file)
+        self.location=location
+        self.description=description=description
+        if(copy_file is None):
+            # try to figure out whether this is a link or a file
+            if(validators.url(location) or validators.email(location)):
+                copy_file=False
+            else:
+                copy_file=True
+        self.copy_file=copy_file
+    def steering_file_snippet(self):
+        output_json={}
+        output_json['location']=self.location
+        output_json['description']=self.description
+        return output_json
+        
 class Submission():
     
     def __init__(self):
         self._tables=[]
+        self._resources=[]
         self._config={}
         self._has_loaded=False
+        self.generate_table_of_content=False
     def get_table_names(self):
         return [tab.name for tab in self.tables]
     def table_index(self,table_name):
         if(not isinstance(table_name,str)):
             raise TypeError(f"Table's name needs to be a string. Trying to find uncertainty based on object type ({type(table_name)}) failed!")
         return self.get_table_names().index(table_name)
+    def get_resource_names(self):
+        return [res.name for res in self._resources]
+    def resource_index(self,resource_location):
+        if(not isinstance(resource_location,str)):
+            raise TypeError(f"Resource location needs to be a string. Trying to find resource based on object type ({type(table_name)}) failed!")
+        return self.get_resource_names().index(resource_location)
     def create_table_of_content(self):
         if ("overview" in self.get_table_names()):
             log.warning("Table named 'overview' is already defined. It is assumed that it contains the table of content and it will not be attempted to re-creating it. Rename/remove 'overview' in your steering file if you expect another behaviour.")
             return
         table_of_content_list=[]
+        table_of_content_list.append(r"<b>- - - - - - - - Overview of HEPData Record - - - - - - - -</b>")
         table_of_content_list.append(r"<b>tables:</b><ul>")
         for table in self.tables:
             table_of_content_list.append(fr"<li><a href=?table={table.name}>{table.name}</a>")
@@ -749,8 +781,14 @@ class Submission():
         if(self._has_loaded):
             log.warning("You have already loaded information from a(nother?) steering file. If any table names will be loaded again (without prior explicite deletions) expect errors being raised!")
         self._has_loaded=True
-        
+
+        if('generate_table_of_content' in self.config):
+            self.generate_table_of_content=self.config['generate_table_of_content']
         # self._config should aready have the correct information as checked on schema check in read_table_config
+        if('additional_resources' in self.config):
+            for resource_info in [utils.objdict(x) for x in self.config['additional_resources']]:
+                res=Resource(res_steering=resource_info)
+                self.add_resource(res)
         if('tables' in self.config):
             for table_info in [utils.objdict(x) for x in self.config['tables']]:
                 global_variables=utils.merge_dictionaries(self.__dict__,{"np":np},{"re":re},{"scipy.stats":scipy.stats},{"scipy.special":scipy.special},{"ufs":ufs})
@@ -768,7 +806,10 @@ class Submission():
     def create_hepdata_record(self,data_root:str='./',outdir='submission_files'):
         # Actual record creation based on information stored
         hepdata_submission = hepdata_lib.Submission()
-        # TO DO additional resources
+        if(self.generate_table_of_content):
+            self.create_table_of_content()
+        for resource in self.resources:
+            hepdata_submission.add_additional_resource(resource.description,resource.location,resource.copy_file)
         for table in self.tables:
             hepdata_table = hepdata_lib.Table(table.name)
             hepdata_table.description = table.title
@@ -863,6 +904,32 @@ class Submission():
                 self.__dict__.pop(table_name)
             del self.tables[self.table_index(table_name)]
 
+    def insert_resource(self,index, resource):
+        if isinstance(resource, Resource):
+            log.debug(f"Adding resource {resource.location} to the submission")
+            self.resources.insert(index,resource)
+        else:
+            raise TypeError("Unknown object type: {0}".format(str(type(resource))))
+        
+    def add_resource(self, resource):
+        """
+        Add a resource to the submission
+        :param resource: Resource to add.
+        :type resource: Resource.
+        """
+        if isinstance(resource, Resource):
+            log.debug(f"Adding resource {resource.location} to the submission")
+            self.resources.append(resource)
+        else:
+            raise TypeError("Unknown object type: {0}".format(str(type(resource))))
+
+    def delete_resource(self,resource_location):
+        if(resource_location not in self.get_resource_locations()):
+            log.warning(f"You try to remove resource {resource_location} that is not found in the submission object.")
+            return
+        else:
+            del self.resources[self.resource_index(resource_location)]
+
     @property
     def config(self):
         """config getter."""
@@ -895,3 +962,24 @@ class Submission():
                 self._add_tab_to_dict_safely(table)
         # finally set the table list
         self._tables = tables
+
+    @property
+    def resources(self):
+        """resources getter."""
+        return self._resources
+
+    @resources.setter
+    def resources(self, resources):
+        """resources setter."""
+        
+        # Remove names of the resources already present in the instance's dict:
+        for old_table in self.resources:
+            self.__dict__.pop(old_table.name)
+        # Check that new resources are of correct type and update the instance's dict
+        for table in resources:
+            if not isinstance(table, Table):
+                raise TypeError("Unknown object type: {0}".format(str(type(table))))
+            else:
+                self._add_tab_to_dict_safely(table)
+        # finally set the table list
+        self._resources = resources
