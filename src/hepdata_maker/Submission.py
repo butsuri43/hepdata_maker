@@ -297,8 +297,10 @@ class Variable(np.ndarray):
                 is_binned=False
             else:
                 is_binned=True
+        # We might have variables that are lists for each value 
         if(obj.ndim==2 and not is_binned):
-            raise TypeError(f"Variable ({name}) can be 2-D and not be binned. Provided: input_array:{input_array}, is_binned:{is_binned}.")
+            input_array=["["+",".join(entry)+"]" for entry in input_array]
+            obj = np.asarray(input_array).view(cls)
 
         obj.name = name
         obj.is_independent = is_independent
@@ -384,7 +386,7 @@ class Variable(np.ndarray):
         log.debug(f"Adding uncertainty to Variable {self.name}. Parameters passed: {locals()}")
         if isinstance(uncertainty, Uncertainty):
             if(self.size!=len(uncertainty)):
-                raise ValueError(f"Uncertainty {uncertainty.name} has different dimention ({len(uncertainty)}) than the corresponding variable {self.name} ({self.size})")
+                raise ValueError(f"Uncertainty {uncertainty.name, ({uncertainty.tolist()})} has different dimention ({len(uncertainty)}) than the corresponding variable {self.name} ({self.tolist()},{self.size}).")
             if(uncertainty.name in self.get_uncertainty_names()):
                 raise ValueError(f"Uncertainty {uncertainty.name} is already present in the variable variable {self.name}.")
             self.uncertainties.append(uncertainty)
@@ -588,7 +590,7 @@ class Table(object):
             log.debug(f"Adding variable {variable.name} to the table {self.name}")
             if(self._variable_lenght!=0):
                 if(self._variable_lenght!=len(variable) and variable.is_visible):
-                    raise ValueError(f"Variable {variable.name} has different number of parameters ({len(variable)}) than other variables in the table {self.name} ({self._variable_lenght})")
+                    raise ValueError(f"Variable {variable.name} ({variable.tolist()}) has different number of parameters ({len(variable)}) than other variables in the table {self.name} ({self._variable_lenght}, as e.g. for {self.variables[0].name}, {self.variables[0].tolist()})")
             else:
                 if(variable.is_visible):
                     self._variable_lenght=len(variable)
@@ -656,7 +658,7 @@ class Table(object):
             output_json={}
             output_json['name']=self.name
             output_json['title']=self.title
-            output_json['locaion']=self.location
+            output_json['location']=self.location
             output_json['keywords']=self.keywords
             output_json['images']=self.images
             output_json['variables']=[]
@@ -819,6 +821,7 @@ class Submission():
                 hepdata_table.add_image(utils.resolve_file_name(image_info['name'],data_root))
             for variable in table.variables:
                 if(variable.is_visible):
+                    log.debug(f"Adding variable to table {table.name}; name(var)={variable.name}, is_independent={variable.is_independent},is_binned={variable.is_binned},unit={variable.unit},values={variable.tolist()}")
                     hepdata_variable=hepdata_lib.Variable(variable.name, is_independent=variable.is_independent, is_binned=variable.is_binned, units=variable.unit)
                     hepdata_variable.values=variable.tolist()
                     #
@@ -983,3 +986,14 @@ class Submission():
                 self._add_tab_to_dict_safely(table)
         # finally set the table list
         self._resources = resources
+
+    def steering_file_snippet(self):
+        output_json={}
+        output_json['type']='steering'
+        output_json["generate_table_of_content"]=self.generate_table_of_content
+        json_tables=[]
+        for table in self.tables:
+            json_tables.append(table.steering_file_snippet())
+        output_json['tables']=json_tables
+        utils.check_schema(output_json,'steering_file.json')
+        return output_json
