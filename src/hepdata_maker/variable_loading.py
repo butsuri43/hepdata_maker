@@ -71,7 +71,19 @@ def get_array_from_json(file_path,decode):
     #                       "decode":".['SRATT']|keys_unsorted[] | split('_')[1]"
     #                   }
     # in a steering file. The single quotes in decode there are replaced with double quotes. 
-    return np.array(jq.all(decode.replace("'",'"'),data_loaded))
+    jq_output=jq.all(decode.replace("'",'"'),data_loaded)
+
+    ## We need a bit of hack to emulate jq on python emulate jq-bash behaviour
+    ## See https://github.com/mwilliamson/jq.py/issues/67
+    ## The idea is that for user it does not matter whether we output [1,2,3] or 1,2,3
+    ## Of course, this is restrictive for inputs allowed (a variable with a single value being table is not allowed),
+    ## but that should not be needed. 
+    jq_first=jq.first(decode.replace("'",'"'),data_loaded)
+    if([jq_first]==jq_output):
+        jq_output=jq_output[0]
+    ## End of hack
+
+    return np.array(jq_output)
 
 def get_array_from_yaml(file_path,decode):
     log.debug("--------- yaml file read -------------")
@@ -97,31 +109,43 @@ def get_array_from_yaml(file_path,decode):
     #			    "decode":".[]['Cut']"
     #			}
     # in a steering file. The single quotes in decode there are replaced with double quotes. 
-    return np.array(jq.all(decode.replace("'",'"'),data_loaded))
+
+    jq_output=jq.all(decode.replace("'",'"'),data_loaded)
+
+    ## We need a bit of hack to emulate jq on python emulate jq-bash behaviour
+    ## See https://github.com/mwilliamson/jq.py/issues/67
+    ## The idea is that for user it does not matter whether we output [1,2,3] or 1,2,3
+    ## Of course, this is restrictive for inputs allowed (a variable with a single value being table is not allowed),
+    ## but that should not be needed. 
+    jq_first=jq.first(decode.replace("'",'"'),data_loaded)
+    if([jq_first]==jq_output):
+        jq_output=jq_output[0]
+    ## End of hack
+    
+    return np.array(jq_output)
 
 def get_list_of_objects_in_root_file(file_path):
     result=[]
     try:
         rfile=uproot.open(file_path)
-        return rfile.items()
+        return rfile.classnames()
     except ValueError as exc:
         exc.args=(f"file 'file_path'({file_path}) does not seem to be a readable root file!!\n"+"(orig exception): "+exc.args[0],)
         raise exc
     except Exception as exc:
         log.debug(f"file 'file_path'({file_path}) does not seem to be a readable root file!!")
         raise exc
-
 def string_list_available_objects_in_root_file(file_path):
     result=[]
     av_items=get_list_of_objects_in_root_file(file_path)
-    av_item_names_no_cycle=[name.split(';')[0] for name,_ in av_items]
+    av_item_names_no_cycle=[name.split(';')[0] for name in av_items]
     av_item_cycle_numbers={name:av_item_names_no_cycle.count(name) for name in av_item_names_no_cycle}
     result.append(f"Available objects inside root file '{file_path}':")
-    for key,item in av_items:
+    for key,classname in av_items:
         base_name=key.split(';')[0]
         cycle_number=key.split(';')[1]
         name_to_print=base_name if (av_item_cycle_numbers[base_name]==1  or av_item_cycle_numbers[base_name]==int(cycle_number)) else key
-        result.append(f"-- '{name_to_print}' of type {item.classname if hasattr(item,'classname') else None}")
+        result.append(f"-- '{name_to_print}' of type {classname if hasattr(item,'classname') else None}")
     return result
 
 def get_array_from_root(object_path,decode):
