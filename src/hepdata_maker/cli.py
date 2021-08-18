@@ -14,9 +14,8 @@ import collections
 import re
 import scipy.stats, scipy.special
 from . import useful_functions as ufs
-from . import utils
 import json
-
+import jsonref
 @click.group(context_settings=dict(help_option_names=['-h', '--help']))
 @click.option('--log-level',
               type=click.Choice(list(logging._levelToName.values()), case_sensitive=False),default="INFO",help="set log level.")
@@ -32,7 +31,7 @@ def hepdata_maker(log_level):
 # Logging object can only be created after debug level is set above
 log = logging.getLogger(__name__)
 
-@click.command()
+@hepdata_maker.command()
 @click.argument('steering_file',type=click.Path(exists=True))
 @click.option('--data-root', default='./', help='Location of files specified in steering file (if not an absolute location is given there)',type=click.Path(exists=True),)
 @click.option('--output-dir', default='submission_files', help='The name of the directory where the submission files will be created. Default: submission_files',type=click.Path(exists=False))
@@ -47,13 +46,14 @@ def create_submission(steering_file,data_root,output_dir):
     with console.status("Creating hepdata files (this might take a while)..."):
         submission.create_hepdata_record(data_root,output_dir)
 
-@click.command()
+@hepdata_maker.command()
 @click.argument('steering_file',type=click.Path(exists=True))
 def check_schema(steering_file):
     console.rule("checking_schema",characters="=")
     console.print(f"Checking schema of {steering_file}.")
     with open(steering_file, 'r') as fstream:
-        json_data = json.load(fstream)
+        print("file://"+os.path.abspath(os.path.dirname(steering_file)),steering_file)
+        json_data = jsonref.load(fstream,base_uri="file://"+os.path.abspath(os.path.dirname(steering_file))+"/")
     utils.check_schema(json_data,'steering_file.json')
     console.print(f"    All ok!    ")
 
@@ -93,7 +93,7 @@ def submission_for_selected_tables(steering_file,data_root,load_all_tables,reque
 
     return submission
 
-@click.command()
+@hepdata_maker.command()
 @click.argument('steering_file',type=click.Path(exists=True))
 @click.option('--data-root', default='./', help='Location of files specified in steering file (if not an absolute location is given there)',type=click.Path(exists=True),)
 @click.option('--load-all-tables/--load-only-selected', '-a/-o', default=True)
@@ -163,10 +163,10 @@ def check_table(steering_file,data_root,load_all_tables,indices,names):
                                 all_unc_grids.append(str(unc[index]))
                     var_table.add_row(str(var[index]),*all_unc_grids)
                 variable_tables.append(var_table)
-            rich_table.add_row(*variable_tables)
+                rich_table.add_row(*variable_tables)
             console.print("visible values:",rich_table)
 
-@click.command()
+@hepdata_maker.command()
 @click.option('--in-file','-f',type=click.Path(exists=False))
 @click.option('--data-root', default='./', help='Location of in_file and files specified in steering file (if not an absolute location is given for those)',type=click.Path(exists=True))
 @click.option('--file-type',type=click.Choice(['json', 'yaml','csv','root','tex'], case_sensitive=False))
@@ -265,7 +265,7 @@ def check_variable(in_file,data_root,file_type,decode,data_type,tabular_loc_deco
     console.print(json.dumps(variable_json,indent=4))
     variable_loading.log.setLevel(current_loaded_module_log_level)
     
-@click.command()
+@hepdata_maker.command()
 @click.argument('steering_file',type=click.Path(exists=True))
 @click.option('--data-root', default='./', help='Location of files specified in steering file (if not an absolute location is given there)',type=click.Path(exists=True),)
 @click.option('--load-all-tables/--load-only-selected', '-a/-o', default=True)
@@ -290,8 +290,238 @@ def create_table_of_content(steering_file,data_root,load_all_tables,indices,name
     console.rule("You can add following table in your json steering file:")
     console.print(json.dumps(table_json,indent=4))
 
+
+
+def check_if_file_exists_and_readable(file_path):
+    import yaml
+    import json
+    import csv
+    import uproot
+    import os.path
+    from collections import OrderedDict
+    from TexSoup import TexSoup
+
+    # function to verify that 'file_path' is readable file with one of this types:
+    #   - json 
+    #   - yaml
+    #   - root
+    #   - csv
+    #   - tex
+    #   - txt --> used as table title!
+    if(not os.path.exists(file_path)):
+        return False
+    file_type=file_path.split(".")[-1].lower()
+    with open(file_path, 'r') as stream:
+        if(file_type=='json'):
+            try:
+                json.load(stream,object_pairs_hook=OrderedDict)
+            except ValueError as e:
+                return False
+        elif(file_type=='yaml'):
+            try:
+                yaml.safe_load(stream)
+            except ValueError as e:
+                return False
+        elif(file_type=="csv"):
+            try:
+                csv.DictReader(stream)
+            except ValueError as e:
+                return False
+        elif(file_type=='root'):
+            try:
+                uproot.open(file_path) # yes, it is file_path here
+            except ValueError as exc:
+                return False
+        elif(file_type=='txt'):
+            return True # formatting of text file is not checked
+        elif(file_type=='tex'):
+            try:
+                TexSoup(stream)
+            except ValueError as exc:
+                return False
+        else:
+            # this type is not supported
+            return False
+
+        # If we get that far we were able to read the file fine!
+        return True
+                
+@hepdata_maker.command()
+@click.option('--output','-o',default='steering_file.json',help='output file path/name',type=click.Path(exists=False))
+@click.option('--directory','-d', help='Directory to search through for files',type=click.Path(exists=True))
+@click.option('--only-steering-files', help='Search only for steering files in the directory', default=False)
+@click.option('--force','-f', help='Overwride output file if already exists', is_flag=True)
+def create_steering_file(output,directory,only_steering_files,force):
+    import glob
+    import os.path
+    from hepdata_lib import RootFileReader
+    from .Submission import Variable
+    from .Submission import Table
+    import csv
+    from .Submission import is_name_correct
+
+    if(os.path.exists(output) and not force):
+        raise ValueError(f"{output} file already exists! Give different name or use --force/-f option.")
+
+    if(directory is None):
+        raise ValueError(f"No directory to traverse was given!")
+    
+    steering_files=glob.glob(directory+"/**/*_steering.json",recursive=True)
+    figure_files=glob.glob(directory+"/**/*.pdf",recursive=True)# prefer pdf files if they are both pdf and png
+    figure_files+=[x for x in glob.glob(directory+"/**/*.png",recursive=True) if x.replace(".png",".pdf") not in figure_files] # add png if not added as pdf
+
+    sub=Submission()
+    # 1)implement all *_steering.json files:
+
+    # 2) loop over remaining figures:
+    
+    for figure_path in figure_files:
+        fig_dir=os.path.dirname(figure_path)
+        fig_name_core=".".join(os.path.basename(figure_path).split(".")[:-1])
+        associated_files=glob.glob(fig_dir+'/'+fig_name_core+".*")
+        associated_files.remove(figure_path)
+        try:
+            associated_files.remove(re.sub(".pdf$",".png",figure_path)) # if pdf & png file exsitst together, only pdf file is used
+        except ValueError:
+            # ignore case when the file not found in the list.
+            True
+        print(associated_files)
+        selected_associated_files={}
+        if(associated_files):
+            for associated_path in associated_files:
+                if(check_if_file_exists_and_readable(associated_path)):
+                    file_type=associated_path.split(".")[-1].lower()
+                    selected_associated_files[file_type]=associated_path
+                else:
+                    log.debug(f" File {associated_path} not recognised as relevant for hepdata.")
+        title="Here you should explain what your table shows"
+        tab_name=f"table_{fig_name_core}"
+        location=f"data from figure {fig_name_core}"
+
+        tab_steering={
+            "name":tab_name,
+            "title":title,
+            "location":location,
+            "images":[
+                {
+                    "name":figure_path
+                }
+            ]
+            
+        }
+        tab=Table(tab_steering=tab_steering)
+
+        
+        replace_dict=None
+        tabular_loc_decode=None
+        comments=[]
+        variables=[]
+        if("txt" in selected_associated_files):
+            log.debug(f"file {selected_associated_files['txt']} added as a title to table centered around figure {figure_path}")
+            title=selected_associated_files['txt'] # It is supported to have titles read directly from files
+        # mind, if we have more than one data_file(json/root/yaml/csv), only one will be selected, given by the following order:
+
+        if("root" in selected_associated_files):
+            # In this part we find an object inside the root file that will open fine for user
+            # This object will probably be of no relevance for the user, but
+            # serves as an example
+            log.debug(f"Trying to find suitable example inside root file {selected_associated_files['root']}")
+            file_path=selected_associated_files['root']
+            av_items=variable_loading.get_list_of_objects_in_root_file(file_path)
+            av_item_names_no_cycle=[name.split(';')[0] for name in av_items]
+            suitable_object=None
+            rreader=RootFileReader(file_path) # this should not fail as the file was checked before
+            for obj_name in av_items:
+                item_classname=av_items[obj_name]
+                loaded_object_hepdata_lib=None
+                try:
+                    if( "TH1" in item_classname):
+                        loaded_object_hepdata_lib=rreader.read_hist_1d(obj_name)
+                    elif( "TH2" in item_classname):
+                        loaded_object_hepdata_lib=rreader.read_hist_2d(obj_name)
+                    elif("RooHist" in item_classname or "TGraph" in item_classname):
+                        loaded_object_hepdata_lib=rreader.read_graph(obj_name)
+                except Exception:
+                    log.debug(f" failed to read object {obj_name} inside root file {file_path}. Skipping the object")
+                    continue
+                if(loaded_object_hepdata_lib and "x" in loaded_object_hepdata_lib.keys()):
+                    suitable_object=obj_name
+                    break;
+            if(suitable_object is not None):
+                in_file=f'{selected_associated_files["root"]}:{suitable_object}'
+                variables.append({"in_file":in_file,"decode":"x","name":"variable_x","is_independent":True})
+                variables.append({"in_file":in_file,"decode":"y","name":"variable_y","is_independent":False})
+                
+        elif("json" in selected_associated_files):
+            in_file=selected_associated_files["json"]
+            variables.append({"in_file":in_file,"decode":"keys_unsorted","name":"keys","is_independent":True})
+            variables.append({"in_file":in_file,"decode":".[keys_unsorted[]] | keys_unsorted","name":"keys_of_keys","is_binned":False,"is_independent":False})
+        elif("yaml" in selected_associated_files):
+            in_file=selected_associated_files["yaml"]
+            variables.append({"in_file":in_file,"decode":"keys_unsorted","name":"keys","is_independent":True})
+            variables.append({"in_file":in_file,"decode":".[keys_unsorted[]] | keys_unsorted","name":"keys_of_keys","is_binned":False,"is_independent":False})
+        elif("csv" in selected_associated_files):
+            in_file=selected_associated_files["csv"]
+            try:
+                with open(in_file) as csvfile:
+                    dialect = csv.Sniffer().sniff(csvfile.read(1024))
+                with open(in_file) as csvfile:
+                    csv_reader = csv.DictReader(csvfile,dialect=dialect)
+                    delimiter=dialect.delimiter
+                    for index,key in enumerate(csv_reader.fieldnames):
+                        name=key if is_name_correct(key) else f"variable_{index}"
+                        variables.append({"in_file":in_file,"name":name,"decode":f"{key}","delimiter":delimiter,"is_independent":(index==0)})
+            except Exception as ex:
+                log.debug(f" failed in discovering csv file {in_file}! File skipped.")
+                log.debug(ex)
+
+        elif("tex" in selected_associated_files):
+            in_file=selected_associated_files["tex"]
+            try:
+                tex_table=variable_loading.get_table_from_tex(in_file,"latex.find_all(['tabular*','tabular'])[0]")
+                for index,variable_name in enumerate(tex_table[0,:]):
+                    sanitised_name=variable_name if is_name_correct(variable_name) else f"variable_{index}"
+                    variables.append({"in_file":in_file,"name":sanitised_name,"tabular_loc_decode":"latex.find_all(['tabular*','tabular'])[0]","decode":f"table[1:,{index}]","replace_dict":{},
+                                      "is_independent":(index==0)})
+            except Exception:
+                log.debug(f"failed to read tex table of {tab_name} inside tex-file {in_file}. Not including the tex file")
+        
+        for variable_info in variables:
+            var_steering={
+                "name":variable_info['name'],
+                "in_files":
+                [
+                    {
+                        "name":variable_info['in_file'],
+                        "decode":variable_info['decode']
+                    }
+                ]
+            }
+            delimiter=variable_info.get('delimiter',"")
+            if(delimiter is not ""):
+                var_steering['in_files'][0]['delimiter']=delimiter
+            is_binned=variable_info.get('is_binned',"")
+            if(is_binned is not ""):
+                var_steering['is_binned']=is_binned
+            is_independent=variable_info.get('is_independent',"")
+            if(is_independent is not ""):
+                var_steering['is_independent']=is_independent
+            tabular_loc_decode=variable_info.get('tabular_loc_decode',"")
+            if(tabular_loc_decode is not ""):
+                var_steering['in_files'][0]['tabular_loc_decode']=tabular_loc_decode
+            replace_dict=variable_info.get('replace_dict',"")
+            if(replace_dict is not ""):
+                var_steering['in_files'][0]['replace_dict']=replace_dict
+            
+
+            var=Variable(var_steering=var_steering)
+            tab.add_variable(var)
+        sub.add_table(tab)
+    with open(output, 'w') as outfile:
+        json.dump(sub.steering_file_snippet(), outfile,indent=4)
 hepdata_maker.add_command(create_submission)
 hepdata_maker.add_command(check_schema)
 hepdata_maker.add_command(check_table)
 hepdata_maker.add_command(check_variable)
 hepdata_maker.add_command(create_table_of_content)
+hepdata_maker.add_command(create_steering_file)
