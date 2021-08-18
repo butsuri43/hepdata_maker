@@ -359,6 +359,7 @@ def create_steering_file(output,directory,only_steering_files,force):
     from .Submission import Table
     import csv
     from .Submission import is_name_correct
+    from collections import OrderedDict
 
     if(os.path.exists(output) and not force):
         raise ValueError(f"{output} file already exists! Give different name or use --force/-f option.")
@@ -369,13 +370,28 @@ def create_steering_file(output,directory,only_steering_files,force):
     steering_files=glob.glob(directory+"/**/*_steering.json",recursive=True)
     figure_files=glob.glob(directory+"/**/*.pdf",recursive=True)# prefer pdf files if they are both pdf and png
     figure_files+=[x for x in glob.glob(directory+"/**/*.png",recursive=True) if x.replace(".png",".pdf") not in figure_files] # add png if not added as pdf
-
-    sub=Submission()
+    log.debug(f"discovered following steering files: {steering_files}")
     # 1)implement all *_steering.json files:
-
+    to_save_steering_files={}
+    for steering_file in sorted(steering_files):
+        try:
+            with open(steering_file, 'r') as stream:
+                jsondata=json.load(stream,object_pairs_hook=OrderedDict)
+            utils.check_schema(jsondata,"table.json")
+            tab=Table(tab_steering=jsondata) # just making sure it works. We do not need this object actually. 
+            tab_name=os.path.basename(steering_file).replace("_steering.json","")
+            to_save_steering_files[tab_name]=steering_file
+            # Remove figures conrrespondning to the steering file:
+            figure_files=[fig for fig in figure_files if not os.path.splitext(os.path.basename(fig))[0]==tab_name]
+            
+        except Exception as ex:
+            log.info(f" table steering file {steering_file} is not correctly formatted and will not be included in the steering file constructed\n ERROR:{ex}.") 
+    log.debug(f"discovered following figures (excluding already included in steering_files): {figure_files}")
+    sub=Submission()
+    sub.generate_table_of_content=True
     # 2) loop over remaining figures:
     
-    for figure_path in figure_files:
+    for figure_path in sorted(figure_files):
         fig_dir=os.path.dirname(figure_path)
         fig_name_core=".".join(os.path.basename(figure_path).split(".")[:-1])
         associated_files=glob.glob(fig_dir+'/'+fig_name_core+".*")
@@ -395,7 +411,7 @@ def create_steering_file(output,directory,only_steering_files,force):
                 else:
                     log.debug(f" File {associated_path} not recognised as relevant for hepdata.")
         title="Here you should explain what your table shows"
-        tab_name=f"table_{fig_name_core}"
+        tab_name=f"{fig_name_core}"
         location=f"data from figure {fig_name_core}"
 
         tab_steering={
@@ -517,8 +533,27 @@ def create_steering_file(output,directory,only_steering_files,force):
             var=Variable(var_steering=var_steering)
             tab.add_variable(var)
         sub.add_table(tab)
+    all_table_names=sorted(sub.get_table_names()+list(to_save_steering_files.keys()))
+
+    final_tables=[]
+    for tab_name in all_table_names:
+        if(tab_name in to_save_steering_files):
+            relative_path_steering_file=os.path.relpath(to_save_steering_files[tab_name],os.path.dirname(output))
+            final_tables.append({"$ref":relative_path_steering_file})
+        else:
+            index=sub.table_index(tab_name)
+            final_tables.append(sub.tables[index].steering_file_snippet())
+
+    # Get steering file constructed from figures
+    steering_json_from_figures=sub.steering_file_snippet()
+        
+    # update it with all tables (including the one with jsonref!)
+    log.debug(f" all tables (including unresolved):")
+    log.debug(json.dumps(final_tables,indent=4))
+    steering_json_from_figures['tables']=final_tables
     with open(output, 'w') as outfile:
-        json.dump(sub.steering_file_snippet(), outfile,indent=4)
+        json.dump(steering_json_from_figures, outfile,indent=4)
+    
 hepdata_maker.add_command(create_submission)
 hepdata_maker.add_command(check_schema)
 hepdata_maker.add_command(check_table)
