@@ -2,7 +2,8 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 import numpy as np
-import json
+#import json
+import jsonref
 from collections import OrderedDict
 from collections.abc import Iterable
 import collections
@@ -19,6 +20,10 @@ import rich.panel
 import rich.tree
 from . import variable_loading
 import validators
+
+def is_name_correct(name):
+    # Just checking whether the name field does not contain forbidden characters
+    return re.match("^([a-zA-Z0-9\\._;/+])*$",name) is not None
 
 def add_error_tree_from_var(variable,baseTree=False):
     if(not isinstance(variable,Variable)):
@@ -777,7 +782,8 @@ class Submission():
         if(not os.path.isfile(config_file_path)):
             raise ValueError(f"Could not find config file {config_file_path}. Please check the path provided.")
         with open(config_file_path, 'r') as stream:
-            config_loaded = json.load(stream,object_pairs_hook=OrderedDict)
+            print("file://"+os.path.abspath(os.path.dirname(config_file_path)),config_file_path)
+            config_loaded = jsonref.load(stream,base_uri="file://"+os.path.abspath(os.path.dirname(config_file_path))+"/",object_pairs_hook=OrderedDict)
         self.config=config_loaded
     def load_table_config(self,data_root: str='./',selected_table_names=[]):
         if(self._has_loaded):
