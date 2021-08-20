@@ -7,6 +7,7 @@ from collections import OrderedDict
 import collections
 import os
 from collections.abc import Mapping
+import validators
 
 SCHEMA_CACHE = {}
 SCHEMA_BASE = "schemas"
@@ -65,7 +66,10 @@ def check_schema(json_data, schema_name, version=None):
 def resolve_file_name(file_name,root_dir):
     # return the file_name for file if absolute path given,
     # return root_dir/file_name if file_name is not an absolute path
-    return os.path.join(root_dir,file_name)
+    if(validators.url(file_name) or validators.email(file_name)):
+        return file_name
+    else:
+        return os.path.join(root_dir,file_name)
 
 class objdict(collections.OrderedDict):
     def __init__(self, d):
@@ -85,6 +89,8 @@ class objdict(collections.OrderedDict):
     def __delitem__(self, key):
         super().__delitem__(key)
         del self.__dict__[key]
+    def to_dict(self):
+        return dict(self)
 def get_available_tables(config_file_path):
     result=[]
     with open(config_file_path, 'r') as stream:

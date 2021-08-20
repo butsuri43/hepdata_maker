@@ -18,13 +18,41 @@ import scipy.stats, scipy.special
 from collections import OrderedDict
 import os.path
 from . import utils
+import functools
+import io
+from collections.abc import Iterable
 
+@functools.lru_cache(maxsize=16)
+def open_data_file(file_path,file_type):
+    log.debug(f"Opening uncached file {file_path}, type={file_type}.")
+    try:
+        if(file_type=="yaml"):
+            with open(file_path, 'r') as stream:
+                data_loaded = yaml.safe_load(stream)
+        elif(file_type=='json'):
+            with open(file_path, 'r') as stream:
+                data_loaded = json.load(stream,object_pairs_hook=OrderedDict)
+        elif(file_type=='csv'):
+            with open(file_path, 'r') as stream:
+                data_loaded = json.load(stream,object_pairs_hook=OrderedDict)
+        elif(file_type=='root'):
+            data_loaded=RootFileReader(file_path)
+        elif(file_type=='tex'):
+            data_loaded = TexSoup(open(file_path))
+        else:
+            raise ValueError(f"Unrecognised argument filetype={file_type}")
+        return data_loaded
+    except Exception as err:
+        log.debug(f"Error in reading file {file_path}.")
+        raise err
+        
+        
 def get_array_from_csv(file_path,decode,delimiter=','):
     log.debug("--------- csv file read -------------")
     log.debug(f"Reading variable information from csv file {file_path}")
     log.debug(f"decode used: '{decode}'")
     log.debug(f"delimiter used: '{delimiter}'")
-    with open(file_path) as csv_file:    
+    with io.StringIO(open_data_file(file_path,"csv")) as csv_file:    
         csv_reader = csv.DictReader(csv_file,delimiter=delimiter)
         line_count = 0
         data=[]
@@ -49,15 +77,7 @@ def get_array_from_json(file_path,decode):
     log.debug("--------- json file read -------------")
     log.debug(f"Reading variable information from json file {file_path}")
     log.debug(f"decode used: '{decode}'")
-    try:
-        with open(file_path, 'r') as stream:
-            data_loaded = json.load(stream,object_pairs_hook=OrderedDict)
-    except json.JSONDecodeError as err:
-        log.error(f"Error in reading json inside {file_path}. See error thrown for details.")
-        raise err
-    except Exception as err:
-        log.error(f"Error in reading file {file_path}.")
-        raise err
+    data_loaded=open_data_file(file_path,"json")
     
     if(not decode):
         raise TypeError("""You need to specify variable 'decode' which defines a jq filter (https://stedolan.github.io/jq/manual/) parsed by (https://pypi.org/project/jq/).
@@ -78,10 +98,16 @@ def get_array_from_json(file_path,decode):
     ## The idea is that for user it does not matter whether we output [1,2,3] or 1,2,3
     ## Of course, this is restrictive for inputs allowed (a variable with a single value being table is not allowed),
     ## but that should not be needed. 
-    jq_first=jq.first(decode.replace("'",'"'),data_loaded)
-    if([jq_first]==jq_output):
-        jq_output=jq_output[0]
+    #jq_first=jq.first(decode.replace("'",'"'),data_loaded)
+    #if([jq_first]==jq_output):
+    #    jq_output=jq_output[0]
     ## End of hack
+
+    # Finally decided to wanr user rather than makeing a 'fix' (that broke legitimate cases where there is just one value provided for the variable...)
+    if(len(jq_output)>0):
+        jq_first=jq_output[0]
+        if([jq_first]==jq_output and isinstance(jq_first,Iterable)):
+            log.warning(f"It seems that you have a single-valued array of array: '{jq_output}'. If this was intended, ignore the warning. If an error was raised, you might want to add '| .[]' to your decode function.")
 
     return np.array(jq_output)
 
@@ -89,12 +115,7 @@ def get_array_from_yaml(file_path,decode):
     log.debug("--------- yaml file read -------------")
     log.debug(f"Reading variable information from yaml file {file_path}")
     log.debug(f"decode used: '{decode}'")
-    try:
-        with open(file_path, 'r') as stream:
-            data_loaded = yaml.safe_load(stream)
-    except Exception as err:
-        log.debug(f"Error in reading file {file_path}.")
-        raise err
+    data_loaded=open_data_file(file_path,"yaml")
 
     if(not decode):
         raise TypeError("""You need to specify variable 'decode' which defines a jq filter (https://stedolan.github.io/jq/manual/) to parse your input file.
@@ -110,6 +131,7 @@ def get_array_from_yaml(file_path,decode):
     #			}
     # in a steering file. The single quotes in decode there are replaced with double quotes. 
 
+    #print(f"decode: {decode}, data_load: {data_loaded}")
     jq_output=jq.all(decode.replace("'",'"'),data_loaded)
 
     ## We need a bit of hack to emulate jq on python emulate jq-bash behaviour
@@ -117,24 +139,33 @@ def get_array_from_yaml(file_path,decode):
     ## The idea is that for user it does not matter whether we output [1,2,3] or 1,2,3
     ## Of course, this is restrictive for inputs allowed (a variable with a single value being table is not allowed),
     ## but that should not be needed. 
-    jq_first=jq.first(decode.replace("'",'"'),data_loaded)
-    if([jq_first]==jq_output):
-        jq_output=jq_output[0]
+    #try:
+    #    if(len(jq_output)>0):
+    #        jq_first=jq_output[0]
+    #        if([jq_first]==jq_output):
+    #            jq_output=jq_output[0]
+    #except Exception:
+    #    log.debug(f"Error in jq_first.")
     ## End of hack
-    
+
+    # Finally decided to wanr user rather than makeing a 'fix' (that broke legitimate cases where there is just one value provided for the variable...)
+    if(len(jq_output)>0):
+        jq_first=jq_output[0]
+        if([jq_first]==jq_output and isinstance(jq_first,Iterable)):
+            log.warning(f"It seems that you have a single-valued array of array: '{jq_output}'. If this was intended, ignore the warning. If an error was raised, you might want to add '| .[]' to your decode function.")
+            
     return np.array(jq_output)
 
+@functools.lru_cache(maxsize=16)
 def get_list_of_objects_in_root_file(file_path):
     result=[]
     try:
         rfile=uproot.open(file_path)
         return rfile.classnames()
-    except ValueError as exc:
-        exc.args=(f"file 'file_path'({file_path}) does not seem to be a readable root file!!\n"+"(orig exception): "+exc.args[0],)
-        raise exc
     except Exception as exc:
         log.debug(f"file 'file_path'({file_path}) does not seem to be a readable root file!!")
         raise exc
+
 def string_list_available_objects_in_root_file(file_path):
     result=[]
     av_items=get_list_of_objects_in_root_file(file_path)
@@ -147,6 +178,15 @@ def string_list_available_objects_in_root_file(file_path):
         name_to_print=base_name if (av_item_cycle_numbers[base_name]==1  or av_item_cycle_numbers[base_name]==int(cycle_number)) else key
         result.append(f"-- '{name_to_print}' of type {classname if hasattr(item,'classname') else None}")
     return result
+
+@functools.lru_cache(maxsize=128)
+def get_object_class(file_path,root_object_path):
+    object_to_be_loaded=uproot.open(file_path).get(root_object_path)
+    if(not object_to_be_loaded):
+        Error_messages=[f"Cannot find object '{root_object_path}' inside '{file_path}'. Check this file."]+string_list_available_objects_in_root_file(file_path)
+        raise TypeError("\n".join(Error_messages))
+
+    return object_to_be_loaded.classname if hasattr(object_to_be_loaded,'classname') else ''
 
 def get_array_from_root(object_path,decode):
     log.debug("--------- root file read -------------")
@@ -169,15 +209,12 @@ def get_array_from_root(object_path,decode):
     root_object_path=obj_path_split[1]
     
     # Main reader of root files (from hepdata_lib)
-    rreader=RootFileReader(file_path)
-    # but, need to get information about object type from uproot:
-    object_to_be_loaded=uproot.open(file_path).get(root_object_path)
-    loaded_object_hepdata_lib=None    
-    if(not object_to_be_loaded):
-        Error_messages=[f"Cannot find object '{root_object_path}' inside '{file_path}'. Check this file."]+string_list_available_objects_in_root_file(file_path)
-        raise TypeError("\n".join(Error_messages))
+    rreader=open_data_file(file_path)
 
-    item_classname= object_to_be_loaded.classname if hasattr(object_to_be_loaded,'classname') else ''
+    # but, need to get information about object type from uproot:
+    item_classname=get_object_class(file_path,root_object_path)
+
+    loaded_object_hepdata_lib=None    
     if( "TH1" in item_classname):
         loaded_object_hepdata_lib=rreader.read_hist_1d(root_object_path)
     elif( "TH2" in item_classname):
@@ -226,12 +263,8 @@ Your 'table' looks the following:
         raise exc
     return result
 def get_table_from_tex(file_path,tabular_loc_decode,replace_dict={}):
-    try:
-        soup = TexSoup(open(file_path))
-    except Exception as exc:
-        log.error(f"Issue reading file {file_path}.\nAre you sure it is a correctly formated tex file??")
-        raise exc
-    
+    soup=open_data_file(file_path)
+
     try:
         tabular_info=eval(tabular_loc_decode,{'latex':soup}).expr
     except Exception as exc:
