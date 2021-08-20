@@ -209,7 +209,7 @@ def get_array_from_root(object_path,decode):
     root_object_path=obj_path_split[1]
     
     # Main reader of root files (from hepdata_lib)
-    rreader=open_data_file(file_path)
+    rreader=open_data_file(file_path,"root")
 
     # but, need to get information about object type from uproot:
     item_classname=get_object_class(file_path,root_object_path)
@@ -263,7 +263,7 @@ Your 'table' looks the following:
         raise exc
     return result
 def get_table_from_tex(file_path,tabular_loc_decode,replace_dict={}):
-    soup=open_data_file(file_path)
+    soup=open_data_file(file_path,"tex")
 
     try:
         tabular_info=eval(tabular_loc_decode,{'latex':soup}).expr
