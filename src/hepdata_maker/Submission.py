@@ -20,11 +20,27 @@ import rich.panel
 import rich.tree
 from . import variable_loading
 import validators
+import time
 
 def is_name_correct(name):
     # Just checking whether the name field does not contain forbidden characters
     return re.match("^([a-zA-Z0-9\\._;/+])*$",name) is not None
-
+"""
+def name_corrected(name):
+    # Replacing illegal charachters
+    replacement_dict={"{":"_lbr_",
+                      "}":"_rbr_",
+                      "\(":"_lcbr_",
+                      "\)":"_rcbr_",
+                      "\[":"_lsqbr_",
+                      "\]":"_rsqbr_",
+                      "^":"_pow_",
+                      "$":"_dol_",
+                      r"\\":""}
+    for pattern,repl in replacement_dict.items():
+        name=re.sub(pattern,repl,name) 
+    return name
+"""
 def add_error_tree_from_var(variable,baseTree=False):
     if(not isinstance(variable,Variable)):
         raise ValueError(f"arugument 'variable' needs to be of type Submission.Variable")
@@ -57,7 +73,7 @@ def add_var_tree_from_table(table,baseTree=False):
 
 def perform_transformation(transformation,submission_dict,local_vars):
     try:
-        global_vars=utils.merge_dictionaries(submission_dict,{"np":np},{"re":re},{"scipy.stats":scipy.stats},{"scipy.special":scipy.special},{"ufs":ufs})
+        global_vars=utils.merge_dictionaries(submission_dict,{"np":np},{"re":re},{"scipy.stats":scipy.stats},{"scipy.special":scipy.special},{"ufs":ufs},{"nan":np.nan})
         return eval(transformation,global_vars,local_vars)
     except Exception as exc:
         log.error(f"Transformation '{transformation}' has failed.")
@@ -97,8 +113,8 @@ def print_dict_highlighting_objects(dictionary,title=''):
         var_tree=rich.tree.Tree("[bold]Available variables:")        
         for key,value in variable_list:
             spec_var_tree=rich.tree.Tree(key+" (var)")
-            spec_var_tree=add_error_tree_from_var(value,spec_tab_tree)
-            table_tree.add(spec_tab_tree)
+            spec_var_tree=add_error_tree_from_var(value,spec_var_tree)
+            var_tree.add(spec_var_tree)
         objects_to_show.append(var_tree)
     if(len(other_list)>0):
         other_tree=rich.tree.Tree("[bold]Other objects:")
@@ -115,6 +131,7 @@ def print_dict_highlighting_objects(dictionary,title=''):
 class Uncertainty(np.ndarray):
     def __new__(cls,input_array=[],
                 name="unc",
+                fancy_name="",
                 is_visible=True,
                 digits=5,
                 unc_steering=None,
@@ -136,7 +153,8 @@ class Uncertainty(np.ndarray):
         #
         # If unc_steering is given, it takes precedence over other arguments.
         #
-        
+
+        #start=time.time()
         if(unc_steering):
             if(not isinstance(unc_steering,utils.objdict)):
                 # TODO Do we really want to go further with objdict?! Either allow (and automatically translate to dict) or just fall back to dict?
@@ -145,6 +163,7 @@ class Uncertainty(np.ndarray):
                 else:
                     raise TypeError("'unc_steering' needs to be of type utils.objdict or dict!")
             name=unc_steering.get('name',name)
+            fancy_name=unc_steering.get('fancy_name','')
             is_visible=unc_steering.get('is_visible',is_visible)
             digits=unc_steering.get('digits',digits)
             cls.steering_info=unc_steering
@@ -196,6 +215,7 @@ class Uncertainty(np.ndarray):
 
         obj=np.asarray(input_array).view(cls)
         obj.name = name
+        obj.fancy_name = fancy_name
         obj.is_visible = is_visible
         obj.digits = digits
         if(obj.ndim==2):
@@ -208,28 +228,36 @@ class Uncertainty(np.ndarray):
             raise TypeError(f"Uncertainty can be only either 1-D or 2-D list (and not a 1/2-D hybrid). Provided: {input_array}.")
         if(not (isinstance(name,str) or name is None)):
             raise TypeError(f"Uncertainty's name has to be string (or None). It cannot be {type(name)} as provided with {name}.")
+        #stop=time.time()
+        #print(f"It took {stop-start} seconds to create unc {name}")
         # Finally, we must return the newly created object:
         return obj
 
     def __array_finalize__(self, obj):
         if obj is None: return
         self.name = getattr(obj, 'name', None)
+        self.fancy_name = getattr(obj, 'name', '')
         self.is_visible = getattr(obj, 'is_visible', True)        
         self.digits = getattr(obj, 'digits', 5)        
         self.unc_steering = getattr(obj, 'unc_steering', None)
         
     def steering_file_snippet(self):
+        #print(f"unc_steering {self.unc_steering}")
         if(self.unc_steering): # a steering file was provided:
+            log.debug("steering used")
             return self.unc_steering
         else:
+            log.debug("creating steering")
             out_json={}
             out_json['name']=self.name
+            if(self.fancy_name!=''):
+                out_json['fancy_name']=self.fancy_name
             out_json['is_visible']=self.is_visible
             out_json['digits']=self.digits
-            out_json['transformations']=[self.tolist()]
+            out_json['transformations']=[str(self.tolist())]
             return out_json
 class Variable(np.ndarray):
-    def __new__(cls, input_array=[],name="var", is_independent=True, is_binned=None, is_visible=True, unit="", digits=5,
+    def __new__(cls, input_array=[],name="var", is_independent=True, is_binned=None, is_visible=True, units="", digits=5,
                 var_steering=None,
                 global_variables={},
                 local_variables={},
@@ -249,7 +277,7 @@ class Variable(np.ndarray):
         #
         # If var_steering is given, it takes precedence over other arguments.
         #
-
+        #start=time.time()
         if(var_steering):
             if(not isinstance(var_steering,utils.objdict)):
                 # TODO Do we really want to go further with objdict?! Either allow (and automatically translate to dict) or just fall back to dict?
@@ -260,7 +288,7 @@ class Variable(np.ndarray):
             name=var_steering.get('name',name)
             is_independent=var_steering.get('is_independent',is_independent)
             is_binned=var_steering.get('is_binned',is_binned)
-            unit=var_steering.get('unit',unit)
+            units=var_steering.get('units',units)
             is_visible=var_steering.get('is_visible',is_visible)
             digits=var_steering.get('digits',digits)
 
@@ -274,6 +302,7 @@ class Variable(np.ndarray):
                 for in_file in var_steering.in_files:
                     extra_args={k: in_file[k] for k in ('delimiter', 'file_type', 'replace_dict', 'tabular_loc_decode') if k in in_file}
                     tmp_values=variable_loading.read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode,**extra_args)
+                    #print(f"from {utils.resolve_file_name(in_file.name,data_root)}, {in_file.decode} one gets {tmp_values}")
                     if(input_array):
                         input_array=np.concatenate((input_array,tmp_values))
                     else:
@@ -286,6 +315,7 @@ class Variable(np.ndarray):
                     input_array=perform_transformation(transformation,global_variables,utils.merge_dictionaries(local_variables,{name:input_array}))
             if(input_array is None):
                 input_array=[]
+        #print("here we create one obj for the first time, input_array=",input_array)
         obj = np.asarray(input_array).view(cls)
         # add the new attribute to the created instance
         try:
@@ -305,17 +335,20 @@ class Variable(np.ndarray):
         # We might have variables that are lists for each value 
         if(obj.ndim==2 and not is_binned):
             input_array=["["+",".join(entry)+"]" for entry in input_array]
+            #print("here we create one obj, input_array=",input_array)
             obj = np.asarray(input_array).view(cls)
 
         obj.name = name
         obj.is_independent = is_independent
         obj.is_binned = is_binned
         obj.is_visible= is_visible
-        obj.unit = unit
+        obj.units = units
         obj.digits = digits
-
+        
         if(var_steering):
+            obj.fancy_name=var_steering.get('fancy_name','')
             obj._var_steering=var_steering
+            obj.qualifiers=getattr(var_steering,'qualifiers',[])
             if( hasattr(var_steering, 'errors')):
                 if(var_steering.errors):
                     for error_info in var_steering.errors:
@@ -334,18 +367,21 @@ class Variable(np.ndarray):
                 current_local_variables=utils.merge_dictionaries(local_variables,{name:input_array},{var_err.name:var_err for var_err in obj.uncertainties})
                 obj.signal_names=get_matching_based_variables(var_steering.signal_names,global_variables,current_local_variables)
 
+        #stop=time.time()
+        #print(f"It took {stop-start} seconds to variable {name}")
         # Finally, we must return the newly created object:
         return obj
 
     def __array_finalize__(self, obj):
         if obj is None: return
         self.name = getattr(obj, 'name', None)
+        self.fancy_name = getattr(obj, 'fancy_name', '')
         self.is_independent = getattr(obj, 'is_independent', True)
         self.is_binned = getattr(obj, 'is_binned', False)
         self.is_visble = getattr(obj, 'is_visible', True)
-        self.qualifiers = getattr(obj, 'qualifiers', [])
+        self.qualifiers = getattr(obj, 'qualifiers',[])
         self.multiplier = getattr(obj, 'multiplier', None)
-        self.unit = getattr(obj, 'unit', "")
+        self.units = getattr(obj, 'units', "")
         self._uncertainties = getattr(obj, 'uncertainties', [])
         self.region = getattr(obj,'region',np.array([[]]*len(obj)))
         self.grid = getattr(obj,'grid',np.array([[]]*len(obj)))
@@ -391,7 +427,7 @@ class Variable(np.ndarray):
         log.debug(f"Adding uncertainty to Variable {self.name}. Parameters passed: {locals()}")
         if isinstance(uncertainty, Uncertainty):
             if(self.size!=len(uncertainty)):
-                raise ValueError(f"Uncertainty {uncertainty.name, ({uncertainty.tolist()})} has different dimention ({len(uncertainty)}) than the corresponding variable {self.name} ({self.tolist()},{self.size}).")
+                raise ValueError(f"Uncertainty {uncertainty.name, (uncertainty.tolist())} has different dimention ({len(uncertainty)}) than the corresponding variable {self.name} ({self.tolist()},{self.size}).")
             if(uncertainty.name in self.get_uncertainty_names()):
                 raise ValueError(f"Uncertainty {uncertainty.name} is already present in the variable variable {self.name}.")
             self.uncertainties.append(uncertainty)
@@ -462,6 +498,8 @@ class Variable(np.ndarray):
         else:
             out_json={}
             out_json['name']=self.name
+            if(self.fancy_name!=''):
+                out_json['fancy_name']=self.fancy_name
             out_json['is_visible']=self.is_visible
             out_json['digits']=self.digits
             out_json['transformations']=[self.tolist()]
@@ -482,6 +520,7 @@ class Table(object):
                 global_variables={},
                 local_variables={},
                 data_root='./'):
+        #start=time.time()
         if(tab_steering):
             if(not isinstance(tab_steering,utils.objdict)):
                 # TODO Do we really want to go further with objdict?! Either allow (and automatically translate to dict) or just fall back to dict?
@@ -499,29 +538,38 @@ class Table(object):
             raise TypeError(f"Table's name needs to be of type string, not {type(name)}.")
         self._name = None
         self.name = name
+        self.fancy_name = ''
         self._variable_lenght=0
         self._variables = []
         self.title = ""
         self.location = ""
         self.keywords = {}
-        #self.additional_resources = []
+        self._resources = []
         self.images = []
         self._tab_steering={}
         if(tab_steering):
-            self.tab_steering=tab_steering
+            self._tab_steering=tab_steering
             if( hasattr(tab_steering, 'images')):
                 self.images=tab_steering.images
                 for image_info in self.images:
                     current_image_path=utils.resolve_file_name(image_info['name'],data_root)
                     if(not os.path.isfile(current_image_path)):
                         raise ValueError(f"Cannot find image file of table '{name}' under the path '{current_image_path}'. Please check it!")
+            if( hasattr(tab_steering, 'additional_resources')):
+                #print("Additional resources",tab_steering.additional_resources )
+                for resource_info in tab_steering.additional_resources:
+                    res=Resource(res_steering=resource_info)
+                    self._resources.append(res)
+                    current_resource_path=utils.resolve_file_name(resource_info['location'],data_root)
+                    if(not os.path.isfile(current_resource_path)):
+                        raise ValueError(f"Cannot find additional_resource with description \'{resource_info['description']}\' under the path '{current_resource_path}'. Please check it!")
             if( hasattr(tab_steering, 'title')):
                 potential_file_path=utils.resolve_file_name(tab_steering.title,data_root)
                 if(os.path.isfile(potential_file_path)):
                     # Provide file with table title ( e.g. website out)
                     log.debug(f"Title field of table {name} points to a text file. Content of the file will be used as table title.")
                     self.title=open(potential_file_path).read()
-                    print(repr(self.title))
+                    #print(repr(self.title))
                 else:
                     log.debug(f"Title fielf of table {name} points to a text file. Content of the file will be used as table title.")
                     self.title=tab_steering.title
@@ -534,8 +582,9 @@ class Table(object):
                     local_variables=utils.merge_dictionaries(self.__dict__)
                     var=Variable(var_steering=variable_info,global_variables=global_variables,local_variables=local_variables,data_root=data_root)
                     self.add_variable(var)
-
-
+            self.fancy_name=getattr(tab_steering,'fancy_name',None)
+        #stop=time.time()
+        #print(f"It took {stop-start} seconds to create table {name}.")
     @property
     def name(self):
         """Name getter."""
@@ -656,6 +705,13 @@ class Table(object):
         # finally set the table list
         self._variables = variables
 
+    @property
+    def resources(self):
+        """resources getter."""
+        return self._resources
+
+    ### We probably do not need a setter for resources...
+    
     def steering_file_snippet(self):
         if(self._tab_steering): # a steering file was provided:
             return self._tab_steering
@@ -664,8 +720,9 @@ class Table(object):
             output_json['name']=self.name
             output_json['title']=self.title
             output_json['location']=self.location
-            output_json['keywords']=self.keywords
+            output_json['keywords']=dict(self.keywords)
             output_json['images']=self.images
+            output_json['resources']=self.resources
             output_json['variables']=[]
             for variable in self.variables:
                 output_json['variables'].append(variable.steering_file_snippet())
@@ -742,8 +799,19 @@ class Resource():
         output_json={}
         output_json['location']=self.location
         output_json['description']=self.description
+        output_json['copy_file']=self.copy_file
         return output_json
-        
+
+def get_name(obj,use_fancy_names):
+    if(not hasattr(obj,"name")):
+        raise TypeError("objected provided does not contain 'name' field")
+    name=obj.name
+    if(use_fancy_names):
+        if(hasattr(obj,'fancy_name') and obj.fancy_name!=''):
+            name=obj.fancy_name
+        else:
+            log.info(f"fancy name was requested but it is empty for object {obj.name} of {type(obj)}.")
+    return name
 class Submission():
     
     def __init__(self):
@@ -751,6 +819,9 @@ class Submission():
         self._resources=[]
         self._config={}
         self._has_loaded=False
+        self.comment=""
+        self.record_ids=[]
+        self.data_license={}
         self.generate_table_of_content=False
     def get_table_names(self):
         return [tab.name for tab in self.tables]
@@ -782,7 +853,7 @@ class Submission():
         if(not os.path.isfile(config_file_path)):
             raise ValueError(f"Could not find config file {config_file_path}. Please check the path provided.")
         with open(config_file_path, 'r') as stream:
-            print("file://"+os.path.abspath(os.path.dirname(config_file_path)),config_file_path)
+            #print("file://"+os.path.abspath(os.path.dirname(config_file_path)),config_file_path)
             config_loaded = jsonref.load(stream,base_uri="file://"+os.path.abspath(os.path.dirname(config_file_path))+"/",object_pairs_hook=OrderedDict)
         self.config=config_loaded
     def load_table_config(self,data_root: str='./',selected_table_names=[]):
@@ -810,25 +881,41 @@ class Submission():
                 console.rule(f"table {table_name}")
                 table=Table(tab_steering=table_info,global_variables=global_variables,data_root=data_root)
                 self.add_table(table)
-            
-    def create_hepdata_record(self,data_root:str='./',outdir='submission_files'):
+        self.comment=self.config.get('comment',"")
+        self.record_ids=self.config.get('record_ids',[])
+        self.data_license=self.config.get('data_license',{})
+
+    def create_hepdata_record(self,data_root:str='./',outdir='submission_files',use_fancy_names=False):
         # Actual record creation based on information stored
         hepdata_submission = hepdata_lib.Submission()
+        hepdata_submission.comment=self.comment
+        hepdata_submission.record_ids=self.record_ids
+        hepdata_submission.data_license=self.data_license
+
         if(self.generate_table_of_content):
             self.create_table_of_content()
+
         for resource in self.resources:
             hepdata_submission.add_additional_resource(resource.description,resource.location,resource.copy_file)
         for table in self.tables:
-            hepdata_table = hepdata_lib.Table(table.name)
+            table_name=get_name(table,use_fancy_names)
+
+            hepdata_table = hepdata_lib.Table(table_name)
             hepdata_table.description = table.title
             hepdata_table.location = table.location
             hepdata_table.keywords = table.keywords
+            #print("hepdata_table keywords",hepdata_table.keywords)
             for image_info in table.images:
                 hepdata_table.add_image(utils.resolve_file_name(image_info['name'],data_root))
+            for resource_info in table.resources:
+                #print(resource_info)
+                hepdata_table.add_additional_resource(resource_info.description,utils.resolve_file_name(resource_info.location,data_root),resource_info.copy_file)
             for variable in table.variables:
                 if(variable.is_visible):
-                    log.debug(f"Adding variable to table {table.name}; name(var)={variable.name}, is_independent={variable.is_independent},is_binned={variable.is_binned},unit={variable.unit},values={variable.tolist()}")
-                    hepdata_variable=hepdata_lib.Variable(variable.name, is_independent=variable.is_independent, is_binned=variable.is_binned, units=variable.unit)
+                    variable_name=get_name(variable,use_fancy_names)
+                    #print(f"hepdata_creating with {variable_name}",use_fancy_names,variable.name,variable.fancy_name)
+                    log.debug(f"Adding variable to table {table_name}; name(var)={variable_name}, is_independent={variable.is_independent},is_binned={variable.is_binned},units={variable.units},values={variable.tolist()}")
+                    hepdata_variable=hepdata_lib.Variable(variable_name, is_independent=variable.is_independent, is_binned=variable.is_binned, units=variable.units)
                     hepdata_variable.values=variable.tolist()
                     #
                     #HACK: Mind fixed_zero_variable is list of ndarray instead of Uncertenties/Variable... need to be fixed
@@ -841,15 +928,13 @@ class Submission():
                             #print(f"Adding {unc.name} to variable {variable.name}")
                             # Something does not work properly so for now assumed all errors are symmetric... 
                             #unc_is_symmetric=unc.is_error_symmetric()
-                            
-                            hepdata_unc = hepdata_lib.Uncertainty(unc.name, is_symmetric=unc.is_symmetric)
+                            unc_name=get_name(unc,use_fancy_names)
+                            hepdata_unc = hepdata_lib.Uncertainty(unc_name, is_symmetric=unc.is_symmetric)
                             hepdata_unc.values=fixed_zero_variable[index].tolist()
                             hepdata_variable.add_uncertainty(hepdata_unc)
                     if(len(variable.qualifiers)!=0):
-                        for entry in variable.qualifiers:
-                            #print(entry)
-                            for key,val in entry.items():
-                                hepdata_variable.add_qualifier(key,val)
+                        for qualifier in variable.qualifiers:
+                            hepdata_variable.add_qualifier(qualifier['name'],qualifier['value'],qualifier.get('units',''))
                     hepdata_table.add_variable(hepdata_variable)
             hepdata_submission.add_table(hepdata_table)
         hepdata_submission.create_files(outdir)
@@ -980,22 +1065,13 @@ class Submission():
     @resources.setter
     def resources(self, resources):
         """resources setter."""
-        
-        # Remove names of the resources already present in the instance's dict:
-        for old_table in self.resources:
-            self.__dict__.pop(old_table.name)
-        # Check that new resources are of correct type and update the instance's dict
-        for table in resources:
-            if not isinstance(table, Table):
-                raise TypeError("Unknown object type: {0}".format(str(type(table))))
-            else:
-                self._add_tab_to_dict_safely(table)
-        # finally set the table list
         self._resources = resources
 
     def steering_file_snippet(self):
         output_json={}
         output_json['type']='steering'
+        if(self.comment!=''):
+            output_json['comment']=self.comment
         output_json["generate_table_of_content"]=self.generate_table_of_content
         json_tables=[]
         for table in self.tables:

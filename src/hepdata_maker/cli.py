@@ -35,7 +35,8 @@ log = logging.getLogger(__name__)
 @click.argument('steering_file',type=click.Path(exists=True))
 @click.option('--data-root', default='./', help='Location of files specified in steering file (if not an absolute location is given there)',type=click.Path(exists=True),)
 @click.option('--output-dir', default='submission_files', help='The name of the directory where the submission files will be created. Default: submission_files',type=click.Path(exists=False))
-def create_submission(steering_file,data_root,output_dir):
+@click.option('--use-fancy-names', help="Force 'fancy-names' to be used for tables, and uncertainties (not recommended)", is_flag=True)
+def create_submission(steering_file,data_root,output_dir,use_fancy_names):
     log.debug(f"Creating submission file based on {steering_file}. Data-root is {data_root} and the output directory {output_dir}. ")
     console.rule("create_submission",characters="=")
     console.print(f"Loading submission information based on {steering_file}")
@@ -44,8 +45,8 @@ def create_submission(steering_file,data_root,output_dir):
     submission.load_table_config(data_root)
     # TODO require user to confirm overwriting output_dir if it already exist
     with console.status("Creating hepdata files (this might take a while)..."):
-        submission.create_hepdata_record(data_root,output_dir)
-
+        submission.create_hepdata_record(data_root,output_dir,use_fancy_names)
+        
 @hepdata_maker.command()
 @click.argument('steering_file',type=click.Path(exists=True))
 def check_schema(steering_file):
@@ -127,7 +128,6 @@ def check_table(steering_file,data_root,load_all_tables,indices,names):
                     image_table.add_row("label: "+image_info.label)
                     image_info_grid.add_row(image_table)
                 console.print("images:",rich.panel.Panel(image_info_grid,expand=False))
-            #var_names_styles=[(var.name,"on gray") for var in table.variables]
             rich_table=rich.table.Table()
             not_visible_variable_names=[]
             visible_variables=[]
@@ -140,8 +140,8 @@ def check_table(steering_file,data_root,load_all_tables,indices,names):
                     not_visible_variable_names.append(var.name)
                     continue
                 style="black on white" if var.is_independent else ""
-                var_name_with_unit=var.name if (not var.unit) else var.name+" ["+var.unit+"]"
-                rich_table.add_column(var_name_with_unit,style=style)
+                var_name_with_units=var.name if (not var.units) else var.name+" ["+var.units+"]"
+                rich_table.add_column(var_name_with_units,style=style)
                 visible_variables.append(var)
             if(len(not_visible_variable_names)>0):
                 console.print("not-visible variables:",not_visible_variable_names)
@@ -300,7 +300,7 @@ def check_if_file_exists_and_readable(file_path):
     import os.path
     from collections import OrderedDict
     from TexSoup import TexSoup
-
+    
     # function to verify that 'file_path' is readable file with one of this types:
     #   - json 
     #   - yaml
@@ -345,7 +345,156 @@ def check_if_file_exists_and_readable(file_path):
 
         # If we get that far we were able to read the file fine!
         return True
-                
+
+def decode_variable_from_hepdata(variable,var_index,in_file,is_independent):
+    from .Submission import is_name_correct
+    import jq
+    import time
+
+    tmp_name=variable['header']['name']
+    fancy_var_name=tmp_name
+    var_name=tmp_name if is_name_correct(tmp_name) else f"var_{'ind' if is_independent else 'dep'}_{var_index}"
+    var_units=variable['header'].get('units',"")
+    #print("variable units",var_units)
+    errors=[]
+    base_var_field_name="independent_variables" if is_independent else "dependent_variables"
+    qualifiers=variable.get('qualifiers',[])
+    if(len(variable['values'])>0):
+        error_names=list(set(jq.all('.values[].errors?[]?.label',variable)))
+        #print(len(error_names))
+        #start=time.time()
+        for err_index,tmp_name in enumerate(error_names):
+            err_fancy_name=tmp_name
+            err_name=tmp_name if is_name_correct(tmp_name) else f"err_{err_index}"
+
+            # Here we try to save some time in case error is present in the first entry.
+            err=jq.all(f'.errors?[]?| select(.label=="{tmp_name}")',variable['values'][0])
+            if(err==[]):
+                # if it is not, we need to loop over all entries (more time consuming)
+                err=jq.first(f'.values[].errors?[]?| select(.label=="{tmp_name}")',variable)
+            else:
+                err=err[0]
+            
+            if('asymerror' in err):
+                err_decode=f".{base_var_field_name}[{var_index}].values[].errors| if .==null then [0,0] else .[] | select(.label==\"{tmp_name}\") | .asymerror | [.minus,.plus] end"
+            elif('symerror' in err):
+                err_decode=f".{base_var_field_name}[{var_index}].values[].errors| if .==null then null else .[] | select(.label==\"{tmp_name}\") | .symerror end"
+            else:
+                raise ValueError("I have not expected error that is not symerror not asymerror!")
+            err_steering={"name":err_name,"fancy_name":err_fancy_name,"in_files":[{"name":in_file,"decode":err_decode}]} # No units are present for hepdata records as far as I am aware.
+            #print({"name":err_name,"fancy_name":err_fancy_name,"in_files":[{"name":in_file,"decode":err_decode}],"units":err_units})
+            errors.append(err_steering)
+        #stop=time.time()
+        #print(f"timing to get through {len(error_names)} errors={stop-start}")
+        if('high' in variable['values'][0]):
+            decode=f".{base_var_field_name}[{var_index}].values[] | [.low,.high]"
+        else:
+            decode=f".{base_var_field_name}[{var_index}].values[].value"
+        #print({"in_files":[{"name":in_file,"decode":decode}],"name":var_name,'fancy_name':fancy_var_name,"is_independent":is_independent,"errors":errors,"qualifiers":qualifiers,"units":var_units})
+        return {"in_files":[{"name":in_file,"decode":decode}],"name":var_name,'fancy_name':fancy_var_name,"is_independent":is_independent,"errors":errors,"qualifiers":qualifiers,"units":var_units}
+    else:
+        return {"name":var_name,"fancy_name":fancy_var_name,"is_independent":is_independent,"qualifiers":qualifiers,"units":var_units}
+@hepdata_maker.command()
+@click.option('--output','-o',default='steering_file.json',help='output file path/name',type=click.Path(exists=False))
+@click.option('--directory','-d', help='Directory to search through for files',type=click.Path(exists=True))
+@click.option('--force','-f', help='Overwride output file if already exists', is_flag=True)
+def hepdata_to_steering_file(output,directory,force):
+    console.rule("converting hepdata submission files to hepdata_maker steering file",characters="=")
+    import glob
+    import os.path
+    import yaml
+    from .Submission import is_name_correct
+    #from .Submission import name_corrected
+    from .Submission import Variable
+    from .Submission import Table
+    from . import checks
+    import time
+    
+    if(os.path.exists(output) and not force):
+        raise ValueError(f"{output} file already exists! Give different name or use --force/-f option.")
+
+    if(directory is None):
+        raise ValueError(f"No directory to traverse was given!")
+
+    yaml_files=glob.glob(directory+"/**/*.yaml",recursive=True)
+    yaml_basenames_dict={os.path.basename(path):path for path in yaml_files}
+    if("submission.yaml" in yaml_basenames_dict):
+        submission_file_path=yaml_basenames_dict["submission.yaml"]
+        checks.validate_submission(submission_file_path) # This will rase issues if something is wrong with submission file or correspondind data file 
+        
+        #sub=Submission()
+        steering_data={"tables":[],"additional_resources":[]}
+        basedir=os.path.dirname(submission_file_path)
+        stream=open(submission_file_path, 'r')
+        hepdata_submission = yaml.safe_load_all(stream)
+        # Loop over all YAML documents in the submission.yaml file.
+        tab_index=0
+        for doc in hepdata_submission:
+            # Skip empty YAML documents.
+            if not doc:
+                continue
+            tab_index+=1
+            if('comment' in doc):
+                console.rule(f"[bold]comment")
+                steering_data['comment']=doc['comment']
+                steering_data['data_license']=doc['data_license']
+                if('additional_resources' in doc):
+                    for item in doc['additional_resources']:
+                        location=utils.resolve_file_name(item['location'],basedir)
+                        item['location']=location
+                        steering_data['additional_resources'].append(item)
+            elif('data_file' in doc):
+                console.rule(f"[bold]{doc['name']}")
+                tab_steering={}
+                fancy_name=doc['name']
+                name=doc['name'] if is_name_correct(doc['name']) else f"table_{tab_index}"
+                images=[]
+                other_resources=[]
+                if('additional_resources' in doc):
+                    for add_resource in doc['additional_resources']:
+                        file_ext=(os.path.splitext(add_resource['location'])[-1]).lower()
+                        #print(add_resource['location'],"file extention:", file_ext)
+                        location=utils.resolve_file_name(add_resource['location'],basedir)
+                        if(file_ext=='.jpg' or file_ext=='.pdf' or file_ext=='.png' or file_ext=='.eps'):
+                            if(not os.path.basename(location).startswith("thumb_")):
+                                # We do not want to include thumbnails (they will be later recreated in hepdata_lib)
+                                images.append({"name":location,"description":add_resource['description']})
+                        else:
+                            other_resources.append({"location":location,"description":add_resource['description']})
+                title=doc.get('description',"")
+                location=doc.get('location',"")
+                keywords=doc.get('keywords',[])
+                translated_keywords={}
+                for key in keywords:
+                    translated_keywords[key['name']]=key['values']
+                variables=[]
+                in_file=utils.resolve_file_name(doc['data_file'],basedir)
+                with open(in_file, 'r') as stream:
+                    data_loaded = yaml.safe_load(stream)
+                #dependent_variables
+                for var_index,variable in enumerate(data_loaded['dependent_variables']):
+                    with console.status(f"Decoding information about variable {variable['header']['name']}"):
+                        variables.append(decode_variable_from_hepdata(variable,var_index,in_file,is_independent=False))
+                #print("Read all dependent variables")
+                #independent_variables
+                for var_index,variable in enumerate(data_loaded['independent_variables']):
+                    with console.status(f"Decoding information about variable {variable['header']['name']}"):
+                        variables.append(decode_variable_from_hepdata(variable,var_index,in_file,is_independent=True))
+                    #print("Read all independent variables")
+                #print("variables",variables)
+                #print("additional_resources read by cli",other_resources)
+                #start=time.time()
+                steering_data['tables'].append({"name":name,"fancy_name":fancy_name,"images":images,'additional_resources':other_resources,"title":title,"location":location,"keywords":translated_keywords,"variables":variables})
+                #stop=time.time()
+                #print(f"Adding table {name} took {stop-start} seconds")
+            else:
+                log.error("Something is wrong. I did not expect this type of submission_file section!")
+                exit(2)
+    console.rule(f"[bold]Verifying & saving created steering_file")
+    with open(output, 'w') as outfile:
+        utils.check_schema(steering_data,'steering_file.json')
+        json.dump(steering_data, outfile,indent=4)
+    console.print(f"Succesfully created steering_file '[bold]{output}[/bold]'")
 @hepdata_maker.command()
 @click.option('--output','-o',default='steering_file.json',help='output file path/name',type=click.Path(exists=False))
 @click.option('--directory','-d', help='Directory to search through for files',type=click.Path(exists=True))
@@ -401,7 +550,7 @@ def create_steering_file(output,directory,only_steering_files,force):
         except ValueError:
             # ignore case when the file not found in the list.
             True
-        print(associated_files)
+        #print(associated_files)
         selected_associated_files={}
         if(associated_files):
             for associated_path in associated_files:
@@ -560,3 +709,4 @@ hepdata_maker.add_command(check_table)
 hepdata_maker.add_command(check_variable)
 hepdata_maker.add_command(create_table_of_content)
 hepdata_maker.add_command(create_steering_file)
+hepdata_maker.add_command(hepdata_to_steering_file)
