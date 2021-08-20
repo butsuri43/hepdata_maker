@@ -6,7 +6,7 @@ stages:
 
 .checks_template:
   stage: checks
-  image:  gitlab-registry.cern.ch/bozek/hepdata-docker:master-072a0b4b
+  image:  gitlab-registry.cern.ch/bozek/hepdata-docker:master-ddaa5689
   before_script:
    - echo "Pip-installing hepdata_submission_maker"
    - pip3 install --upgrade --editable .
