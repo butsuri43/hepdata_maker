@@ -663,19 +663,19 @@ def create_steering_file(output,directory,only_steering_files,force):
                 ]
             }
             delimiter=variable_info.get('delimiter',"")
-            if(delimiter is not ""):
+            if(delimiter!=""):
                 var_steering['in_files'][0]['delimiter']=delimiter
             is_binned=variable_info.get('is_binned',"")
-            if(is_binned is not ""):
+            if(is_binned!=""):
                 var_steering['is_binned']=is_binned
             is_independent=variable_info.get('is_independent',"")
-            if(is_independent is not ""):
+            if(is_independent!=""):
                 var_steering['is_independent']=is_independent
             tabular_loc_decode=variable_info.get('tabular_loc_decode',"")
-            if(tabular_loc_decode is not ""):
+            if(tabular_loc_decode!=""):
                 var_steering['in_files'][0]['tabular_loc_decode']=tabular_loc_decode
             replace_dict=variable_info.get('replace_dict',"")
-            if(replace_dict is not ""):
+            if(replace_dict!=""):
                 var_steering['in_files'][0]['replace_dict']=replace_dict
             
 
