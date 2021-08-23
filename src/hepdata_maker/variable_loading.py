@@ -34,7 +34,8 @@ def open_data_file(file_path,file_type):
                 data_loaded = json.load(stream,object_pairs_hook=OrderedDict)
         elif(file_type=='csv'):
             with open(file_path, 'r') as stream:
-                data_loaded = json.load(stream,object_pairs_hook=OrderedDict)
+                data_loaded = stream.read()
+                print(data_loaded)
         elif(file_type=='root'):
             data_loaded=RootFileReader(file_path)
         elif(file_type=='tex'):
@@ -66,11 +67,12 @@ def get_array_from_csv(file_path,decode,delimiter=','):
             raise TypeError("\n".join(messages))
             
         for row in csv_reader:
-            if line_count == 0:
-                line_count += 1
-            else:
-                data.append(row[decode])
-                line_count += 1
+            #if line_count == 0:
+            #    line_count += 1
+            #else:
+            data.append(row[decode])
+            line_count += 1
+        print(data)
         return np.array(data)
 
 def get_array_from_json(file_path,decode):
@@ -348,7 +350,7 @@ def read_data_file(file_name,decode,**extra_args):
 
 
 def get_variable_steering_snipped(in_file,decode,data_type,transformations,**extra_args):
-    delimiter=extra_args.get('delimiter',',')
+    delimiter=extra_args.get('delimiter',None)
     replace_dict=extra_args.get('replace_dict',{})
     tabular_loc_decode=extra_args.get('tabular_loc_decode',None)
     file_type=extra_args.get('file_type',None)
@@ -357,7 +359,7 @@ def get_variable_steering_snipped(in_file,decode,data_type,transformations,**ext
     result_json['name']="VAR"
     
     additional_properties={}
-    if('delimiter' in extra_args):
+    if('delimiter' in extra_args and ((file_type and file_type=='csv') or os.path.splitext(in_file)[1]=='csv')):
         additional_properties['delimiter']=extra_args['delimiter']
     if('replace_dict' in extra_args and len(replace_dict)>0):
         additional_properties['replace_dict']=extra_args['replace_dict']
@@ -365,9 +367,11 @@ def get_variable_steering_snipped(in_file,decode,data_type,transformations,**ext
         additional_properties['tabular_loc_decode']=extra_args['tabular_loc_decode']
     if('file_type' in extra_args and file_type):
         additional_properties['file_type']=extra_args['file_type']
-    result_json['in_files']=[utils.merge_dictionaries({"name":in_file, "decode":decode},additional_properties)]
+    if(in_file):
+        result_json['in_files']=[utils.merge_dictionaries({"name":in_file, "decode":decode},additional_properties)]
     
     if(data_type):
+        print(f"passed {data_type}")
         result_json['data_type']=data_type
     if(transformations):
         result_json['transformations']=list(transformations)

@@ -6,6 +6,7 @@ from . import utils
 from .logs import logging
 from .console import console
 from . import variable_loading
+from collections.abc import Iterable
 import numpy as np
 import rich.columns 
 import rich.table 
@@ -174,7 +175,7 @@ def check_table(steering_file,data_root,load_all_tables,indices,names):
 @click.option('--data-type','-t',type=str)
 @click.option('--tabular-loc-decode',type=str)
 @click.option('--delimiter',type=str,default=',')
-@click.option('--replace_dict',type=dict,default={})
+@click.option('--replace_dict',type=str,default='{}')
 @click.option('--transformation','-x','transformations',type=str,multiple=True)
 @click.option('--steering-file','-s',type=click.Path(exists=True))
 @click.option('--load-all-tables/--load-only-selected', '-a/-o', default=True)
@@ -186,6 +187,8 @@ def check_variable(in_file,data_root,file_type,decode,data_type,tabular_loc_deco
     console.rule("in_file")
     console.print("Provide information on the location of the file (.json/.yaml/.root/.csv or .tex files) with variable information")
     console.print(f"You provided [bold]in_file[/bold]: {in_file}")
+    replace_dict=json.loads(replace_dict)
+    extra_args={}
     if(in_file):
         console.print(f"Since [bold]data_root[/bold] is {data_root}, the following location is to be read {utils.resolve_file_name(in_file,data_root)}")
         curr_locals=locals()
@@ -194,7 +197,9 @@ def check_variable(in_file,data_root,file_type,decode,data_type,tabular_loc_deco
     current_loaded_module_log_level=variable_loading.log.level
     variable_loading.log.setLevel(logging.DEBUG)
     log.info("For better idea of transformations performed a debug mode is turned on!")
-    tmp_values=variable_loading.read_data_file(utils.resolve_file_name(in_file,data_root),decode,**extra_args)
+    tmp_values=np.array([])
+    if(in_file):
+        tmp_values=variable_loading.read_data_file(utils.resolve_file_name(in_file,data_root),decode,**extra_args)
     # Let's print what we have so far
     var_table_init=rich.table.Table(show_header=False,box=rich.box.SQUARE)
     var_table_init.add_row(f"[bold]len={len(tmp_values)}")
@@ -236,9 +241,9 @@ def check_variable(in_file,data_root,file_type,decode,data_type,tabular_loc_deco
             console.print(f"Applying transformation '{transformation}' to the variable. Prior to the transformation your variable has the following properties: size={len(tmp_values)},shape={tmp_values.shape},dtype={tmp_values.dtype}.")
             #
             tmp_values=perform_transformation(transformation,submission_dict,{"VAR":tmp_values})
-            if(not isinstance(tmp_values,np.ndarray)):
+            if(not isinstance(tmp_values,Iterable)):
                 console.rule()
-                console.print("Output of transformation needs to be a numpy array.")
+                console.print("Output of transformation needs to be Iterable (e.g. list or numpy array).")
                 console.print("You can construct those from the following objects:")
                 print_dict_highlighting_objects(submission_dict)
                 raise TypeError(f"Transformation '{transformation}' has returned a variable not of the type Variable.")
