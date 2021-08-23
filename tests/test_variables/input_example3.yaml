@@ -1,0 +1,15 @@
+variables:
+- name: var1
+  values:
+  - errors:
+    - error: 1
+      name: test_unc
+    - error: 2
+      name: my_2nd_error
+    value: 12
+  - errors:
+    - error: 2
+      name: test_unc
+    - error: 3.1
+      name: my_2nd_error
+    value: 43

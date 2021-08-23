@@ -31,42 +31,42 @@ def test_uncertainty_constructor(error_data,error_name):
                                                                           ({
                                                                               "name":"test_unc",
                                                                               "in_files":[{
-                                                                                  "name":"unc_input_example1.json",
+                                                                                  "name":"input_example1.json",
                                                                                   "decode":".my_error | .[]"
                                                                               }]
                                                                           },{},{}),
                                                                           ({
                                                                               "name":"test_unc",
                                                                               "in_files":[{
-                                                                                  "name":"unc_input_example2.json",
+                                                                                  "name":"input_example2.json",
                                                                                   "decode":".variables[0].values[].errors[0].error"
                                                                               }]
                                                                           },{},{}),
                                                                           ({
                                                                               "name":"test_unc",
                                                                               "in_files":[{
-                                                                                  "name":"unc_input_example3.yaml",
+                                                                                  "name":"input_example3.yaml",
                                                                                   "decode":".variables[0].values[].errors[0].error"
                                                                               }]
                                                                           },{},{}),
                                                                           ({
                                                                               "name":"test_unc",
                                                                               "in_files":[{
-                                                                                  "name":"unc_input_example4.root:test_histo1",
+                                                                                  "name":"input_example4.root:test_histo1",
                                                                                   "decode":"dy"
                                                                               }]
                                                                           },{},{}),
                                                                           ({
                                                                               "name":"test_unc",
                                                                               "in_files":[{
-                                                                                  "name":"unc_input_example4.root:test_directory/test_histo1_inside_dir",
+                                                                                  "name":"input_example4.root:test_directory/test_histo1_inside_dir",
                                                                                   "decode":"dy"
                                                                               }]
                                                                           },{},{}),
                                                                           ({
                                                                               "name":"test_unc",
                                                                               "in_files":[{
-                                                                                  "name":"unc_input_example5.csv",
+                                                                                  "name":"input_example5.csv",
                                                                                   "delimiter":",",
                                                                                   "decode":"var1_test_unc"
                                                                               }],
@@ -75,10 +75,10 @@ def test_uncertainty_constructor(error_data,error_name):
                                                                           ({
                                                                               "name":"test_unc",
                                                                               "in_files":[{
-                                                                                  "name":"unc_input_example6.tex",
+                                                                                  "name":"input_example6.tex",
                                                                                   "tabular_loc_decode": "latex.find_all(['tabular*','tabular'])[0]",
                                                                                   "replace_dict": {
-                                                                                      "\\pm": "&"
+                                                                                      "\\\\pm": "&"
                                                                                   },
                                                                                   "decode":"table[1:,1]"
                                                                               }],

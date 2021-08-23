@@ -35,7 +35,6 @@ def open_data_file(file_path,file_type):
         elif(file_type=='csv'):
             with open(file_path, 'r') as stream:
                 data_loaded = stream.read()
-                print(data_loaded)
         elif(file_type=='root'):
             data_loaded=RootFileReader(file_path)
         elif(file_type=='tex'):
@@ -72,7 +71,6 @@ def get_array_from_csv(file_path,decode,delimiter=','):
             #else:
             data.append(row[decode])
             line_count += 1
-        print(data)
         return np.array(data)
 
 def get_array_from_json(file_path,decode):
@@ -174,11 +172,11 @@ def string_list_available_objects_in_root_file(file_path):
     av_item_names_no_cycle=[name.split(';')[0] for name in av_items]
     av_item_cycle_numbers={name:av_item_names_no_cycle.count(name) for name in av_item_names_no_cycle}
     result.append(f"Available objects inside root file '{file_path}':")
-    for key,classname in av_items:
+    for key,classname in av_items.items():
         base_name=key.split(';')[0]
         cycle_number=key.split(';')[1]
         name_to_print=base_name if (av_item_cycle_numbers[base_name]==1  or av_item_cycle_numbers[base_name]==int(cycle_number)) else key
-        result.append(f"-- '{name_to_print}' of type {classname if hasattr(item,'classname') else None}")
+        result.append(f"-- '{name_to_print}' of type {classname}")
     return result
 
 @functools.lru_cache(maxsize=128)
@@ -274,7 +272,7 @@ def get_table_from_tex(file_path,tabular_loc_decode,replace_dict={}):
         raise exc
     tabular_info.string=re.sub('%.*','',tabular_info.string)
     for key,value in {**replace_dict, **{r'\hline':'',r'\n':'','\cline{.?}':''}}.items():
-        tabular_info.string=re.sub(key.replace('\\','\\\\'),value,tabular_info.string)
+        tabular_info.string=re.sub(key,value,tabular_info.string)
     table=[[y.rstrip().strip() for y in x.split(r'&')] for x in tabular_info.string.replace(r'\hline','').replace('\n','').split(r'\\')]
 
     nrepeated_row_list=[{'n':0, 'item':''} for i in range(max([len(x) for x in table]))]

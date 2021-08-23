@@ -1,0 +1,37 @@
+{
+    "variables":[
+	{
+	   
+	    "name":"var1",
+	    "values":
+	    [
+		{
+		    "value":12,
+		    "errors":[
+			{
+			    "name":"test_unc",
+			    "error":1
+			},
+			{
+			    "name":"my_2nd_error",
+			    "error":2
+			}
+		    ]
+		},
+		{
+		    "value":43,
+		    "errors":[
+			{
+			    "name":"test_unc",
+			    "error":2
+			},
+			{
+			    "name":"my_2nd_error",
+			    "error":3.1
+			}
+		    ]
+		}
+	    ]
+	}
+    ]
+}

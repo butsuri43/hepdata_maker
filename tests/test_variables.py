@@ -20,16 +20,70 @@ def test_variable_constructor(var_data,var_name,is_binned):
     assert var.is_binned==is_binned
 
 @pytest.mark.parametrize("var_steering,global_variables,local_variables",[({"name":"test_var",
-                                                                            "transformations":["[1,2]"]
+                                                                            "transformations":["[12,43]"]
                                                                             },{},{}),
                                                                           ({"name":"test_var",
                                                                             "transformations":["other_var"]},
-                                                                           {"other_var":[1,2]},{}),
+                                                                           {"other_var":[12,43]},{}),
                                                                           ({"name":"test_var",
                                                                             "transformations":["other_var"]},
-                                                                          {},{"other_var":[1,2]})
+                                                                           {},{"other_var":[12,43]}),
+                                                                          ({"name":"test_var",
+                                                                            "in_files":[{
+                                                                                  "name":"input_example1.json",
+                                                                                  "decode":".var1 | .[]"
+                                                                              }]
+                                                                            },{},{}),
+                                                                          ({"name":"test_var",
+                                                                            "in_files":[{
+                                                                                  "name":"input_example2.json",
+                                                                                  "decode":".variables[0].values[].value"
+                                                                              }]
+                                                                            },{},{}),
+                                                                          ({"name":"test_var",
+                                                                            "in_files":[{
+                                                                                  "name":"input_example3.yaml",
+                                                                                  "decode":".variables[0].values[].value"
+                                                                              }]
+                                                                            },{},{}),
+                                                                          ({"name":"test_var",
+                                                                            "in_files":[{
+                                                                                  "name":"input_example4.root:test_histo1",
+                                                                                  "decode":"y"
+                                                                              }]
+                                                                            },{},{}),
+                                                                          ({"name":"test_var",
+                                                                            "in_files":[{
+                                                                                  "name":"input_example4.root:test_directory/test_histo1_inside_dir",
+                                                                                  "decode":"y"
+                                                                              }]
+                                                                            },{},{}),
+                                                                          ({"name":"test_var",
+                                                                            "in_files":[{
+                                                                                  "name":"input_example5.csv",
+                                                                                  "decode":"var1"
+                                                                              }],
+                                                                            "data_type":"float"
+                                                                            },{},{}),
+                                                                          ({"name":"test_var",
+                                                                            "in_files":[{
+                                                                                  "name":"input_example6.tex",
+                                                                                  "tabular_loc_decode": "latex.find_all(['tabular*','tabular'])[0]",
+                                                                                  "replace_dict": {
+                                                                                      "\\\\pm": "&",
+                                                                                      "\\$":""
+                                                                                  },
+                                                                                  "decode":"table[1:,0]"
+                                                                              }],
+                                                                            "data_type":"float"
+                                                                            },{},{})
                                                                           ])
-def test_variable_constructor_steering_file(var_steering,global_variables,local_variables):
+def test_variable_constructor_steering_file(datadir,var_steering,global_variables,local_variables):
+    # Provide correct paths for data directory:
+    if('in_files' in var_steering):
+        for index in range(len(var_steering['in_files'])):
+            var_steering['in_files'][index]['name']=str(datadir.join(var_steering['in_files'][index]['name']))
+
     var=Variable(var_steering=var_steering,
                     global_variables=global_variables,
                     local_variables=local_variables)
@@ -37,7 +91,7 @@ def test_variable_constructor_steering_file(var_steering,global_variables,local_
     assert var.is_visible==True
     assert var.ndim==1
     assert var.is_binned==False
-    assert np.all(var==[1,2])
+    assert np.all(var==[12,43])
 
     
 @pytest.mark.filterwarnings("ignore::numpy.VisibleDeprecationWarning")
