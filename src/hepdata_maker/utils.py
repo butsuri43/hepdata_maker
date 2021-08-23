@@ -95,7 +95,7 @@ def get_available_tables(config_file_path):
     result=[]
     with open(config_file_path, 'r') as stream:
         print("file://"+os.path.abspath(os.path.dirname(config_file_path)),config_file_path)
-        config_loaded = jsonref.load(stream,base_dir="file://"+os.path.abspath(os.path.dirname(config_file_path))+"/",object_pairs_hook=OrderedDict)
+        config_loaded = jsonref.load(stream,base_uri="file://"+os.path.abspath(os.path.dirname(config_file_path))+"/",object_pairs_hook=OrderedDict)
     for table_info in [objdict(x) for x in config_loaded['tables']]:
         result.append((table_info.name,table_info.should_be_processed))
     return result
