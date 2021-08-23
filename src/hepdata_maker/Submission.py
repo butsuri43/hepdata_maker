@@ -153,7 +153,6 @@ class Uncertainty(np.ndarray):
         #
         # If unc_steering is given, it takes precedence over other arguments.
         #
-
         #start=time.time()
         if(unc_steering):
             if(not isinstance(unc_steering,utils.objdict)):
@@ -211,13 +210,14 @@ class Uncertainty(np.ndarray):
                     raise ValueError(f"Parameter 'transformations needs to be list of transformations(strings), not string.'")
                 for transformation in unc_steering.transformations:
                     input_array=perform_transformation(transformation,global_variables,utils.merge_dictionaries(local_variables,{name:input_array}))
-            
+            #print(f"this is what we got: {input_array}, {type(input_array)}, {input_array.dtype}")
 
         obj=np.asarray(input_array).view(cls)
         obj.name = name
         obj.fancy_name = fancy_name
         obj.is_visible = is_visible
         obj.digits = digits
+        obj._unc_steering=unc_steering
         if(obj.ndim==2):
             obj.is_symmetric=False
         elif(obj.ndim==1):
@@ -230,6 +230,7 @@ class Uncertainty(np.ndarray):
             raise TypeError(f"Uncertainty's name has to be string (or None). It cannot be {type(name)} as provided with {name}.")
         #stop=time.time()
         #print(f"It took {stop-start} seconds to create unc {name}")
+        
         # Finally, we must return the newly created object:
         return obj
 
@@ -239,13 +240,12 @@ class Uncertainty(np.ndarray):
         self.fancy_name = getattr(obj, 'name', '')
         self.is_visible = getattr(obj, 'is_visible', True)        
         self.digits = getattr(obj, 'digits', 5)        
-        self.unc_steering = getattr(obj, 'unc_steering', None)
+        self._unc_steering = getattr(obj, 'unc_steering', None)
         
     def steering_file_snippet(self):
-        #print(f"unc_steering {self.unc_steering}")
-        if(self.unc_steering): # a steering file was provided:
+        if(self._unc_steering): # a steering file was provided:
             log.debug("steering used")
-            return self.unc_steering
+            return self._unc_steering
         else:
             log.debug("creating steering")
             out_json={}
