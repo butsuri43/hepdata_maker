@@ -19,65 +19,66 @@ def test_variable_constructor(var_data,var_name,is_binned):
     assert var.ndim==np.array(var_data).ndim
     assert var.is_binned==is_binned
 
-@pytest.mark.parametrize("var_steering,global_variables,local_variables",[({"name":"test_var",
-                                                                            "transformations":["[12,43]"]
-                                                                            },{},{}),
-                                                                          ({"name":"test_var",
-                                                                            "transformations":["other_var"]},
-                                                                           {"other_var":[12,43]},{}),
-                                                                          ({"name":"test_var",
-                                                                            "transformations":["other_var"]},
-                                                                           {},{"other_var":[12,43]}),
-                                                                          ({"name":"test_var",
-                                                                            "in_files":[{
-                                                                                  "name":"input_example1.json",
-                                                                                  "decode":".var1 | .[]"
-                                                                              }]
-                                                                            },{},{}),
-                                                                          ({"name":"test_var",
-                                                                            "in_files":[{
-                                                                                  "name":"input_example2.json",
-                                                                                  "decode":".variables[0].values[].value"
-                                                                              }]
-                                                                            },{},{}),
-                                                                          ({"name":"test_var",
-                                                                            "in_files":[{
-                                                                                  "name":"input_example3.yaml",
-                                                                                  "decode":".variables[0].values[].value"
-                                                                              }]
-                                                                            },{},{}),
-                                                                          ({"name":"test_var",
-                                                                            "in_files":[{
-                                                                                  "name":"input_example4.root:test_histo1",
-                                                                                  "decode":"y"
-                                                                              }]
-                                                                            },{},{}),
-                                                                          ({"name":"test_var",
-                                                                            "in_files":[{
-                                                                                  "name":"input_example4.root:test_directory/test_histo1_inside_dir",
-                                                                                  "decode":"y"
-                                                                              }]
-                                                                            },{},{}),
-                                                                          ({"name":"test_var",
-                                                                            "in_files":[{
-                                                                                  "name":"input_example5.csv",
-                                                                                  "decode":"var1"
-                                                                              }],
-                                                                            "data_type":"float"
-                                                                            },{},{}),
-                                                                          ({"name":"test_var",
-                                                                            "in_files":[{
-                                                                                  "name":"input_example6.tex",
-                                                                                  "tabular_loc_decode": "latex.find_all(['tabular*','tabular'])[0]",
-                                                                                  "replace_dict": {
-                                                                                      "\\\\pm": "&",
-                                                                                      "\\$":""
-                                                                                  },
-                                                                                  "decode":"table[1:,0]"
-                                                                              }],
-                                                                            "data_type":"float"
-                                                                            },{},{})
-                                                                          ])
+@pytest.mark.parametrize("var_steering,global_variables,local_variables",
+                         [({"name":"test_var",
+                            "transformations":["[12,43]"]
+                            },{},{}),
+                          ({"name":"test_var",
+                            "transformations":["other_var"]},
+                           {"other_var":[12,43]},{}),
+                          ({"name":"test_var",
+                            "transformations":["other_var"]},
+                           {},{"other_var":[12,43]}),
+                          ({"name":"test_var",
+                            "in_files":[{
+                                "name":"input_example1.json",
+                                "decode":".var1 | .[]"
+                            }]
+                            },{},{}),
+                          ({"name":"test_var",
+                            "in_files":[{
+                                "name":"input_example2.json",
+                                "decode":".variables[0].values[].value"
+                            }]
+                            },{},{}),
+                          ({"name":"test_var",
+                            "in_files":[{
+                                "name":"input_example3.yaml",
+                                "decode":".variables[0].values[].value"
+                            }]
+                            },{},{}),
+                          ({"name":"test_var",
+                            "in_files":[{
+                                "name":"input_example4.root:test_histo1",
+                                "decode":"y"
+                            }]
+                            },{},{}),
+                          ({"name":"test_var",
+                            "in_files":[{
+                                "name":"input_example4.root:test_directory/test_histo1_inside_dir",
+                                "decode":"y"
+                            }]
+                        },{},{}),
+                          ({"name":"test_var",
+                            "in_files":[{
+                                "name":"input_example5.csv",
+                                "decode":"var1"
+                            }],
+                            "data_type":"float"
+                            },{},{}),
+                          ({"name":"test_var",
+                            "in_files":[{
+                                "name":"input_example6.tex",
+                                "tabular_loc_decode": "latex.find_all(['tabular*','tabular'])[0]",
+                                "replace_dict": {
+                                    "\\\\pm": "&",
+                                    "\\$":""
+                                },
+                                "decode":"table[1:,0]"
+                            }],
+                            "data_type":"float"
+                            },{},{})
+                          ])
 def test_variable_constructor_steering_file(datadir,var_steering,global_variables,local_variables):
     # Provide correct paths for data directory:
     if('in_files' in var_steering):
@@ -92,6 +93,11 @@ def test_variable_constructor_steering_file(datadir,var_steering,global_variable
     assert var.ndim==1
     assert var.is_binned==False
     assert np.all(var==[12,43])
+    snippet=var.steering_file_snippet()
+    check_fields=['in_files','transformations','fancy_name','name',"data_type"]
+    for field_name in check_fields:
+        if(field_name in var_steering):
+            assert var_steering[field_name]==snippet[field_name]    
 
     
 @pytest.mark.filterwarnings("ignore::numpy.VisibleDeprecationWarning")

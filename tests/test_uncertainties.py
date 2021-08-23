@@ -19,72 +19,73 @@ def test_uncertainty_constructor(error_data,error_name):
     assert snippet['name']==error_name
     assert snippet['transformations'][0]==str(error_data)
     
-@pytest.mark.parametrize("unc_steering,global_variables,local_variables",[({"name":"test_unc",
-                                                                            "transformations":["[1,2]"]
-                                                                            },{},{}),
-                                                                          ({"name":"test_unc",
-                                                                            "transformations":["other_var"]},
-                                                                           {"other_var":[1,2]},{}),
-                                                                          ({"name":"test_unc",
-                                                                            "transformations":["other_var"]},
-                                                                           {},{"other_var":[1,2]}),
-                                                                          ({
-                                                                              "name":"test_unc",
-                                                                              "in_files":[{
-                                                                                  "name":"input_example1.json",
-                                                                                  "decode":".my_error | .[]"
-                                                                              }]
-                                                                          },{},{}),
-                                                                          ({
-                                                                              "name":"test_unc",
-                                                                              "in_files":[{
-                                                                                  "name":"input_example2.json",
-                                                                                  "decode":".variables[0].values[].errors[0].error"
-                                                                              }]
-                                                                          },{},{}),
-                                                                          ({
-                                                                              "name":"test_unc",
-                                                                              "in_files":[{
-                                                                                  "name":"input_example3.yaml",
-                                                                                  "decode":".variables[0].values[].errors[0].error"
-                                                                              }]
-                                                                          },{},{}),
-                                                                          ({
-                                                                              "name":"test_unc",
-                                                                              "in_files":[{
-                                                                                  "name":"input_example4.root:test_histo1",
-                                                                                  "decode":"dy"
-                                                                              }]
-                                                                          },{},{}),
-                                                                          ({
-                                                                              "name":"test_unc",
-                                                                              "in_files":[{
-                                                                                  "name":"input_example4.root:test_directory/test_histo1_inside_dir",
-                                                                                  "decode":"dy"
-                                                                              }]
-                                                                          },{},{}),
-                                                                          ({
-                                                                              "name":"test_unc",
-                                                                              "in_files":[{
-                                                                                  "name":"input_example5.csv",
-                                                                                  "delimiter":",",
-                                                                                  "decode":"var1_test_unc"
-                                                                              }],
-                                                                              "data_type":"float",
-                                                                          },{},{}),
-                                                                          ({
-                                                                              "name":"test_unc",
-                                                                              "in_files":[{
-                                                                                  "name":"input_example6.tex",
-                                                                                  "tabular_loc_decode": "latex.find_all(['tabular*','tabular'])[0]",
-                                                                                  "replace_dict": {
-                                                                                      "\\\\pm": "&"
-                                                                                  },
-                                                                                  "decode":"table[1:,1]"
-                                                                              }],
-                                                                              "data_type":"float",
-                                                                          },{},{})
-                                                                          ])
+@pytest.mark.parametrize("unc_steering,global_variables,local_variables",
+                         [({"name":"test_unc",
+                            "transformations":["[1,2]"]
+                            },{},{}),
+                          ({"name":"test_unc",
+                            "transformations":["other_var"]},
+                           {"other_var":[1,2]},{}),
+                          ({"name":"test_unc",
+                            "transformations":["other_var"]},
+                           {},{"other_var":[1,2]}),
+                          ({
+                              "name":"test_unc",
+                              "in_files":[{
+                                  "name":"input_example1.json",
+                                  "decode":".my_error | .[]"
+                              }]
+                          },{},{}),
+                          ({
+                              "name":"test_unc",
+                              "in_files":[{
+                                  "name":"input_example2.json",
+                                  "decode":".variables[0].values[].errors[0].error"
+                              }]
+                          },{},{}),
+                          ({
+                              "name":"test_unc",
+                              "in_files":[{
+                                  "name":"input_example3.yaml",
+                                  "decode":".variables[0].values[].errors[0].error"
+                              }]
+                          },{},{}),
+                          ({
+                              "name":"test_unc",
+                              "in_files":[{
+                                  "name":"input_example4.root:test_histo1",
+                                  "decode":"dy"
+                              }]
+                          },{},{}),
+                          ({
+                              "name":"test_unc",
+                              "in_files":[{
+                                  "name":"input_example4.root:test_directory/test_histo1_inside_dir",
+                                  "decode":"dy"
+                              }]
+                          },{},{}),
+                          ({
+                              "name":"test_unc",
+                              "in_files":[{
+                                  "name":"input_example5.csv",
+                                  "delimiter":",",
+                                  "decode":"var1_test_unc"
+                              }],
+                              "data_type":"float",
+                          },{},{}),
+                          ({
+                              "name":"test_unc",
+                              "in_files":[{
+                                  "name":"input_example6.tex",
+                                  "tabular_loc_decode": "latex.find_all(['tabular*','tabular'])[0]",
+                                  "replace_dict": {
+                                      "\\\\pm": "&"
+                                  },
+                                  "decode":"table[1:,1]"
+                              }],
+                              "data_type":"float",
+                          },{},{})
+                          ])
 def test_uncertainty_constructor_steering_file(datadir,unc_steering,global_variables,local_variables):
     # Provide correct paths for data directory:
     if('in_files' in unc_steering):
