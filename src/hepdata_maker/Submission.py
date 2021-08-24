@@ -579,7 +579,7 @@ class Table(object):
                     res=Resource(res_steering=resource_info)
                     self._resources.append(res)
                     current_resource_path=utils.resolve_file_name(resource_info['location'],data_root)
-                    if(not os.path.isfile(current_resource_path)):
+                    if(res.copy_file and not os.path.isfile(current_resource_path)):
                         raise ValueError(f"Cannot find additional_resource with description \'{resource_info['description']}\' under the path '{current_resource_path}'. Please check it!")
             if( hasattr(tab_steering, 'title')):
                 potential_file_path=utils.resolve_file_name(tab_steering.title,data_root)
