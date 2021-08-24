@@ -24,7 +24,10 @@ import time
 
 def is_name_correct(name):
     # Just checking whether the name field does not contain forbidden characters
-    return re.match("^([a-zA-Z0-9\\._;/+])*$",name) is not None
+    if(name):
+        return re.match("^([a-zA-Z0-9\\._;/+])*$",name) is not None
+    else:
+        return False
 """
 def name_corrected(name):
     # Replacing illegal charachters
@@ -128,6 +131,20 @@ def print_dict_highlighting_objects(dictionary,title=''):
     render_group=rich.console.RenderGroup(*objects_to_show)
     console.print(rich.panel.Panel(render_group,expand=False,title=title))
 
+def remove_none_from_list(in_list):
+    not_none_entries=[x for x in in_list if x is not None]
+    ndim=1
+    if(len(not_none_entries)==0):
+        return np.array([0]*len(in_list))
+    else:
+        not_none=np.array(not_none_entries[0])
+        if(not_none.size>2 or not_none.size==0):
+            raise ValueError(f"Uncertainty cannot have such dimentionalities, {in_list}")
+        if(not_none.size==2):
+            ndim==2
+        replacement= 0 if ndim==1 else [0.0]
+        return np.array([x if x is not None else replacement for x in in_list],dtype=not_none.dtype)
+            
 class Uncertainty(np.ndarray):
     def __new__(cls,input_array=[],
                 name="unc",
@@ -166,7 +183,6 @@ class Uncertainty(np.ndarray):
             is_visible=unc_steering.get('is_visible',is_visible)
             digits=unc_steering.get('digits',digits)
             cls.steering_info=unc_steering
-
         log.debug(f"Creating new Uncertainty object: {name}")
         log.debug(f"   parameters passed {locals()}")
         
@@ -180,14 +196,16 @@ class Uncertainty(np.ndarray):
                     # if decode is present we have either 2-dim specification of [up,down] or 1-dim symmetric error
                     if( hasattr(in_file, 'decode')):
                         tmp_values=variable_loading.read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode,**extra_args)
-
+                        tmp_values=remove_none_from_list(tmp_values)
                     # if decode_up is present we have either 2-dim specification of [decode_up,decode_down] or [decode_up,None]
                     if( hasattr(in_file, 'decode_up')):
                         tmp_values_up=variable_loading.read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode_up,**extra_args)
+                        tmp_values_up=remove_none_from_list(tmp_values_up)
 
                     # if decode_down is present we have either 2-dim specification of [decode_up,decode_down] or [None,decode_down]
                     if( hasattr(in_file, 'decode_down')):
                         tmp_values_down=variable_loading.read_data_file(utils.resolve_file_name(in_file.name,data_root),in_file.decode_down,**extra_args)
+                        tmp_values_down=remove_none_from_list(tmp_values_down)
 
                     if(tmp_values_up.size>0 or tmp_values_down.size>0):
                         if(not tmp_values_down.size>0):
@@ -929,6 +947,8 @@ class Submission():
                             # Something does not work properly so for now assumed all errors are symmetric... 
                             #unc_is_symmetric=unc.is_error_symmetric()
                             unc_name=get_name(unc,use_fancy_names)
+                            if(unc_name==''):
+                                unc_name=None
                             hepdata_unc = hepdata_lib.Uncertainty(unc_name, is_symmetric=unc.is_symmetric)
                             hepdata_unc.values=fixed_zero_variable[index].tolist()
                             hepdata_variable.add_uncertainty(hepdata_unc)
