@@ -35,6 +35,17 @@ example1_record_check:
   dependencies:
     - example1_record_creation
 
+example1_record_upload:
+  stage: second_stage_checks
+  image: python:latest
+  script:
+   - pip3 install hepdata_cli
+   - hepdata-cli upload submission.tar.gz -e "$SECRET_EMAIL_HEPDATA" -r 1629808138 -s True -p "$SECRET_PASSWORD_HEPDATA"
+  dependencies:
+    - example1_record_creation
+  only:
+    - master
+    
 package_build:
   stage: build
   image: python:latest
