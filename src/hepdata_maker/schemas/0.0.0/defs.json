@@ -324,7 +324,7 @@
 		},
 		"copy_file":{
 		    "description":"Flag whether the resource should be copied (it is a physical file) or should not be copied (a link).",
-		    "type":"string"
+		    "type":"boolean"
 		}
 	    },
 	    "additionalProperties":false
