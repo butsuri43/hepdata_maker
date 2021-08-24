@@ -3,6 +3,7 @@ from .Submission import Submission
 from .Submission import print_dict_highlighting_objects
 from .Submission import perform_transformation
 from . import utils
+from . import checks
 from .logs import logging
 from .console import console
 from . import variable_loading
@@ -369,21 +370,27 @@ def decode_variable_from_hepdata(variable,var_index,in_file,is_independent):
         #print(len(error_names))
         #start=time.time()
         for err_index,tmp_name in enumerate(error_names):
-            err_fancy_name=tmp_name
-            err_name=tmp_name if is_name_correct(tmp_name) else f"err_{err_index}"
-
+            # Now, names can be omitted for uncertainties...
+            if(tmp_name is None):
+                lookup_name="null"
+                err_name=''
+                err_fancy_name=''
+            else:
+                lookup_name=f'"{tmp_name}"'
+                err_name=tmp_name if is_name_correct(tmp_name) else f"err_{err_index}"
+                err_fancy_name=tmp_name
             # Here we try to save some time in case error is present in the first entry.
-            err=jq.all(f'.errors?[]?| select(.label=="{tmp_name}")',variable['values'][0])
+            err=jq.all(f'.errors?[]?| select(.label=={lookup_name})',variable['values'][0])
             if(err==[]):
                 # if it is not, we need to loop over all entries (more time consuming)
-                err=jq.first(f'.values[].errors?[]?| select(.label=="{tmp_name}")',variable)
+                err=jq.first(f'.values[].errors?[]?| select(.label=="{lookup_name}")',variable)
             else:
                 err=err[0]
             
             if('asymerror' in err):
-                err_decode=f".{base_var_field_name}[{var_index}].values[].errors| if .==null then [0,0] else .[] | select(.label==\"{tmp_name}\") | .asymerror | [.minus,.plus] end"
+                err_decode=f".{base_var_field_name}[{var_index}].values[].errors| if .==null then [0,0] else .[] | select(.label=={lookup_name}) | .asymerror | [.minus,.plus] end"
             elif('symerror' in err):
-                err_decode=f".{base_var_field_name}[{var_index}].values[].errors| if .==null then null else .[] | select(.label==\"{tmp_name}\") | .symerror end"
+                err_decode=f".{base_var_field_name}[{var_index}].values[].errors| if .==null then null else .[] | select(.label=={lookup_name}) | .symerror end"
             else:
                 raise ValueError("I have not expected error that is not symerror not asymerror!")
             err_steering={"name":err_name,"fancy_name":err_fancy_name,"in_files":[{"name":in_file,"decode":err_decode}]} # No units are present for hepdata records as far as I am aware.
@@ -395,7 +402,6 @@ def decode_variable_from_hepdata(variable,var_index,in_file,is_independent):
             decode=f".{base_var_field_name}[{var_index}].values[] | [.low,.high]"
         else:
             decode=f".{base_var_field_name}[{var_index}].values[].value"
-        #print({"in_files":[{"name":in_file,"decode":decode}],"name":var_name,'fancy_name':fancy_var_name,"is_independent":is_independent,"errors":errors,"qualifiers":qualifiers,"units":var_units})
         return {"in_files":[{"name":in_file,"decode":decode}],"name":var_name,'fancy_name':fancy_var_name,"is_independent":is_independent,"errors":errors,"qualifiers":qualifiers,"units":var_units}
     else:
         return {"name":var_name,"fancy_name":fancy_var_name,"is_independent":is_independent,"qualifiers":qualifiers,"units":var_units}
@@ -439,10 +445,13 @@ def hepdata_to_steering_file(output,directory,force):
             if not doc:
                 continue
             tab_index+=1
-            if('comment' in doc):
+            if('comment' in doc or
+               ('additional_resources' in doc and 'data_file' not in doc)):
                 console.rule(f"[bold]comment")
-                steering_data['comment']=doc['comment']
-                steering_data['data_license']=doc['data_license']
+                if('comment' in doc):
+                    steering_data['comment']=doc['comment']
+                if('data_license' in doc):
+                    steering_data['data_license']=doc['data_license']
                 if('additional_resources' in doc):
                     for item in doc['additional_resources']:
                         location=utils.resolve_file_name(item['location'],basedir)
@@ -494,6 +503,7 @@ def hepdata_to_steering_file(output,directory,force):
                 #print(f"Adding table {name} took {stop-start} seconds")
             else:
                 log.error("Something is wrong. I did not expect this type of submission_file section!")
+                log.error("Part unrecognised: {doc}")
                 exit(2)
     console.rule(f"[bold]Verifying & saving created steering_file")
     with open(output, 'w') as outfile:
@@ -707,7 +717,15 @@ def create_steering_file(output,directory,only_steering_files,force):
     steering_json_from_figures['tables']=final_tables
     with open(output, 'w') as outfile:
         json.dump(steering_json_from_figures, outfile,indent=4)
-    
+
+@hepdata_maker.command()
+@click.argument('directory',type=click.Path(exists=True))
+def validate_submission(directory):
+    console.rule("checking hepdata submission files",characters="=")
+    checks.validate_submission(directory+'/submission.yaml')
+    # If no error raised all is good
+    console.print(f"The submission in '{directory}'[bold] is correct [/bold]HEPData submission!")
+
 hepdata_maker.add_command(create_submission)
 hepdata_maker.add_command(check_schema)
 hepdata_maker.add_command(check_table)
@@ -715,3 +733,4 @@ hepdata_maker.add_command(check_variable)
 hepdata_maker.add_command(create_table_of_content)
 hepdata_maker.add_command(create_steering_file)
 hepdata_maker.add_command(hepdata_to_steering_file)
+hepdata_maker.add_command(validate_submission)
