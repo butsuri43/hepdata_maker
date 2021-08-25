@@ -2,28 +2,32 @@
 # Most of the code in this file was taken from 'check.py' from https://hepdata-submission.readthedocs.io/en/latest/tips.html:
 # https://hepdata-submission.readthedocs.io/en/latest/_downloads/3623abae3e9b3aa92c8493b05315cc7e/check.py
 #
+# The functions here do basic validation of HEPData submission files 
+#
 
-from hepdata_validator.submission_file_validator import SubmissionFileValidator
-from hepdata_validator.data_file_validator import DataFileValidator
-from yaml import CSafeLoader as Loader
-import yaml
+from hepdata_validator.submission_file_validator import SubmissionFileValidator # type: ignore 
+from hepdata_validator.data_file_validator import DataFileValidator             # type: ignore
+from yaml import CSafeLoader as Loader # type: ignore
+import yaml # type: ignore
 import json
 from .logs import logging
 import os.path
+from typing import Dict,Any,Optional
 
 log = logging.getLogger(__name__)
 
-def validate_data_yaml(data_yaml):
+def validate_data_yaml(data_yaml: Dict[str,Any],
+                       data_file_path: Optional[str]=None) -> bool:
     # Check that the length of the 'values' list is consistent for
     # each of the independent_variables and dependent_variables.
     indep_count = [len(indep['values']) for indep in data_yaml['independent_variables']]
     dep_count = [len(dep['values']) for dep in data_yaml['dependent_variables']]
     if len(set(indep_count + dep_count)) > 1: # if more than one unique count
         raise ValueError("%s has inconsistent length of 'values' list: " % data_file_path +
-              "independent_variables%s, dependent_variables%s." % (str(indep_count), str(dep_count)))
+                         "independent_variables%s, dependent_variables%s." % (str(indep_count), str(dep_count)))
     return True
 
-def validate_data_file(data_file_path):
+def validate_data_file(data_file_path: str) -> bool :
     # Just try to load YAML data file without validating schema.
     # Script will terminate with an exception if there is a problem.
     contents = yaml.load(open(data_file_path, 'r'), Loader=Loader)
@@ -36,7 +40,7 @@ def validate_data_file(data_file_path):
     validate_data_yaml(contents)
     return True
     
-def validate_submission(submission_file_path):
+def validate_submission(submission_file_path: str) -> bool:
     directory=os.path.dirname(submission_file_path)
     submission_file_validator = SubmissionFileValidator()
     is_valid_submission_file = submission_file_validator.validate(file_path=submission_file_path)
