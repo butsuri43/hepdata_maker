@@ -22,13 +22,14 @@ def table_ex1(variable_ex1):
     tab.add_variable(variable_ex1)
     return tab
 
-base_tree_table1 = Tree("test_table1")
+base_tree_table1 = Tree("test_table1") # Rich Tree
 
-base_tree_variable1=Tree("test_var1 (var)")
+base_tree_variable1=Tree("test_var1 (var)") # Rich Tree
 
 
 @pytest.mark.parametrize("base_tree", [base_tree_variable1, None])
 def test_tree_error_from_var(variable_ex1,base_tree):
+    # Test 'Rich' table containing information on available variables/errors
     result=add_error_tree_from_var(variable_ex1,base_tree)
     assert result.label=='test_var1 (var)'
     assert len(result.children)==2
@@ -39,11 +40,13 @@ def test_tree_error_from_var(variable_ex1,base_tree):
                                                        (Table("this should fail (not Variable)"),base_tree_variable1),
                                                        ("this should fail (not Variable)",base_tree_variable1)])
 def test_tree_err_from_variable_raise(variable_test,base_tree_test):
+    # Test errors being raised with wrong inputs
     with pytest.raises(ValueError):
         add_error_tree_from_var(variable_test,base_tree_test)
 
 @pytest.mark.parametrize("base_tree", [base_tree_table1, None])
 def test_tree_var_from_table(table_ex1,base_tree):
+    # Test 'Rich' table containing information on available variables/errors from table
     result=add_var_tree_from_table(table_ex1,base_tree)
     assert result.label=='test_table1'
     assert len(result.children)==1

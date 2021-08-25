@@ -10,6 +10,74 @@ def test_table_constructor(tab_name):
     tab=Table(tab_name)
     assert tab.name==tab_name
 
+@pytest.mark.parametrize("tab_steering,global_variables,local_variables",
+                         [(
+                             {
+                                 "name":"test_tab",
+                                 "fancy_name":"this could be $\\LaTeX$",
+                                 "should_be_processed":True,
+                                 "title":"title of the table; put into HEPData",
+                                 "location":"Location of the table on the paper website",
+                                 "images":[{"name":"input_example4.pdf"}],
+                                 "additional_resources":[{"description":"example of additional resources","location":"dumb_tarball.tar.gz"}],
+                                 "keywords":{"cmenergies":["13000"],"phrases":"dummy_data"},
+                                 "variables":[
+                                     {
+                                         "name":"x-value",
+                                         "in_files":[
+                                             {
+                                                 "name":"input_example4.root:test_histo1",
+                                                 "decode":"x_edges"
+                                             }
+                                         ]
+                                     },
+                                     {
+                                         "name":"y-value",
+                                         "in_files":[
+                                            {
+                                                "name":"input_example4.root:test_histo1",
+                                                "decode":"y"
+                                            }
+                                         ],
+                                         "errors":[
+                                             {
+                                                 "name":"test_unc",
+                                                 "in_files":[
+                                                     {
+                                                         "name":"input_example4.root:test_histo1",
+                                                         "decode":"dy"
+                                                     }
+                                                 ]
+                                             }
+                                         ]
+                                     }
+
+                                 ],
+                                 "comment":""
+                              }
+                             ,{},{})
+                          ])
+def test_variable_constructor_steering_file(datadir,tab_steering,global_variables,local_variables):
+    # Provide correct paths for data directory:
+    if('in_files' in tab_steering):
+        for index in range(len(tab_steering['in_files'])):
+            tab_steering['in_files'][index]['name']=str(datadir.join(tab_steering['in_files'][index]['name']))
+
+    tab=Table(tab_steering=tab_steering,
+              global_variables=global_variables,
+              local_variables=local_variables,
+              data_root=datadir)
+    assert tab.name=="test_tab"
+    assert len(tab.variables)==2
+    assert tab.variables[0].is_binned==True
+    assert np.all(tab.variables[1].uncertainties[0]==[1.,2.])
+    snippet=tab.steering_file_snippet()
+    check_fields=['should_be_processed','title',"location","images","additional_resources","variables",'fancy_name','name',"data_type"]
+    for field_name in check_fields:
+        if(field_name in tab_steering):
+            assert tab_steering[field_name]==snippet[field_name]
+
+
 @pytest.mark.parametrize("tab_name",[None, # Table has to have a name
                                      65*["x"]] # Table name cannot be larger than 64 characters 
                          )
