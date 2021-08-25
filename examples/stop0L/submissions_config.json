@@ -1,5 +1,28 @@
 {
     "type": "submission",
+    "generate_table_of_content":true,
+    "additional_resources":[
+	{
+	    "description":"Webpage with all figures and tables.",
+	    "location":"https://atlas.web.cern.ch/Atlas/GROUPS/PHYSICS/PAPERS/SUSY-2018-12",
+	    "category":"analysis_website"
+	},
+	{
+	    "description":"SLHA file for a 2-body benchmark signal $(\\it{m}_{\\tilde{t}}, \\it{m}_{\\tilde{\\chi^{0}_{1}}})=(1300,1)\\ \\mathrm{GeV}.$",
+	    "location":"examples/stop0L/rawFiles/hepdata_additionalMaterial/param_card_stop_tN_1300_1.dat",
+	    "category":"config_file"
+	},
+	{
+	    "description":"SLHA file for a 2-body benchmark signal $(\\it{m}_{\\tilde{t}}, \\it{m}_{\\tilde{\\chi^{0}_{1}}})=(700,400)\\ \\mathrm{GeV}.$",
+	    "location":"examples/stop0L/rawFiles/hepdata_additionalMaterial/param_card_stop_tN_700_400.dat",
+	    "category":"config_file"
+	},
+	{
+	    "description":"Code snippet with the implementation of the analysis selection at the truth-level.",
+	    "location":"examples/stop0L/rawFiles/hepdata_additionalMaterial/ttbarMET0L2018.cxx",
+	    "category":"SimpleAnalysis_snipped"
+	}
+    ],
     "tables":
     [
 	{
@@ -22,7 +45,7 @@
             "variables":[
 		{
 		    "name":"mt",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
@@ -38,7 +61,7 @@
 		},
 		{
 		    "name":"mn",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
@@ -54,7 +77,7 @@
 		},
 		{
 		    "name":"XsecUL",
-		    "unit":"pb",
+		    "units":"pb",
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_name":"$\\sigma^{95\\% CL}_{upper}\\ \\mathrm{[pb]}$",
@@ -90,7 +113,7 @@
             "variables":[
 		{
 		    "name":"mt",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
@@ -106,7 +129,7 @@
 		},
 		{
 		    "name":"mn",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
@@ -122,7 +145,7 @@
 		},
 		{
 		    "name":"XsecUL",
-		    "unit":"pb",
+		    "units":"pb",
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_name":"$\\sigma^{95\\% CL}_{upper}\\ \\mathrm{[pb]}$",
@@ -154,7 +177,7 @@
             "variables":[
 		{
 		    "name":"metsig_bins",
-		    "unit":"",
+		    "units":"",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "is_binned":true,
@@ -170,7 +193,7 @@
 		},
 		{
 		    "name":"SM_values",
-		    "unit":"",
+		    "units":"",
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_name":"$S$",
@@ -218,7 +241,7 @@
 		},
 		{
 		    "name":"signal_values",
-		    "unit":"",
+		    "units":"",
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_name":"$S$",
@@ -262,7 +285,7 @@
             "variables":[
 		{
 		    "name":"cut",
-		    "unit":"",
+		    "units":"",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"",
@@ -278,7 +301,7 @@
 		},
 		{
 		    "name":"weighted_yield",
-		    "unit":"",
+		    "units":"",
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_name":"",
@@ -294,7 +317,7 @@
 		},
 		{
 		    "name":"unweighted_yield",
-		    "unit":"",
+		    "units":"",
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_name":"",
@@ -327,7 +350,7 @@
             "variables":[
 		{
 		    "name":"mt",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
@@ -343,7 +366,7 @@
 		},
 		{
 		    "name":"mn",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
@@ -359,7 +382,7 @@
 		},
 		{
 		    "name":"dm",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":false,
 		    "fancy_name":"",
@@ -385,7 +408,7 @@
             "variables":[
 		{
 		    "name":"mt",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
@@ -401,7 +424,7 @@
 		},
 		{
 		    "name":"mn",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
@@ -417,7 +440,7 @@
 		},
 		{
 		    "name":"dm",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":false,
 		    "fancy_name":"",
@@ -444,7 +467,7 @@
             "variables":[
 		{
 		    "name":"mt",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
@@ -460,7 +483,7 @@
 		},
 		{
 		    "name":"mn",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
@@ -476,7 +499,7 @@
 		},
 		{
 		    "name":"dm",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":false,
 		    "fancy_name":"",
@@ -486,7 +509,7 @@
 		},
 		{
 		    "name":"acc",
-		    "unit":"%",
+		    "units":"%",
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_name":"Acceptance",
@@ -529,7 +552,7 @@
             "variables":[
 		{
 		    "name":"mt",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
@@ -545,7 +568,7 @@
 		},
 		{
 		    "name":"mn",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"",
@@ -561,7 +584,7 @@
 		},
 		{
 		    "name":"dm",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":false,
 		    "fancy_name":"",
@@ -571,7 +594,7 @@
 		},
 		{
 		    "name":"acc",
-		    "unit":"%",
+		    "units":"%",
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_name":"Acceptance",
@@ -614,7 +637,7 @@
             "variables":[
 		{
 		    "name":"mt",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
@@ -630,7 +653,7 @@
 		},
 		{
 		    "name":"mn",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"",
@@ -646,7 +669,7 @@
 		},
 		{
 		    "name":"dm",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":false,
 		    "fancy_name":"",
@@ -656,7 +679,7 @@
 		},
 		{
 		    "name":"acc",
-		    "unit":"%",
+		    "units":"%",
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_name":"Acceptance",
@@ -699,7 +722,7 @@
             "variables":[
 		{
 		    "name":"mt",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
@@ -715,7 +738,7 @@
 		},
 		{
 		    "name":"mn",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
@@ -731,7 +754,7 @@
 		},
 		{
 		    "name":"dm",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":false,
 		    "fancy_name":"",
@@ -741,7 +764,7 @@
 		},
 		{
 		    "name":"acc",
-		    "unit":"%",
+		    "units":"%",
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_name":"Acceptance",
@@ -784,7 +807,7 @@
             "variables":[
 		{
 		    "name":"mt",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
@@ -800,7 +823,7 @@
 		},
 		{
 		    "name":"mn",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"",
@@ -816,7 +839,7 @@
 		},
 		{
 		    "name":"dm",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":false,
 		    "fancy_name":"",
@@ -826,7 +849,7 @@
 		},
 		{
 		    "name":"acc",
-		    "unit":"%",
+		    "units":"%",
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_name":"Acceptance",
@@ -869,7 +892,7 @@
             "variables":[
 		{
 		    "name":"mt",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
@@ -885,7 +908,7 @@
 		},
 		{
 		    "name":"mn",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"",
@@ -901,7 +924,7 @@
 		},
 		{
 		    "name":"dm",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":false,
 		    "fancy_name":"",
@@ -911,7 +934,7 @@
 		},
 		{
 		    "name":"acc",
-		    "unit":"%",
+		    "units":"%",
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_name":"Acceptance",
@@ -954,7 +977,7 @@
             "variables":[
 		{
 		    "name":"mt",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
@@ -964,7 +987,7 @@
 		},
 		{
 		    "name":"mn",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"",
@@ -974,7 +997,7 @@
 		},
 		{
 		    "name":"eff",
-		    "unit":"%",
+		    "units":"%",
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_name":"Efficiency",
@@ -1017,7 +1040,7 @@
             "variables":[
 		{
 		    "name":"mt",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
@@ -1027,7 +1050,7 @@
 		},
 		{
 		    "name":"mn",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"",
@@ -1037,7 +1060,7 @@
 		},
 		{
 		    "name":"eff",
-		    "unit":"%",
+		    "units":"%",
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_name":"Efficiency",
@@ -1080,7 +1103,7 @@
             "variables":[
 		{
 		    "name":"mt",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
@@ -1090,7 +1113,7 @@
 		},
 		{
 		    "name":"mn",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"",
@@ -1100,7 +1123,7 @@
 		},
 		{
 		    "name":"eff",
-		    "unit":"%",
+		    "units":"%",
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_name":"Efficiency",
@@ -1143,7 +1166,7 @@
             "variables":[
 		{
 		    "name":"mt",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
@@ -1153,7 +1176,7 @@
 		},
 		{
 		    "name":"mn",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"",
@@ -1163,7 +1186,7 @@
 		},
 		{
 		    "name":"eff",
-		    "unit":"%",
+		    "units":"%",
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_name":"Efficiency",
@@ -1206,7 +1229,7 @@
             "variables":[
 		{
 		    "name":"mt",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
@@ -1216,7 +1239,7 @@
 		},
 		{
 		    "name":"mn",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"",
@@ -1226,7 +1249,7 @@
 		},
 		{
 		    "name":"eff",
-		    "unit":"%",
+		    "units":"%",
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_name":"Efficiency",
@@ -1269,7 +1292,7 @@
             "variables":[
 		{
 		    "name":"mt",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}}\\ \\mathrm{[GeV]}$",
@@ -1279,7 +1302,7 @@
 		},
 		{
 		    "name":"mn",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"",
@@ -1289,7 +1312,7 @@
 		},
 		{
 		    "name":"eff",
-		    "unit":"%",
+		    "units":"%",
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_name":"Efficiency",

@@ -24,7 +24,7 @@
             "variables":[
 		{
 		    "name":"ETmiss",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"ETmiss $\\mathrm{[GeV]}$",
@@ -102,7 +102,7 @@
             "variables":[
 		{
 		    "name":"PTll",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"PTll $\\mathrm{[GeV]}$",
@@ -180,7 +180,7 @@
             "variables":[
 		{
 		    "name":"ETmiss",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"PTll \\mathrm{[GeV]}$",
@@ -258,7 +258,7 @@
             "variables":[
 		{
 		    "name":"PTll",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"PTll \\mathrm{[GeV]}$",
@@ -336,7 +336,7 @@
             "variables":[
 		{
 		    "name":"metsig",
-		    "unit":"",
+		    "units":"",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"metsig",
@@ -420,7 +420,7 @@
             "variables":[
 		{
 		    "name":"jetN",
-		    "unit":"",
+		    "units":"",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"jet multiplicity",
@@ -506,7 +506,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -522,7 +522,7 @@
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -555,7 +555,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -571,7 +571,7 @@
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -604,7 +604,7 @@
             "variables":[
 		{
 		    "name":"mt2_orig",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":false,
 		    "in_files":[
@@ -618,7 +618,7 @@
 		},
 		{
 		    "name":"mn1_orig",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":false,
 		    "is_visible":false,
 		    "in_files":[
@@ -632,7 +632,7 @@
 		},
 		{
 		    "name":"mt2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{2}}\\ \\mathrm{[GeV]}$",
@@ -643,7 +643,7 @@
 		},
 		{
 		    "name":"mn1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
@@ -672,7 +672,7 @@
             "variables":[
 		{
 		    "name":"mt2_orig",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":false,
 		    "in_files":[
@@ -686,7 +686,7 @@
 		},
 		{
 		    "name":"mn1_orig",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":false,
 		    "is_visible":false,
 		    "in_files":[
@@ -700,7 +700,7 @@
 		},
 		{
 		    "name":"mt2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{2}}\\ \\mathrm{[GeV]}$",
@@ -711,7 +711,7 @@
 		},
 		{
 		    "name":"mn1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -739,7 +739,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -755,7 +755,7 @@
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -771,7 +771,7 @@
 		},
 		{
 		    "name":"UL",
-		    "unit":"pb",
+		    "units":"pb",
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_name":"upper limit",
@@ -804,7 +804,7 @@
             "variables":[
 		{
 		    "name":"mt2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{2}}\\ \\mathrm{[GeV]}$",
@@ -820,7 +820,7 @@
 		},
 		{
 		    "name":"mn1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -836,7 +836,7 @@
 		},
 		{
 		    "name":"UL",
-		    "unit":"pb",
+		    "units":"pb",
 		    "is_independent":false,
 		    "is_visible":true,
 		    "fancy_name":"upper limit",
@@ -869,7 +869,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -882,12 +882,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -900,8 +899,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Acc",
@@ -917,15 +915,14 @@
 			    "decode":"ACC_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Acc,decimals=4)"]
+		    "transformations":["np.around(Acc[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
 	{
             "name":"eff_SRZ1A",
             "should_be_processed":true,
-            "title":"Efficiency of SR$^{\\textrm{Z}}_{1\\textrm{A}}$ the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane. Efficiencies larger than unity are due to instrumental resolution causing migrations across bins.",
+            "title":"Efficiency of SR$^{\\textrm{Z}}_{1\\textrm{A}}$ the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane. Efficiencies larger than unitsy are due to instrumental resolution causing migrations across bins.",
             "location":"Data from fig. aux. 9b.",
 	    "grid":"stop1",
             "images":[
@@ -939,7 +936,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -952,12 +949,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -970,8 +966,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Eff",
@@ -987,8 +982,7 @@
 			    "decode":"EFF_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Eff,decimals=4)"]
+		    "transformations":["np.around(Eff[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -1009,7 +1003,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -1022,12 +1016,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -1040,8 +1033,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Acc",
@@ -1057,8 +1049,7 @@
 			    "decode":"ACC_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Acc,decimals=4)"]
+		    "transformations":["np.around(Acc[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -1079,7 +1070,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -1092,12 +1083,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -1110,8 +1100,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Eff",
@@ -1127,8 +1116,7 @@
 			    "decode":"EFF_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Eff,decimals=4)"]
+		    "transformations":["np.around(Eff[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -1149,7 +1137,7 @@
             "variables":[
 		{
 		    "name":"mt2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{2}}\\ \\mathrm{[GeV]}$",
@@ -1162,12 +1150,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt2[1:].astype(int)"]
 		},
 		{
 		    "name":"mn1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
@@ -1180,8 +1167,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn1[1:].astype(int)"]
 		},
 		{
 		    "name":"Acc",
@@ -1197,8 +1183,7 @@
 			    "decode":"ACC_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Acc,decimals=4)"]
+		    "transformations":["np.around(Acc[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -1219,7 +1204,7 @@
             "variables":[
 		{
 		    "name":"mt2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{2}}\\ \\mathrm{[GeV]}$",
@@ -1232,12 +1217,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt2[1:].astype(int)"]
 		},
 		{
 		    "name":"mn1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
@@ -1250,8 +1234,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn1[1:].astype(int)"]
 		},
 		{
 		    "name":"Eff",
@@ -1267,8 +1250,7 @@
 			    "decode":"EFF_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Eff,decimals=4)"]
+		    "transformations":["np.around(Eff[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -1289,7 +1271,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -1302,12 +1284,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -1320,8 +1301,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Acc",
@@ -1337,8 +1317,7 @@
 			    "decode":"ACC_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Acc,decimals=4)"]
+		    "transformations":["np.around(Acc[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -1359,7 +1338,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -1372,12 +1351,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -1390,8 +1368,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Eff",
@@ -1407,8 +1384,7 @@
 			    "decode":"EFF_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Eff,decimals=4)"]
+		    "transformations":["np.around(Eff[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -1429,7 +1405,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -1442,12 +1418,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -1460,8 +1435,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Acc",
@@ -1477,15 +1451,14 @@
 			    "decode":"ACC_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Acc,decimals=4)"]
+		    "transformations":["np.around(Acc[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
 	{
             "name":"eff_SRZ1A_bin2",
             "should_be_processed":true,
-            "title":"Efficiency for the second bin of the binned SR$^{\\textrm{Z}}_{1\\textrm{A}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane. Efficiencies larger than unity are due to instrumental resolution causing migrations across bins.",
+            "title":"Efficiency for the second bin of the binned SR$^{\\textrm{Z}}_{1\\textrm{A}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane. Efficiencies larger than unitsy are due to instrumental resolution causing migrations across bins.",
             "location":"Data from fig. aux. 11d.",
 	    "grid":"stop1",
             "images":[
@@ -1499,7 +1472,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -1512,12 +1485,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -1530,8 +1502,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Eff",
@@ -1547,8 +1518,7 @@
 			    "decode":"EFF_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Eff,decimals=4)"]
+		    "transformations":["np.around(Eff[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -1569,7 +1539,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -1582,12 +1552,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -1600,8 +1569,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Acc",
@@ -1617,8 +1585,7 @@
 			    "decode":"ACC_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Acc,decimals=4)"]
+		    "transformations":["np.around(Acc[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -1639,7 +1606,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -1652,12 +1619,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -1670,8 +1636,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Eff",
@@ -1687,8 +1652,7 @@
 			    "decode":"EFF_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Eff,decimals=4)"]
+		    "transformations":["np.around(Eff[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -1709,7 +1673,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -1722,12 +1686,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -1740,8 +1703,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Acc",
@@ -1757,15 +1719,14 @@
 			    "decode":"ACC_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Acc,decimals=4)"]
+		    "transformations":["np.around(Acc[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
 	{
             "name":"eff_SRZ1A_bin4",
             "should_be_processed":true,
-            "title":"Efficiency for the fourth bin of the binned SR$^{\\textrm{Z}}_{1\\textrm{A}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane. Efficiencies larger than unity are due to instrumental resolution causing migrations across bins.",
+            "title":"Efficiency for the fourth bin of the binned SR$^{\\textrm{Z}}_{1\\textrm{A}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane. Efficiencies larger than unitsy are due to instrumental resolution causing migrations across bins.",
             "location":"Data from fig. aux. 11h.",
 	    "grid":"stop1",
             "images":[
@@ -1779,7 +1740,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -1792,12 +1753,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -1810,8 +1770,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Eff",
@@ -1827,8 +1786,7 @@
 			    "decode":"EFF_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Eff,decimals=4)"]
+		    "transformations":["np.around(Eff[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -1849,7 +1807,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -1862,12 +1820,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -1880,8 +1837,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Acc",
@@ -1897,8 +1853,7 @@
 			    "decode":"ACC_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Acc,decimals=4)"]
+		    "transformations":["np.around(Acc[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -1919,7 +1874,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -1932,12 +1887,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -1950,8 +1904,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Eff",
@@ -1967,8 +1920,7 @@
 			    "decode":"EFF_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Eff,decimals=4)"]
+		    "transformations":["np.around(Eff[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -1989,7 +1941,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -2002,12 +1954,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -2020,8 +1971,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Acc",
@@ -2037,15 +1987,14 @@
 			    "decode":"ACC_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Acc,decimals=4)"]
+		    "transformations":["np.around(Acc[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
 	{
             "name":"eff_SRZ1B_bin2",
             "should_be_processed":true,
-            "title":"Efficiency for the second bin of the binned SR$^{\\textrm{Z}}_{1\\textrm{B}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane. Efficiencies larger than unity are due to instrumental resolution causing migrations across bins.",
+            "title":"Efficiency for the second bin of the binned SR$^{\\textrm{Z}}_{1\\textrm{B}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane. Efficiencies larger than unitsy are due to instrumental resolution causing migrations across bins.",
             "location":"Data from fig. aux. 12d.",
 	    "grid":"tN",
             "images":[
@@ -2059,7 +2008,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -2072,12 +2021,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -2090,8 +2038,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Eff",
@@ -2107,8 +2054,7 @@
 			    "decode":"EFF_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Eff,decimals=4)"]
+		    "transformations":["np.around(Eff[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -2129,7 +2075,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -2142,12 +2088,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -2160,8 +2105,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Acc",
@@ -2177,15 +2121,14 @@
 			    "decode":"ACC_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Acc,decimals=4)"]
+		    "transformations":["np.around(Acc[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
 	{
             "name":"eff_SRZ1B_bin3",
             "should_be_processed":true,
-            "title":"Efficiency for the third bin of the binned SR$^{\\textrm{Z}}_{1\\textrm{B}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane. Efficiencies larger than unity are due to instrumental resolution causing migrations across bins.",
+            "title":"Efficiency for the third bin of the binned SR$^{\\textrm{Z}}_{1\\textrm{B}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane. Efficiencies larger than unitsy are due to instrumental resolution causing migrations across bins.",
             "location":"Data from fig. aux. 12f.",
 	    "grid":"tN",
             "images":[
@@ -2199,7 +2142,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -2212,12 +2155,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -2230,8 +2172,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Eff",
@@ -2247,8 +2188,7 @@
 			    "decode":"EFF_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Eff,decimals=4)"]
+		    "transformations":["np.around(Eff[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -2269,7 +2209,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -2282,12 +2222,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -2300,8 +2239,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Acc",
@@ -2317,15 +2255,14 @@
 			    "decode":"ACC_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Acc,decimals=4)"]
+		    "transformations":["np.around(Acc[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
 	{
             "name":"eff_SRZ1B_bin4",
             "should_be_processed":true,
-            "title":"Efficiency for the fourth bin of the binned SR$^{\\textrm{Z}}_{1\\textrm{B}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane. Efficiencies larger than unity are due to instrumental resolution causing migrations across bins.",
+            "title":"Efficiency for the fourth bin of the binned SR$^{\\textrm{Z}}_{1\\textrm{B}}$ in the m($\\tilde{t}_{1}$) vs. m($\\tilde{\\chi}_{2}^{0}$) plane. Efficiencies larger than unitsy are due to instrumental resolution causing migrations across bins.",
             "location":"Data from fig. aux. 12h.",
 	    "grid":"tN",
             "images":[
@@ -2339,7 +2276,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -2352,12 +2289,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -2370,8 +2306,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Eff",
@@ -2387,8 +2322,7 @@
 			    "decode":"EFF_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Eff,decimals=4)"]
+		    "transformations":["np.around(Eff[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -2409,7 +2343,7 @@
             "variables":[
 		{
 		    "name":"mt2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{2}}\\ \\mathrm{[GeV]}$",
@@ -2422,12 +2356,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt2[1:].astype(int)"]
 		},
 		{
 		    "name":"mn1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
@@ -2440,8 +2373,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn1[1:].astype(int)"]
 		},
 		{
 		    "name":"Acc",
@@ -2458,8 +2390,7 @@
 			}
 		    ],
 		    "multiplier":1000,
-		    "data_type":"float",
-		    "transformations":["np.around(Acc,decimals=4)"]
+		    "transformations":["np.around(Acc[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -2480,7 +2411,7 @@
             "variables":[
 		{
 		    "name":"mt2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{2}}\\ \\mathrm{[GeV]}$",
@@ -2493,12 +2424,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt2[1:].astype(int)"]
 		},
 		{
 		    "name":"mn1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
@@ -2511,8 +2441,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn1[1:].astype(int)"]
 		},
 		{
 		    "name":"Eff",
@@ -2528,8 +2457,7 @@
 			    "decode":"EFF_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Eff,decimals=4)"]
+		    "transformations":["np.around(Eff[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -2550,7 +2478,7 @@
             "variables":[
 		{
 		    "name":"mt2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{2}}\\ \\mathrm{[GeV]}$",
@@ -2563,12 +2491,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt2[1:].astype(int)"]
 		},
 		{
 		    "name":"mn1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
@@ -2581,8 +2508,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn1[1:].astype(int)"]
 		},
 		{
 		    "name":"Acc",
@@ -2598,15 +2524,14 @@
 			    "decode":"ACC_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Acc,decimals=4)"]
+		    "transformations":["np.around(Acc[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
 	{
             "name":"eff_SRZ2B_bin2",
             "should_be_processed":true,
-            "title":"Efficiency for the second bin of the binned SR$^{\\textrm{Z}}_{2\\textrm{B}}$ in the m($\\tilde{t}_{2}$) vs. m($\\tilde{\\chi}_{1}^{0}$) plane. Efficiencies larger than unity are due to instrumental resolution causing migrations across bins. ",
+            "title":"Efficiency for the second bin of the binned SR$^{\\textrm{Z}}_{2\\textrm{B}}$ in the m($\\tilde{t}_{2}$) vs. m($\\tilde{\\chi}_{1}^{0}$) plane. Efficiencies larger than unitsy are due to instrumental resolution causing migrations across bins. ",
             "location":"Data from fig. aux. 13d.",
 	    "grid":"tN",
             "images":[
@@ -2620,7 +2545,7 @@
             "variables":[
 		{
 		    "name":"mt2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{2}}\\ \\mathrm{[GeV]}$",
@@ -2633,12 +2558,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt2[1:].astype(int)"]
 		},
 		{
 		    "name":"mn1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
@@ -2651,8 +2575,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn1[1:].astype(int)"]
 		},
 		{
 		    "name":"Eff",
@@ -2668,8 +2591,7 @@
 			    "decode":"EFF_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Eff,decimals=4)"]
+		    "transformations":["np.around(Eff[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -2690,7 +2612,7 @@
             "variables":[
 		{
 		    "name":"mt2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{2}}\\ \\mathrm{[GeV]}$",
@@ -2703,12 +2625,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt2[1:].astype(int)"]
 		},
 		{
 		    "name":"mn1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
@@ -2721,12 +2642,11 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn1[1:].astype(int)"]
 		},
 		{
 		    "name":"Acc",
-		    "unit":"$\\mathrm{x}$ $10^{3}$",
+		    "units":"$\\mathrm{x}$ $10^{3}$",
 		    "multiplier":1000,
 		    "is_independent":false,
 		    "is_visible":true,
@@ -2740,8 +2660,7 @@
 			    "decode":"ACC_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Acc,decimals=4)"]
+		    "transformations":["np.around(Acc[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -2762,7 +2681,7 @@
             "variables":[
 		{
 		    "name":"mt2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{2}}\\ \\mathrm{[GeV]}$",
@@ -2775,12 +2694,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt2[1:].astype(int)"]
 		},
 		{
 		    "name":"mn1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
@@ -2793,8 +2711,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn1[1:].astype(int)"]
 		},
 		{
 		    "name":"Eff",
@@ -2810,8 +2727,7 @@
 			    "decode":"EFF_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Eff,decimals=4)"]
+		    "transformations":["np.around(Eff[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -2832,7 +2748,7 @@
             "variables":[
 		{
 		    "name":"mt2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{2}}\\ \\mathrm{[GeV]}$",
@@ -2845,12 +2761,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt2[1:].astype(int)"]
 		},
 		{
 		    "name":"mn1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
@@ -2863,8 +2778,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn1[1:].astype(int)"]
 		},
 		{
 		    "name":"Acc",
@@ -2880,15 +2794,14 @@
 			    "decode":"ACC_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Acc,decimals=4)"]
+		    "transformations":["np.around(Acc[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
 	{
             "name":"eff_SRZ2B_bin4",
             "should_be_processed":true,
-            "title":"Efficiency for the fourth bin of the binned SR$^{\\textrm{Z}}_{2\\textrm{B}}$ in the m($\\tilde{t}_{2}$) vs. m($\\tilde{\\chi}_{1}^{0}$) plane. Efficiencies larger than unity are due to instrumental resolution causing migrations across bins.",
+            "title":"Efficiency for the fourth bin of the binned SR$^{\\textrm{Z}}_{2\\textrm{B}}$ in the m($\\tilde{t}_{2}$) vs. m($\\tilde{\\chi}_{1}^{0}$) plane. Efficiencies larger than unitsy are due to instrumental resolution causing migrations across bins.",
             "location":"Data from fig. aux. 13h.",
 	    "grid":"tN",
             "images":[
@@ -2902,7 +2815,7 @@
             "variables":[
 		{
 		    "name":"mt2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{2}}\\ \\mathrm{[GeV]}$",
@@ -2915,12 +2828,11 @@
 			    "decode":"mass1"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt2[1:].astype(int)"]
 		},
 		{
 		    "name":"mn1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
@@ -2933,8 +2845,7 @@
 			    "decode":"mass2"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn1[1:].astype(int)"]
 		},
 		{
 		    "name":"Eff",
@@ -2950,8 +2861,7 @@
 			    "decode":"EFF_"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Eff,decimals=4)"]
+		    "transformations":["np.around(Eff[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -2972,7 +2882,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -2983,12 +2893,11 @@
 			    "decode":".independent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -2999,8 +2908,7 @@
 			    "decode":".independent_variables[1].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Acc",
@@ -3014,8 +2922,7 @@
 			    "decode":".dependent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Acc,decimals=4)"]
+		    "transformations":["np.around(Acc[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -3036,7 +2943,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -3047,12 +2954,11 @@
 			    "decode":".independent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{1}} \\mathrm{[GeV]}$",
@@ -3063,8 +2969,7 @@
 			    "decode":".independent_variables[1].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Eff",
@@ -3078,8 +2983,7 @@
 			    "decode":".dependent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Eff,decimals=4)"]
+		    "transformations":["np.around(Eff[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -3100,7 +3004,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -3111,12 +3015,11 @@
 			    "decode":".independent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -3127,8 +3030,7 @@
 			    "decode":".independent_variables[1].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Acc",
@@ -3142,8 +3044,7 @@
 			    "decode":".dependent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Acc,decimals=4)"]
+		    "transformations":["np.around(Acc[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -3164,7 +3065,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -3175,12 +3076,11 @@
 			    "decode":".independent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -3191,8 +3091,7 @@
 			    "decode":".independent_variables[1].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Eff",
@@ -3206,8 +3105,7 @@
 			    "decode":".dependent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Eff,decimals=4)"]
+		    "transformations":["np.around(Eff[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -3228,7 +3126,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -3239,12 +3137,11 @@
 			    "decode":".independent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -3255,8 +3152,7 @@
 			    "decode":".independent_variables[1].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Acc",
@@ -3270,8 +3166,7 @@
 			    "decode":".dependent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Acc,decimals=4)"]
+		    "transformations":["np.around(Acc[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -3292,7 +3187,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -3303,12 +3198,11 @@
 			    "decode":".independent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -3319,8 +3213,7 @@
 			    "decode":".independent_variables[1].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Eff",
@@ -3334,8 +3227,7 @@
 			    "decode":".dependent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Eff,decimals=4)"]
+		    "transformations":["np.around(Eff[1:].astype(float),decimals=4)"]
 		}
 	    ]    
 	},
@@ -3356,7 +3248,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -3367,12 +3259,11 @@
 			    "decode":".independent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -3383,8 +3274,7 @@
 			    "decode":".independent_variables[1].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Acc",
@@ -3398,8 +3288,7 @@
 			    "decode":".dependent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Acc,decimals=4)"]
+		    "transformations":["np.around(Acc[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -3420,7 +3309,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -3431,12 +3320,11 @@
 			    "decode":".independent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -3447,8 +3335,7 @@
 			    "decode":".independent_variables[1].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Eff",
@@ -3462,8 +3349,7 @@
 			    "decode":".dependent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Eff,decimals=4)"]
+		    "transformations":["np.around(Eff[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -3484,7 +3370,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -3495,12 +3381,11 @@
 			    "decode":".independent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -3511,8 +3396,7 @@
 			    "decode":".independent_variables[1].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Acc",
@@ -3526,8 +3410,7 @@
 			    "decode":".dependent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Acc,decimals=4)"]
+		    "transformations":["np.around(Acc[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -3548,7 +3431,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -3559,12 +3442,11 @@
 			    "decode":".independent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -3575,8 +3457,7 @@
 			    "decode":".independent_variables[1].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Eff",
@@ -3590,8 +3471,7 @@
 			    "decode":".dependent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Eff,decimals=4)"]
+		    "transformations":["np.around(Eff[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -3612,7 +3492,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -3623,12 +3503,11 @@
 			    "decode":".independent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -3639,8 +3518,7 @@
 			    "decode":".independent_variables[1].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Acc",
@@ -3654,8 +3532,7 @@
 			    "decode":".dependent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Acc,decimals=4)"]
+		    "transformations":["np.around(Acc[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -3676,7 +3553,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -3687,12 +3564,11 @@
 			    "decode":".independent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -3703,8 +3579,7 @@
 			    "decode":".independent_variables[1].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Eff",
@@ -3718,8 +3593,7 @@
 			    "decode":".dependent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Eff,decimals=4)"]
+		    "transformations":["np.around(Eff[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -3740,7 +3614,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -3751,12 +3625,11 @@
 			    "decode":".independent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -3767,8 +3640,7 @@
 			    "decode":".independent_variables[1].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Acc",
@@ -3782,8 +3654,7 @@
 			    "decode":".dependent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Acc,decimals=4)"]
+		    "transformations":["np.around(Acc[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -3804,7 +3675,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -3815,12 +3686,11 @@
 			    "decode":".independent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -3831,8 +3701,7 @@
 			    "decode":".independent_variables[1].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Eff",
@@ -3846,8 +3715,7 @@
 			    "decode":".dependent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Eff,decimals=4)"]
+		    "transformations":["np.around(Eff[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -3868,7 +3736,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -3879,12 +3747,11 @@
 			    "decode":".independent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -3895,8 +3762,7 @@
 			    "decode":".independent_variables[1].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Acc",
@@ -3910,8 +3776,7 @@
 			    "decode":".dependent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Acc,decimals=4)"]
+		    "transformations":["np.around(Acc[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -3932,7 +3797,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -3943,12 +3808,11 @@
 			    "decode":".independent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -3959,8 +3823,7 @@
 			    "decode":".independent_variables[1].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Eff",
@@ -3974,8 +3837,7 @@
 			    "decode":".dependent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Eff,decimals=4)"]
+		    "transformations":["np.around(Eff[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -3996,7 +3858,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -4007,12 +3869,11 @@
 			    "decode":".independent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -4023,8 +3884,7 @@
 			    "decode":".independent_variables[1].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Acc",
@@ -4038,8 +3898,7 @@
 			    "decode":".dependent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Acc,decimals=4)"]
+		    "transformations":["np.around(Acc[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -4060,7 +3919,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -4071,12 +3930,11 @@
 			    "decode":".independent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -4087,8 +3945,7 @@
 			    "decode":".independent_variables[1].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Eff",
@@ -4102,8 +3959,7 @@
 			    "decode":".dependent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Eff,decimals=4)"]
+		    "transformations":["np.around(Eff[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -4124,7 +3980,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -4135,12 +3991,11 @@
 			    "decode":".independent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -4151,8 +4006,7 @@
 			    "decode":".independent_variables[1].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Acc",
@@ -4166,8 +4020,7 @@
 			    "decode":".dependent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Acc,decimals=4)"]
+		    "transformations":["np.around(Acc[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -4188,7 +4041,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -4199,12 +4052,11 @@
 			    "decode":".independent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -4215,8 +4067,7 @@
 			    "decode":".independent_variables[1].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Eff",
@@ -4230,8 +4081,7 @@
 			    "decode":".dependent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Eff,decimals=4)"]
+		    "transformations":["np.around(Eff[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -4252,7 +4102,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -4263,12 +4113,11 @@
 			    "decode":".independent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -4279,8 +4128,7 @@
 			    "decode":".independent_variables[1].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Acc",
@@ -4294,8 +4142,7 @@
 			    "decode":".dependent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Acc,decimals=4)"]
+		    "transformations":["np.around(Acc[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -4316,7 +4163,7 @@
             "variables":[
 		{
 		    "name":"mt1",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{t}_{1}}\\ \\mathrm{[GeV]}$",
@@ -4327,12 +4174,11 @@
 			    "decode":".independent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mt1[1:].astype(int)"]
 		},
 		{
 		    "name":"mn2",
-		    "unit":"GeV",
+		    "units":"GeV",
 		    "is_independent":true,
 		    "is_visible":true,
 		    "fancy_name":"$\\it{m}_{\\tilde{\\chi}^{0}_{2}} \\mathrm{[GeV]}$",
@@ -4343,8 +4189,7 @@
 			    "decode":".independent_variables[1].values[].value"
 			}
 		    ],
-		    "data_type":"int",
-		    "transformations":[]
+		    "transformations":["mn2[1:].astype(int)"]
 		},
 		{
 		    "name":"Eff",
@@ -4358,8 +4203,7 @@
 			    "decode":".dependent_variables[0].values[].value"
 			}
 		    ],
-		    "data_type":"float",
-		    "transformations":["np.around(Eff,decimals=4)"]
+		    "transformations":["np.around(Eff[1:].astype(float),decimals=4)"]
 		}
             ]
 	},
@@ -4387,7 +4231,7 @@
 			    "name":"examples/stopZh/rawFiles/cutflow.tex",
 			    "tabular_loc_decode":"latex.find_all(['tabular*','tabular'])[0]",
 			    "decode":"np.array(table[1:,0])",
-			    "replace_dict":{"%%":"","\\bottomrule":"","\\toprule":"","\\midrule":"","~":" ","\\pt":"p_{T}","\\MET":"E_{T}^{miss}","\\mTtwoZ":"m_{T2}^{3l}","\\GeV\\":"GeV","\\GeV":"GeV","\\,":" "}
+			    "replace_dict":{"%%":"","\\\\bottomrule":"","\\\\toprule":"","\\\\midrule":"","~":" ","\\\\pt":"p_{T}","\\\\MET":"E_{T}^{miss}","\\\\mTtwoZ":"m_{T2}^{3l}","\\\\GeV\\\\":"GeV","\\\\GeV":"GeV","\\\\,":" "}
 			}
 		    ],
 		    "transformations":["np.concatenate([Cuts[:1],[' & '.join(Cuts[1:7])],Cuts[7:]])"]
@@ -4403,7 +4247,7 @@
 			    "name":"examples/stopZh/rawFiles/cutflow.tex",
 			    "tabular_loc_decode":"latex.find_all(['tabular*','tabular'])[0]",
 			    "decode":"np.array(table[1:,1])",
-			    "replace_dict":{"%%":"","\\bottomrule":"","\\toprule":"","\\midrule":""}
+			    "replace_dict":{"%%":"","\\\\bottomrule":"","\\\\toprule":"","\\\\midrule":""}
 			}
 		    ],
 		    "transformations":["np.concatenate([events[:1],events[2:3],events[7:]])"]
@@ -4434,7 +4278,7 @@
 			    "name":"examples/stopZh/rawFiles/cutflow.tex",
 			    "tabular_loc_decode":"latex.find_all(['tabular*','tabular'])[1]",
 			    "decode":"np.array(table[1:,0])",
-			    "replace_dict":{"%%":"","\\bottomrule":"","\\toprule":"","\\midrule":"","~":" ","\\pt":"p_{T}","\\MET":"E_{T}^{miss}","\\mTtwoZ":"m_{T2}^{3l}","\\GeV\\":"GeV","\\GeV":"GeV","\\ell":"l","\\,":" "}
+			    "replace_dict":{"%%":"","\\\\bottomrule":"","\\\\toprule":"","\\\\midrule":"","~":" ","\\\\pt":"p_{T}","\\\\MET":"E_{T}^{miss}","\\\\mTtwoZ":"m_{T2}^{3l}","\\\\GeV\\\\":"GeV","\\\\GeV":"GeV","\\\\ell":"l","\\\\,":" "}
 			}
 		    ],
 		    "transformations":["np.concatenate([Cuts[:1],[' & '.join(Cuts[1:7])],Cuts[7:]])"]
@@ -4450,7 +4294,7 @@
 			    "name":"examples/stopZh/rawFiles/cutflow.tex",
 			    "tabular_loc_decode":"latex.find_all(['tabular*','tabular'])[1]",
 			    "decode":"np.array(table[1:,1])",
-			    "replace_dict":{"%%":"","\\bottomrule":"","\\toprule":"","\\midrule":""}
+			    "replace_dict":{"%%":"","\\\\bottomrule":"","\\\\toprule":"","\\\\midrule":""}
 			}
 		    ],
 		    "transformations":["np.concatenate([events[:1],events[2:3],events[7:]])"]
@@ -4481,7 +4325,7 @@
 			    "name":"examples/stopZh/rawFiles/cutflow.tex",
 			    "tabular_loc_decode":"latex.find_all(['tabular*','tabular'])[2]",
 			    "decode":"np.array(table[1:,0])",
-			    "replace_dict":{"%%":"","\\bottomrule":"","\\toprule":"","\\midrule":"","~":" ","\\pt":"p_{T}","\\MET":"E_{T}^{miss}","\\mTtwoZ":"m_{T2}^{3l}","\\GeV\\":"GeV","\\GeV":"GeV","\\ell":"l"}
+			    "replace_dict":{"%%":"","\\\\bottomrule":"","\\\\toprule":"","\\\\midrule":"","~":" ","\\\\pt":"p_{T}","\\\\MET":"E_{T}^{miss}","\\\\mTtwoZ":"m_{T2}^{3l}","\\\\GeV\\\\":"GeV","\\\\GeV":"GeV","\\\\ell":"l"}
 			}
 		    ],
 		    "transformations":["np.concatenate([Cuts[:1],[' & '.join(Cuts[1:7])],Cuts[7:]])"]
@@ -4497,7 +4341,7 @@
 			    "name":"examples/stopZh/rawFiles/cutflow.tex",
 			    "tabular_loc_decode":"latex.find_all(['tabular*','tabular'])[2]",
 			    "decode":"np.array(table[1:,1])",
-			    "replace_dict":{"%%":"","\\bottomrule":"","\\toprule":"","\\midrule":""}
+			    "replace_dict":{"%%":"","\\\\bottomrule":"","\\\\toprule":"","\\\\midrule":""}
 			}
 		    ],
 		    "transformations":["np.concatenate([events[:1],events[2:3],events[7:]])"]
@@ -4528,7 +4372,7 @@
 			    "name":"examples/stopZh/rawFiles/cutflow.tex",
 			    "tabular_loc_decode":"latex.find_all(['tabular*','tabular'])[3]",
 			    "decode":"np.array(table[1:,0])",
-			    "replace_dict":{"%%":"","\\bottomrule":"","\\toprule":"","\\midrule":"","~":" ","\\pt":"p_{T}","\\MET":"E_{T}^{miss}","\\mTtwoZ":"m_{T2}^{3l}","\\GeV\\":"GeV","\\GeV":"GeV","\\ell":"l","\\,":" "}
+			    "replace_dict":{"%%":"","\\\\bottomrule":"","\\\\toprule":"","\\\\midrule":"","~":" ","\\\\pt":"p_{T}","\\\\MET":"E_{T}^{miss}","\\\\mTtwoZ":"m_{T2}^{3l}","\\\\GeV\\\\":"GeV","\\\\GeV":"GeV","\\\\ell":"l","\\\\,":" "}
 			}
 		    ],
 		    "transformations":["np.concatenate([Cuts[:1],[' & '.join(Cuts[1:7])],Cuts[7:]])"]
@@ -4544,7 +4388,7 @@
 			    "name":"examples/stopZh/rawFiles/cutflow.tex",
 			    "tabular_loc_decode":"latex.find_all(['tabular*','tabular'])[3]",
 			    "decode":"np.array(table[1:,1])",
-			    "replace_dict":{"%%":"","\\bottomrule":"","\\toprule":"","\\midrule":""}
+			    "replace_dict":{"%%":"","\\\\bottomrule":"","\\\\toprule":"","\\\\midrule":""}
 			}
 		    ],
 		    "transformations":["np.concatenate([events[:1],events[2:3],events[7:]])"]
@@ -4575,7 +4419,7 @@
 			    "name":"examples/stopZh/rawFiles/cutflow.tex",
 			    "tabular_loc_decode":"latex.find_all(['tabular*','tabular'])[4]",
 			    "decode":"np.array(table[1:,0])",
-			    "replace_dict":{"%%":"","\\bottomrule":"","\\toprule":"","\\midrule":"","~":" ","\\pt":"p_{T}","\\MET":"E_{T}^{miss}","\\mTtwoZ":"m_{T2}^{3l}","\\GeV\\":"GeV","\\GeV":"GeV","\\ell":"l","\\,":" ","\\mT":"m_{T}"}
+			    "replace_dict":{"%%":"","\\\\bottomrule":"","\\\\toprule":"","\\\\midrule":"","~":" ","\\\\pt":"p_{T}","\\\\MET":"E_{T}^{miss}","\\\\mTtwoZ":"m_{T2}^{3l}","\\\\GeV\\\\":"GeV","\\\\GeV":"GeV","\\\\ell":"l","\\\\,":" ","\\\\mT":"m_{T}"}
 			}
 		    ],
 		    "transformations":["np.concatenate([Cuts[:1],[' & '.join(Cuts[1:6])],Cuts[6:]])"]
@@ -4591,7 +4435,7 @@
 			    "name":"examples/stopZh/rawFiles/cutflow.tex",
 			    "tabular_loc_decode":"latex.find_all(['tabular*','tabular'])[4]",
 			    "decode":"np.array(table[1:,1])",
-			    "replace_dict":{"%%":"","\\bottomrule":"","\\toprule":"","\\midrule":""}
+			    "replace_dict":{"%%":"","\\\\bottomrule":"","\\\\toprule":"","\\\\midrule":""}
 			}
 		    ],
 		    "transformations":["np.concatenate([events[:1],events[2:3],events[6:]])"]
@@ -4622,7 +4466,7 @@
 			    "name":"examples/stopZh/rawFiles/cutflow.tex",
 			    "tabular_loc_decode":"latex.find_all(['tabular*','tabular'])[5]",
 			    "decode":"np.array(table[1:,0])",
-			    "replace_dict":{"%%":"","\\bottomrule":"","\\toprule":"","\\midrule":"","~":" ","\\pt":"p_{T}","\\MET":"E_{T}^{miss}","\\mTtwoZ":"m_{T2}^{3l}","\\GeV\\":"GeV","\\GeV":"GeV","\\ell":"l","\\,":" ","\\mT":"m_{T}"}
+			    "replace_dict":{"%%":"","\\\\bottomrule":"","\\\\toprule":"","\\\\midrule":"","~":" ","\\\\pt":"p_{T}","\\\\MET":"E_{T}^{miss}","\\\\mTtwoZ":"m_{T2}^{3l}","\\\\GeV\\\\":"GeV","\\\\GeV":"GeV","\\\\ell":"l","\\\\,":" ","\\\\mT":"m_{T}"}
 			}
 		    ],
 		    "transformations":["np.concatenate([Cuts[:1],[' & '.join(Cuts[1:6])],Cuts[6:]])"]
@@ -4638,7 +4482,7 @@
 			    "name":"examples/stopZh/rawFiles/cutflow.tex",
 			    "tabular_loc_decode":"latex.find_all(['tabular*','tabular'])[5]",
 			    "decode":"np.array(table[1:,1])",
-			    "replace_dict":{"%%":"","\\bottomrule":"","\\toprule":"","\\midrule":""}
+			    "replace_dict":{"%%":"","\\\\bottomrule":"","\\\\toprule":"","\\\\midrule":""}
 			}
 		    ],
 		    "transformations":["np.concatenate([events[:1],events[2:3],events[6:]])"]
