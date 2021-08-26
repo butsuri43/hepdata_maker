@@ -1,6 +1,6 @@
 import click
 from .Submission import Submission
-from .Submission import print_dict_highlighting_objects
+from .Submission import rich_highlight_dict_objects
 from .Submission import perform_transformation
 from . import utils
 from . import checks
@@ -246,7 +246,7 @@ def check_variable(in_file,data_root,file_type,decode,data_type,tabular_loc_deco
                 console.rule()
                 console.print("Output of transformation needs to be Iterable (e.g. list or numpy array).")
                 console.print("You can construct those from the following objects:")
-                print_dict_highlighting_objects(submission_dict)
+                rich_highlight_dict_objects(submission_dict)
                 raise TypeError(f"Transformation '{transformation}' has returned a variable not of the type Variable.")
 
             #
