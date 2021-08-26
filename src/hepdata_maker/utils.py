@@ -5,7 +5,7 @@ import pkg_resources # type: ignore
 from pathlib import Path
 from collections import OrderedDict
 from collections.abc import Mapping,Iterable
-from typing import Dict,Any,Optional,Union
+from typing import Dict,Any,Optional,Union,List
 import os
 import validators    # type: ignore
 
@@ -106,3 +106,36 @@ def get_available_tables(config_file_path:Union[str,os.PathLike]):
     for table_info in config_loaded['tables']:
         result.append((table_info['name'],table_info['should_be_processed']))
     return result
+
+def get_requested_table_list(steering_file:str,
+                             load_all_tables:bool,
+                             indices:Optional[List[int]],
+                             names:Optional[List[str]])->List[str]:
+    #
+    # Get names of tables inside a steering_file with matching position/names 
+    #
+    available_tables=get_available_tables(steering_file)
+    if(load_all_tables):
+        return available_tables
+    if(indices is None and names is None):
+        raise TypeError(f"You need to provide the name/index of the table you want to print. Choose from: (name,index)={[(tuple[0],index) for index,tuple in enumerate(available_tables)]}")
+    if(indices is not None and (max(indices)>len(available_tables) or min(indices)<0)):
+        raise ValueError(f"You requested table with index {max(indices)} while only range between 0 and {len(available_tables)} is available!")
+    requested_tables=[]
+    if(indices is not None):
+        for idx in indices:
+            name=available_tables[idx][0]
+            should_be_processed=available_tables[idx][1]
+            if(not should_be_processed):
+                raise ValueError(f"You requested table with index {idx} (name: {name}) however flag 'should_be_processed' is set to False.")
+            requested_tables.append(name)
+    available_table_names=[table[0] for table in available_tables]
+    if(names is not None):
+        for name in names:
+            if(name not in available_table_names):
+                raise ValueError(f"You requested table with name {name} however this name is not found in the file {steering_file}. Available are {[table[0] for table in available_tables]}")
+            for av_name,should_be_processed in available_tables:
+                if(av_name==name and (not should_be_processed)):
+                    raise ValueError(f"You requested table with name: {name} however flag 'should_be_processed' is set to False.")
+            requested_tables.append(name)
+    return requested_tables
