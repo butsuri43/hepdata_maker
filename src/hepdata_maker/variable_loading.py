@@ -19,7 +19,53 @@ import os
 import functools
 import io
 
+def check_if_file_exists_and_readable(file_path:str)->bool:
+    # function to verify that 'file_path' is readable file with one of this types:
+    #   - json 
+    #   - yaml
+    #   - root
+    #   - csv
+    #   - tex
+    #   - txt --> used as table title!
+    #
 
+    if(not os.path.exists(file_path)):
+        return False
+    file_type=file_path.split(".")[-1].lower()
+    with open(file_path, 'r') as stream:
+        if(file_type=='json'):
+            try:
+                json.load(stream,object_pairs_hook=OrderedDict)
+            except ValueError as e:
+                return False
+        elif(file_type=='yaml'):
+            try:
+                yaml.safe_load(stream)
+            except ValueError as e:
+                return False
+        elif(file_type=="csv"):
+            try:
+                csv.DictReader(stream)
+            except ValueError as e:
+                return False
+        elif(file_type=='root'):
+            try:
+                uproot.open(file_path) # yes, it is file_path here
+            except ValueError as exc:
+                return False
+        elif(file_type=='txt'):
+            return True # formatting of text file is not checked
+        elif(file_type=='tex'):
+            try:
+                TexSoup(stream)
+            except ValueError as exc:
+                return False
+        else:
+            # this type is not supported
+            return False
+
+        # If we get that far we were able to read the file fine!
+        return True
 
 @functools.lru_cache(maxsize=16) 
 def open_data_file(file_path:Union[str,os.PathLike],

@@ -18,6 +18,7 @@ log = logging.getLogger(__name__)
 import rich.panel
 import rich.tree
 import validators  # type: ignore
+import jq          # type: ignore
 import time
 from typing import Optional,Any,List,Dict,TypeVar, Type, Literal,Union
 
@@ -442,6 +443,8 @@ class Variable(np.ndarray):
         # Update uncertainty with a new one.
         # Uncertainty which name matches the new one is being replaced.
         # If no uncertainty of that name is present, the uncertainty is added
+        # This updates variable's 'uncertainties' as well as
+        #  __dict__ dictionary.
         #
         # Input variables:
         #   -> new_unc -- uncertainty (of type Uncertainty) to add
@@ -738,6 +741,8 @@ class Table(object):
         # Update variable with a new one.
         # Variable which name matches the new one is being replaced.
         # If no variable of that name is present, the variable is added
+        # This updates table's 'variables' as well as
+        #  __dict__ dictionary.
         #
         # Input variables:
         #   -> new_var -- variable (of type Variable) to add
@@ -933,9 +938,10 @@ def get_name(obj:Union[Uncertainty,Variable,Table],
     return name
 
 class Submission():
-    """
-    Submission collects all information required to make hepdata submission files (and more!).
-    """   
+    #
+    # Submission collects all information required to make hepdata submission files (and more!).
+    #
+    #
     def __init__(self):
         self._tables:List[Table]=[]
         self._resources:List[Resource]=[]
@@ -1019,13 +1025,20 @@ class Submission():
     def load_table_config(self,
                           data_root: str='./',
                           selected_table_names:List[str]=[])->None:
+        #
+        # Function to populate information in Submission from already read steering file (see also 'read_table_config')
+        #
+        # Input variables:
+        #   -> config_file_path     -- path to the steering_file that should be used
+        #   -> selected_table_names -- names of the tables to be loaded. If empty, all are loaded.
+        #
         if(self._has_loaded):
             log.warning("You have already loaded information from a(nother?) steering file. If any table names will be loaded again (without prior explicite deletions) expect errors being raised!")
         self._has_loaded=True
 
         if('generate_table_of_content' in self.config):
             self.generate_table_of_content=self.config['generate_table_of_content']
-        # self._config should aready have the correct information as checked on schema check in read_table_config
+        # self.config should aready have the correct information as checked on schema check in config setter 
         if('additional_resources' in self.config):
             for resource_info in [utils.objdict(x) for x in self.config['additional_resources']]:
                 res=Resource(res_steering=resource_info)
@@ -1054,7 +1067,9 @@ class Submission():
                               data_root:str='./',
                               outdir:str='submission_files',
                               use_fancy_names:bool=False)->None:
+        #
         # Actual record creation based on information stored
+        #
         hepdata_submission = hepdata_lib.Submission()
         hepdata_submission.comment=self.comment
         hepdata_submission.record_ids=self.record_ids
@@ -1086,16 +1101,13 @@ class Submission():
                     hepdata_variable=hepdata_lib.Variable(variable_name, is_independent=variable.is_independent, is_binned=variable.is_binned, units=variable.units)
                     hepdata_variable.values=variable.tolist()
                     #
-                    #HACK: Mind fixed_zero_variable is list of ndarray instead of Uncertenties/Variable... need to be fixed
+                    #HACK: Mind fixed_zero_variable is list of ndarray instead of Uncertenties/Variable... need to be fixed (TODO)
                     #
                     fixed_zero_variable=fix_zero_error(variable)
                     #
                     for index,unc in enumerate(variable.uncertainties):
                         #print(type(unc),variable.uncertainties[index])
                         if(unc.is_visible):
-                            #print(f"Adding {unc.name} to variable {variable.name}")
-                            # Something does not work properly so for now assumed all errors are symmetric... 
-                            #unc_is_symmetric=unc.is_error_symmetric()
                             unc_name=get_name(unc,use_fancy_names)
                             hepdata_unc = hepdata_lib.Uncertainty(None if unc_name=='' else unc_name, is_symmetric=unc.is_symmetric)
                             hepdata_unc.values=fixed_zero_variable[index].tolist()
@@ -1118,6 +1130,15 @@ class Submission():
         self.__dict__[name]=table
 
     def insert_table(self,index:int, table:Table)->None:
+        #
+        # Insert a table in to position 'index' in the submission.
+        # This updates submission's 'tables' as well as
+        #  __dict__ dictionary.
+        #
+        # Input variables:
+        #   -> index    -- position where to insert the table
+        #   -> table -- table (of type Table) to add
+        #
         if isinstance(table, Table):
             log.debug(f"Adding table {table.name} to the submission")
             self.tables.insert(index,table)
@@ -1126,11 +1147,14 @@ class Submission():
             raise TypeError("Unknown object type: {0}".format(str(type(table))))
         
     def add_table(self, table:Table)->None:
-        """
-        Add a table to the submission
-        :param table: Table to add.
-        :type table: Table.
-        """
+        #
+        # Add a table to the submission.
+        # This updates submission's 'tables' as well as
+        #  __dict__ dictionary.
+        #
+        # Input variables:
+        #   -> table -- table (of type Table) to add
+        #
         if isinstance(table, Table):
             log.debug(f"Adding table {table.name} to the submission")
             self.tables.append(table)
@@ -1139,6 +1163,17 @@ class Submission():
             raise TypeError("Unknown object type: {0}".format(str(type(table))))
         
     def update_table(self,new_tab:Table)->None:
+        #
+        # Update table with a new one.
+        # Table which name matches the new one is being replaced.
+        # If no table of that name is present, the table is simply added
+        #
+        # This updates submission's 'tables' as well as
+        #  __dict__ dictionary.
+        #
+        # Input variables:
+        #   -> new_tab -- table (of type Table) to add
+        #
         if not isinstance(new_tab, Table):
             raise TypeError(f"In order to update table in submission one needs to provide a table. Here, unknown object of type: {type(new_tab)}")
         log.debug(f"Updating table {new_tab.name}. Parameters passed: {locals()}")
@@ -1157,6 +1192,14 @@ class Submission():
             self.add_table(new_tab)
             
     def delete_table(self,table_name:str)->None:
+        #
+        # Delete the table
+        # This updates submission's 'tables' as well as
+        #  __dict__ dictionary.
+        #
+        # Input variables:
+        #   -> table_name -- name of the table to remove
+        #
         if(table_name not in self.get_table_names()):
             log.warning(f"You try to remove table {table_name} that is not found in the submission object.")
             return
@@ -1169,6 +1212,13 @@ class Submission():
             del self.tables[self.table_index(table_name)]
 
     def insert_resource(self,index:int, resource:Resource)->None:
+        #
+        # Insert a resource in to position 'index' in the submission.
+        #
+        # Input variables:
+        #   -> index    -- position where to insert the resource
+        #   -> resource -- resource (of type Resource) to add
+        #
         if isinstance(resource, Resource):
             log.debug(f"Adding resource {resource.location} to the submission")
             self.resources.insert(index,resource)
@@ -1176,11 +1226,12 @@ class Submission():
             raise TypeError("Unknown object type: {0}".format(str(type(resource))))
         
     def add_resource(self, resource:Resource)->None:
-        """
-        Add a resource to the submission
-        :param resource: Resource to add.
-        :type resource: Resource.
-        """
+        #
+        # Add a resource in the submission.
+        #
+        # Input variables:
+        #   -> resource -- resource (of type Resource) to add
+        #
         if isinstance(resource, Resource):
             log.debug(f"Adding resource {resource.location} to the submission")
             self.resources.append(resource)
@@ -1188,6 +1239,12 @@ class Submission():
             raise TypeError("Unknown object type: {0}".format(str(type(resource))))
 
     def delete_resource(self,resource_location:str)->None:
+        #
+        # Delete the resource from the submission
+        #
+        # Input variables:
+        #   -> resource_location -- location of the resource to remove
+        #
         if(resource_location not in self.get_resource_locations()):
             log.warning(f"You try to remove resource {resource_location} that is not found in the submission object.")
             return
@@ -1214,7 +1271,6 @@ class Submission():
     @tables.setter
     def tables(self, tables:List[Table])->None:
         """tables setter."""
-        
         # Remove names of the tables already present in the instance's dict:
         for old_table in self.tables:
             self.__dict__.pop(old_table.name)
@@ -1238,6 +1294,13 @@ class Submission():
         self._resources = resources
 
     def steering_file_snippet(self):
+        #
+        # Get the steering file for the Submission
+        #
+        # Mind, that it is not the 'config' file that is being return, but
+        # instead it is rebuild from the actual information stored in the Submission
+        # This saves us from the need to update 'config' if a table is added or removed.
+        #
         output_json={}
         output_json['type']='steering'
         if(self.comment!=''):
@@ -1343,3 +1406,60 @@ def rich_highlight_dict_objects(dictionary:Dict[str,Any],
         objects_to_show.append(other_tree)
     render_group=rich.console.RenderGroup(*objects_to_show)
     console.print(rich.panel.Panel(render_group,expand=False,title=title))
+
+
+def decode_variable_from_hepdata(hepdata_variable:Dict[str,Any],
+                                 in_file:str,
+                                 is_independent:bool,
+                                 var_index:int=0)->Dict[str,Any]:
+    #
+    # Function to decode information on variable from subset of hepdata data-yaml 
+    # It returns hepdata_maker-style variable steering snippet
+    #
+    
+    tmp_name=hepdata_variable['header']['name']
+    fancy_var_name=tmp_name
+    var_name=tmp_name if is_name_correct(tmp_name) else f"var_{'ind' if is_independent else 'dep'}_{var_index}"
+    var_units=hepdata_variable['header'].get('units',"")
+
+    errors=[]
+    base_var_field_name="independent_variables" if is_independent else "dependent_variables"
+    qualifiers=hepdata_variable.get('qualifiers',[])
+    if(len(hepdata_variable['values'])>0):
+        error_names=list(set(jq.all('.values[].errors?[]?.label',hepdata_variable)))
+        #start=time.time()
+        for err_index,tmp_name in enumerate(error_names):
+            # Now, names can be omitted for uncertainties...
+            if(tmp_name is None):
+                lookup_name="null"
+                err_name=''
+                err_fancy_name=''
+            else:
+                lookup_name=f'"{tmp_name}"'
+                err_name=tmp_name if is_name_correct(tmp_name) else f"err_{err_index}"
+                err_fancy_name=tmp_name
+            # Here we try to save some time in case error is present in the first entry.
+            err=jq.all(f'.errors?[]?| select(.label=={lookup_name})',hepdata_variable['values'][0])
+            if(err==[]):
+                # if it is not, we need to loop over all entries (more time consuming)
+                err=jq.first(f'.values[].errors?[]?| select(.label=="{lookup_name}")',hepdata_variable)
+            else:
+                err=err[0]
+            
+            if('asymerror' in err):
+                err_decode=f".{base_var_field_name}[{var_index}].values[].errors| if .==null then [0,0] else .[] | select(.label=={lookup_name}) | .asymerror | [.minus,.plus] end"
+            elif('symerror' in err):
+                err_decode=f".{base_var_field_name}[{var_index}].values[].errors| if .==null then null else .[] | select(.label=={lookup_name}) | .symerror end"
+            else:
+                raise ValueError("I have not expected error that is not symerror not asymerror!")
+            err_steering={"name":err_name,"fancy_name":err_fancy_name,"in_files":[{"name":in_file,"decode":err_decode}]} # No units are present for hepdata records as far as I am aware.
+            errors.append(err_steering)
+        #stop=time.time()
+        #print(f"timing to get through {len(error_names)} errors={stop-start}")
+        if('high' in hepdata_variable['values'][0]):
+            decode=f".{base_var_field_name}[{var_index}].values[] | [.low,.high]"
+        else:
+            decode=f".{base_var_field_name}[{var_index}].values[].value"
+        return {"in_files":[{"name":in_file,"decode":decode}],"name":var_name,'fancy_name':fancy_var_name,"is_independent":is_independent,"errors":errors,"qualifiers":qualifiers,"units":var_units}
+    else:
+        return {"name":var_name,"fancy_name":fancy_var_name,"is_independent":is_independent,"qualifiers":qualifiers,"units":var_units}
