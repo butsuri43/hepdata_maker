@@ -1,23 +1,25 @@
 import click
-from .Submission import Submission
-from .Submission import print_dict_highlighting_objects
-from .Submission import perform_transformation
-from . import utils
-from . import checks
+from .Submission import Submission,rich_highlight_dict_objects,decode_variable_from_hepdata,perform_transformation
 from .logs import logging
 from .console import console
+from . import utils
+from . import checks
 from . import variable_loading
+from . import useful_functions as ufs
+from .variable_loading import check_if_file_exists_and_readable
+from .variable_loading import yaml_ordered_safe_load, yaml_ordered_safe_load_all
 from collections.abc import Iterable
 import numpy as np
 import rich.columns 
 import rich.table 
 import rich.panel
 import collections
-import re
-import scipy.stats, scipy.special
-from . import useful_functions as ufs
+import re 
+import scipy.stats, scipy.special  # type: ignore
 import json
-import jsonref
+import jsonref # type: ignore
+from typing import List,Optional,Dict,Any
+
 @click.group(context_settings=dict(help_option_names=['-h', '--help']))
 @click.option('--log-level',
               type=click.Choice(list(logging._levelToName.values()), case_sensitive=False),default="INFO",help="set log level.")
@@ -27,10 +29,8 @@ def hepdata_maker(log_level):
     set_default_logger(log_level)
     log = logging.getLogger(__name__)
     log.debug(f"Log-level is {log_level}")
-    #if(log_level!="DEBUG" or log_level):
-    #    click.echo(f" --- Log-level is {log_level} ---")
 
-# Logging object can only be created after debug level is set above
+# Global logging object can only be created after debug level is set above
 log = logging.getLogger(__name__)
 
 @hepdata_maker.command()
@@ -60,32 +60,10 @@ def check_schema(steering_file):
     utils.check_schema(json_data,'steering_file.json')
     console.print(f"    All ok!    ")
 
-def get_requested_table_list(steering_file,load_all_tables,indices,names):
-    available_tables=utils.get_available_tables(steering_file)
-    if(load_all_tables):
-        return available_tables
-    if(not (indices or names)):
-        raise TypeError(f"You need to provide the name/index of the table you want to print. Choose from: (name,index)={[(tuple[0],index) for index,tuple in enumerate(available_tables)]}")
-    if(indices and (max(indices)>len(available_tables) or min(indices)<0)):
-        raise ValueError(f"You requested table with index {max(indices)} while only range between 0 and {len(available_tables)} is available!")
-    requested_tables=[]
-    for idx in indices:
-        name=available_tables[idx][0]
-        should_be_processed=available_tables[idx][1]
-        if(not should_be_processed):
-            raise ValueError(f"You requested table with index {idx} (name: {name}) however flag 'should_be_processed' is set to False.")
-        requested_tables.append(name)
-    available_table_names=[table[0] for table in available_tables]
-    for name in names:
-        if(name not in available_table_names):
-            raise ValueError(f"You requested table with name {name} however this name is not found in the file {steering_file}. Available are {[table[0] for table in available_tables]}")
-        for av_name,should_be_processed in available_tables:
-            if(av_name==name and (not should_be_processed)):
-                raise ValueError(f"You requested table with name: {name} however flag 'should_be_processed' is set to False.")
-        requested_tables.append(name)
-    return requested_tables
-
-def submission_for_selected_tables(steering_file,data_root,load_all_tables,requested_tables):
+def submission_for_selected_tables(steering_file:str,
+                                   data_root:str,
+                                   load_all_tables:bool,
+                                   requested_tables:List[str])->Submission:
     console.print(f"Loading requested tables based on {steering_file}")
     submission=Submission()
     submission.read_table_config(steering_file)
@@ -104,7 +82,7 @@ def submission_for_selected_tables(steering_file,data_root,load_all_tables,reque
 @click.option('--names', '-n', type=str,multiple=True)
 def check_table(steering_file,data_root,load_all_tables,indices,names):
     console.rule("check_table",characters="=")
-    requested_tables=get_requested_table_list(steering_file,load_all_tables,indices,names)
+    requested_tables=utils.get_requested_table_list(steering_file,load_all_tables,indices,names)
     submission=submission_for_selected_tables(steering_file,data_root,load_all_tables,requested_tables)
     console.print(f"Printing requested tables:")
     for table in submission.tables:
@@ -215,7 +193,7 @@ def check_variable(in_file,data_root,file_type,decode,data_type,tabular_loc_deco
     submission_dict={}
     if(steering_file):
         log.debug(f"Steering file {steering_file} has been provided and is being read.")
-        requested_tables=get_requested_table_list(steering_file,load_all_tables,indices,names)
+        requested_tables=utils.get_requested_table_list(steering_file,load_all_tables,indices,names)
         submission=submission_for_selected_tables(steering_file,data_root,load_all_tables,requested_tables)
         submission_dict=submission.__dict__
 
@@ -246,7 +224,7 @@ def check_variable(in_file,data_root,file_type,decode,data_type,tabular_loc_deco
                 console.rule()
                 console.print("Output of transformation needs to be Iterable (e.g. list or numpy array).")
                 console.print("You can construct those from the following objects:")
-                print_dict_highlighting_objects(submission_dict)
+                rich_highlight_dict_objects(submission_dict)
                 raise TypeError(f"Transformation '{transformation}' has returned a variable not of the type Variable.")
 
             #
@@ -279,14 +257,14 @@ def check_variable(in_file,data_root,file_type,decode,data_type,tabular_loc_deco
 @click.option('--names', '-n', type=str,multiple=True)
 def create_table_of_content(steering_file,data_root,load_all_tables,indices,names):
     console.rule("table of content",characters="=")
-    requested_tables=get_requested_table_list(steering_file,load_all_tables,indices,names)
+    requested_tables=utils.get_requested_table_list(steering_file,load_all_tables,indices,names)
     submission=submission_for_selected_tables(steering_file,data_root,load_all_tables,requested_tables)
     print_which_tables="all" if load_all_tables else requested_tables
     console.print(f"Creating table of content for {print_which_tables} tables.")
     submission.create_table_of_content()
     toc=[table for table in submission.tables if table.name=='overview']
     if(len(toc)<1):
-        log.error("Issue encountered. Somehowe table of content was not created. Seems like but on the side of the hepdata_submission_maker.")
+        log.error("Issue encountered. Somehowe table of content was not created. Seems like bug on the side of the hepdata_submission_maker.")
     if(len(toc)>1):
         log.error("Several 'overview' tables encountered. You have probably submitted faulty data.")
     console.rule("retrieved table-of-content:")
@@ -297,114 +275,6 @@ def create_table_of_content(steering_file,data_root,load_all_tables,indices,name
     console.print(json.dumps(table_json,indent=4))
 
 
-
-def check_if_file_exists_and_readable(file_path):
-    import yaml
-    import json
-    import csv
-    import uproot
-    import os.path
-    from collections import OrderedDict
-    from TexSoup import TexSoup
-    
-    # function to verify that 'file_path' is readable file with one of this types:
-    #   - json 
-    #   - yaml
-    #   - root
-    #   - csv
-    #   - tex
-    #   - txt --> used as table title!
-    if(not os.path.exists(file_path)):
-        return False
-    file_type=file_path.split(".")[-1].lower()
-    with open(file_path, 'r') as stream:
-        if(file_type=='json'):
-            try:
-                json.load(stream,object_pairs_hook=OrderedDict)
-            except ValueError as e:
-                return False
-        elif(file_type=='yaml'):
-            try:
-                yaml.safe_load(stream)
-            except ValueError as e:
-                return False
-        elif(file_type=="csv"):
-            try:
-                csv.DictReader(stream)
-            except ValueError as e:
-                return False
-        elif(file_type=='root'):
-            try:
-                uproot.open(file_path) # yes, it is file_path here
-            except ValueError as exc:
-                return False
-        elif(file_type=='txt'):
-            return True # formatting of text file is not checked
-        elif(file_type=='tex'):
-            try:
-                TexSoup(stream)
-            except ValueError as exc:
-                return False
-        else:
-            # this type is not supported
-            return False
-
-        # If we get that far we were able to read the file fine!
-        return True
-
-def decode_variable_from_hepdata(variable,var_index,in_file,is_independent):
-    from .Submission import is_name_correct
-    import jq
-    import time
-
-    tmp_name=variable['header']['name']
-    fancy_var_name=tmp_name
-    var_name=tmp_name if is_name_correct(tmp_name) else f"var_{'ind' if is_independent else 'dep'}_{var_index}"
-    var_units=variable['header'].get('units',"")
-    #print("variable units",var_units)
-    errors=[]
-    base_var_field_name="independent_variables" if is_independent else "dependent_variables"
-    qualifiers=variable.get('qualifiers',[])
-    if(len(variable['values'])>0):
-        error_names=list(set(jq.all('.values[].errors?[]?.label',variable)))
-        #print(len(error_names))
-        #start=time.time()
-        for err_index,tmp_name in enumerate(error_names):
-            # Now, names can be omitted for uncertainties...
-            if(tmp_name is None):
-                lookup_name="null"
-                err_name=''
-                err_fancy_name=''
-            else:
-                lookup_name=f'"{tmp_name}"'
-                err_name=tmp_name if is_name_correct(tmp_name) else f"err_{err_index}"
-                err_fancy_name=tmp_name
-            # Here we try to save some time in case error is present in the first entry.
-            err=jq.all(f'.errors?[]?| select(.label=={lookup_name})',variable['values'][0])
-            if(err==[]):
-                # if it is not, we need to loop over all entries (more time consuming)
-                err=jq.first(f'.values[].errors?[]?| select(.label=="{lookup_name}")',variable)
-            else:
-                err=err[0]
-            
-            if('asymerror' in err):
-                err_decode=f".{base_var_field_name}[{var_index}].values[].errors| if .==null then [0,0] else .[] | select(.label=={lookup_name}) | .asymerror | [.minus,.plus] end"
-            elif('symerror' in err):
-                err_decode=f".{base_var_field_name}[{var_index}].values[].errors| if .==null then null else .[] | select(.label=={lookup_name}) | .symerror end"
-            else:
-                raise ValueError("I have not expected error that is not symerror not asymerror!")
-            err_steering={"name":err_name,"fancy_name":err_fancy_name,"in_files":[{"name":in_file,"decode":err_decode}]} # No units are present for hepdata records as far as I am aware.
-            #print({"name":err_name,"fancy_name":err_fancy_name,"in_files":[{"name":in_file,"decode":err_decode}],"units":err_units})
-            errors.append(err_steering)
-        #stop=time.time()
-        #print(f"timing to get through {len(error_names)} errors={stop-start}")
-        if('high' in variable['values'][0]):
-            decode=f".{base_var_field_name}[{var_index}].values[] | [.low,.high]"
-        else:
-            decode=f".{base_var_field_name}[{var_index}].values[].value"
-        return {"in_files":[{"name":in_file,"decode":decode}],"name":var_name,'fancy_name':fancy_var_name,"is_independent":is_independent,"errors":errors,"qualifiers":qualifiers,"units":var_units}
-    else:
-        return {"name":var_name,"fancy_name":fancy_var_name,"is_independent":is_independent,"qualifiers":qualifiers,"units":var_units}
 @hepdata_maker.command()
 @click.option('--output','-o',default='steering_file.json',help='output file path/name',type=click.Path(exists=False))
 @click.option('--directory','-d', help='Directory to search through for files',type=click.Path(exists=True))
@@ -413,9 +283,8 @@ def hepdata_to_steering_file(output,directory,force):
     console.rule("converting hepdata submission files to hepdata_maker steering file",characters="=")
     import glob
     import os.path
-    import yaml
+    import yaml # type: ignore
     from .Submission import is_name_correct
-    #from .Submission import name_corrected
     from .Submission import Variable
     from .Submission import Table
     from . import checks
@@ -431,13 +300,12 @@ def hepdata_to_steering_file(output,directory,force):
     yaml_basenames_dict={os.path.basename(path):path for path in yaml_files}
     if("submission.yaml" in yaml_basenames_dict):
         submission_file_path=yaml_basenames_dict["submission.yaml"]
-        checks.validate_submission(submission_file_path) # This will rase issues if something is wrong with submission file or correspondind data file 
+        checks.validate_submission(submission_file_path) # This will raise issues if something is wrong with submission file or correspondind data file 
         
-        #sub=Submission()
         steering_data={"tables":[],"additional_resources":[]}
         basedir=os.path.dirname(submission_file_path)
         stream=open(submission_file_path, 'r')
-        hepdata_submission = yaml.safe_load_all(stream)
+        hepdata_submission = yaml_ordered_safe_load_all(stream)
         # Loop over all YAML documents in the submission.yaml file.
         tab_index=0
         for doc in hepdata_submission:
@@ -484,19 +352,17 @@ def hepdata_to_steering_file(output,directory,force):
                 variables=[]
                 in_file=utils.resolve_file_name(doc['data_file'],basedir)
                 with open(in_file, 'r') as stream:
-                    data_loaded = yaml.safe_load(stream)
+                    data_loaded = yaml_ordered_safe_load(stream)
                 #dependent_variables
                 for var_index,variable in enumerate(data_loaded['dependent_variables']):
                     with console.status(f"Decoding information about variable {variable['header']['name']}"):
-                        variables.append(decode_variable_from_hepdata(variable,var_index,in_file,is_independent=False))
-                #print("Read all dependent variables")
+                        variables.append(decode_variable_from_hepdata(variable,in_file,is_independent=False,var_index=var_index))
+
                 #independent_variables
                 for var_index,variable in enumerate(data_loaded['independent_variables']):
                     with console.status(f"Decoding information about variable {variable['header']['name']}"):
-                        variables.append(decode_variable_from_hepdata(variable,var_index,in_file,is_independent=True))
-                    #print("Read all independent variables")
-                #print("variables",variables)
-                #print("additional_resources read by cli",other_resources)
+                        variables.append(decode_variable_from_hepdata(variable,in_file,is_independent=True,var_index=var_index))
+
                 #start=time.time()
                 steering_data['tables'].append({"name":name,"fancy_name":fancy_name,"images":images,'additional_resources':other_resources,"title":title,"location":location,"keywords":translated_keywords,"variables":variables})
                 #stop=time.time()
@@ -510,6 +376,7 @@ def hepdata_to_steering_file(output,directory,force):
         utils.check_schema(steering_data,'steering_file.json')
         json.dump(steering_data, outfile,indent=4)
     console.print(f"Succesfully created steering_file '[bold]{output}[/bold]'")
+
 @hepdata_maker.command()
 @click.option('--output','-o',default='steering_file.json',help='output file path/name',type=click.Path(exists=False))
 @click.option('--directory','-d', help='Directory to search through for files',type=click.Path(exists=True))
@@ -518,7 +385,7 @@ def hepdata_to_steering_file(output,directory,force):
 def create_steering_file(output,directory,only_steering_files,force):
     import glob
     import os.path
-    from hepdata_lib import RootFileReader
+    from hepdata_lib import RootFileReader # type: ignore
     from .Submission import Variable
     from .Submission import Table
     import csv
@@ -534,7 +401,9 @@ def create_steering_file(output,directory,only_steering_files,force):
     steering_files=glob.glob(directory+"/**/*_steering.json",recursive=True)
     figure_files=glob.glob(directory+"/**/*.pdf",recursive=True)# prefer pdf files if they are both pdf and png
     figure_files+=[x for x in glob.glob(directory+"/**/*.png",recursive=True) if x.replace(".png",".pdf") not in figure_files] # add png if not added as pdf
+
     log.debug(f"discovered following steering files: {steering_files}")
+
     # 1)implement all *_steering.json files:
     to_save_steering_files={}
     for steering_file in sorted(steering_files):
@@ -553,8 +422,8 @@ def create_steering_file(output,directory,only_steering_files,force):
     log.debug(f"discovered following figures (excluding already included in steering_files): {figure_files}")
     sub=Submission()
     sub.generate_table_of_content=True
+
     # 2) loop over remaining figures:
-    
     for figure_path in sorted(figure_files):
         fig_dir=os.path.dirname(figure_path)
         fig_name_core=".".join(os.path.basename(figure_path).split(".")[:-1])
@@ -640,7 +509,7 @@ def create_steering_file(output,directory,only_steering_files,force):
             in_file=selected_associated_files["yaml"]
             variables.append({"in_file":in_file,"decode":"keys_unsorted","name":"keys","is_independent":True})
             variables.append({"in_file":in_file,"decode":".[keys_unsorted[]] | keys_unsorted","name":"keys_of_keys","is_binned":False,"is_independent":False})
-        elif("csv" in selected_associated_files):
+        elif("csv" in selected_associsated_files):
             in_file=selected_associated_files["csv"]
             try:
                 with open(in_file) as csvfile:
