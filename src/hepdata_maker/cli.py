@@ -7,6 +7,7 @@ from . import checks
 from . import variable_loading
 from . import useful_functions as ufs
 from .variable_loading import check_if_file_exists_and_readable
+from .variable_loading import yaml_ordered_safe_load, yaml_ordered_safe_load_all
 from collections.abc import Iterable
 import numpy as np
 import rich.columns 
@@ -304,7 +305,7 @@ def hepdata_to_steering_file(output,directory,force):
         steering_data={"tables":[],"additional_resources":[]}
         basedir=os.path.dirname(submission_file_path)
         stream=open(submission_file_path, 'r')
-        hepdata_submission = yaml.safe_load_all(stream)
+        hepdata_submission = yaml_ordered_safe_load_all(stream)
         # Loop over all YAML documents in the submission.yaml file.
         tab_index=0
         for doc in hepdata_submission:
@@ -351,7 +352,7 @@ def hepdata_to_steering_file(output,directory,force):
                 variables=[]
                 in_file=utils.resolve_file_name(doc['data_file'],basedir)
                 with open(in_file, 'r') as stream:
-                    data_loaded = yaml.safe_load(stream)
+                    data_loaded = yaml_ordered_safe_load(stream)
                 #dependent_variables
                 for var_index,variable in enumerate(data_loaded['dependent_variables']):
                     with console.status(f"Decoding information about variable {variable['header']['name']}"):

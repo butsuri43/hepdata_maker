@@ -14,7 +14,7 @@ import regex as re # type: ignore
 import scipy.stats,scipy.special # type: ignore
 from collections import OrderedDict
 from collections.abc import Iterable
-from typing import Union,Dict,List,Any,Literal
+from typing import Union,Dict,List,Any,Literal,Callable,TextIO
 import os
 import functools
 import io
@@ -67,6 +67,39 @@ def check_if_file_exists_and_readable(file_path:str)->bool:
         # If we get that far we were able to read the file fine!
         return True
 
+#
+##
+## For data loading in particular we need to have order of yaml input preserved
+## Since Python 3.7 it is more or less given for dict, however not quaranteed
+## Therefore we need a bit of extra code to be on the safe side for yaml-loading
+## code below adopted from Answer #1 in https://www.py4u.net/discuss/12785
+def yaml_ordered_safe_load(stream:TextIO,
+                           object_pairs_hook:Callable=OrderedDict)->OrderedDict:
+    class OrderedLoader(yaml.SafeLoader):
+        pass
+    def construct_mapping(loader, node):
+        loader.flatten_mapping(node)
+        return object_pairs_hook(loader.construct_pairs(node))
+    OrderedLoader.add_constructor(
+        yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
+        construct_mapping)
+    return yaml.load(stream, OrderedLoader)
+
+def yaml_ordered_safe_load_all(stream:TextIO,
+                               object_pairs_hook:Callable=OrderedDict)->OrderedDict:
+    class OrderedLoader(yaml.SafeLoader):
+        pass
+    def construct_mapping(loader, node):
+        loader.flatten_mapping(node)
+        return object_pairs_hook(loader.construct_pairs(node))
+    OrderedLoader.add_constructor(
+        yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
+        construct_mapping)
+    return yaml.load_all(stream, OrderedLoader)
+##
+#
+
+
 @functools.lru_cache(maxsize=16) 
 def open_data_file(file_path:Union[str,os.PathLike],
                    file_type:Literal['yaml', 'json', 'csv', 'root','tex']) -> Any:
@@ -76,10 +109,11 @@ def open_data_file(file_path:Union[str,os.PathLike],
     #   depending on the file_type of te input file.
     # 
     log.debug(f"Opening uncached file {file_path}, type={file_type}.")
+    data_loaded:Any=None
     try:
         if(file_type=="yaml"):
             with open(file_path, 'r') as stream:
-                data_loaded = yaml.safe_load(stream)
+                data_loaded = yaml_ordered_safe_load(stream)
         elif(file_type=='json'):
             with open(file_path, 'r') as stream:
                 data_loaded = json.load(stream,object_pairs_hook=OrderedDict)
