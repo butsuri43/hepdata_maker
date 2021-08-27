@@ -17,6 +17,15 @@ unittests_checks:
    - echo "Running unit tests!"
    - pytest -r sx --ignore tests/full_workflow/
 
+mypy_static_typing_checs:
+  stage: checks
+  image: python:latest
+  script:
+    - pip3 install --upgrade --editable .
+    - pip3 install mypy
+    - mypy src/hepdata_maker
+  allow_failure: true
+
 example1_record_creation:
   extends: .checks_template
   script:
