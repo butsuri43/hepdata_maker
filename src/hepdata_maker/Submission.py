@@ -1426,7 +1426,7 @@ def decode_variable_from_hepdata(hepdata_variable:Dict[str,Any],
     base_var_field_name="independent_variables" if is_independent else "dependent_variables"
     qualifiers=hepdata_variable.get('qualifiers',[])
     if(len(hepdata_variable['values'])>0):
-        error_names=list(set(jq.all('.values[].errors?[]?.label',hepdata_variable)))
+        error_names=list(OrderedDict.fromkeys(jq.all('.values[].errors?[]?.label',hepdata_variable)))
         #start=time.time()
         for err_index,tmp_name in enumerate(error_names):
             # Now, names can be omitted for uncertainties...
