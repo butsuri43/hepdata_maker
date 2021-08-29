@@ -352,7 +352,7 @@ def get_array_from_root(object_path:str,
 tabular_loc_decode_clarification=""" This variable should point to the tabular environment that is desired to be read. It should use information of TexSoup (https://texsoup.alvinwan.com/) object 'latex' 
  created from your input file. In most cases something along this line is sufficient:
 
- tabular_loc_decode":"latex.find_all(['tabular*','tabular'])[0]
+ tabular_loc_decode":"latex.find_all(['tabular*','tabular'])[0]"
 """    
 
 def get_array_from_tex(file_path:Union[str,os.PathLike],

@@ -20,11 +20,14 @@ import json
 import jsonref # type: ignore
 from typing import List,Optional,Dict,Any
 
+## hepdata_maker
 @click.group(context_settings=dict(help_option_names=['-h', '--help']))
 @click.option('--log-level',
-              type=click.Choice(list(logging._levelToName.values()), case_sensitive=False),default="INFO",help="set log level.")
+              type=click.Choice(list(logging._levelToName.values()),
+                                case_sensitive=False),
+              default="INFO",help="set log level.")
 def hepdata_maker(log_level):
-    """HEPData submission maker"""
+    """hepdata_maker base CLI entry"""
     from .logs import set_default_logger
     set_default_logger(log_level)
     log = logging.getLogger(__name__)
@@ -33,12 +36,40 @@ def hepdata_maker(log_level):
 # Global logging object can only be created after debug level is set above
 log = logging.getLogger(__name__)
 
+## hepdata_maker create_submission
 @hepdata_maker.command()
 @click.argument('steering_file',type=click.Path(exists=True))
-@click.option('--data-root', default='./', help='Location of files specified in steering file (if not an absolute location is given there)',type=click.Path(exists=True),)
-@click.option('--output-dir', default='submission_files', help='The name of the directory where the submission files will be created. Default: submission_files',type=click.Path(exists=False))
-@click.option('--use-fancy-names', help="Force 'fancy-names' to be used for tables, and uncertainties (not recommended)", is_flag=True)
+@click.option('--data-root', default='./',
+              type=click.Path(exists=True),
+              help="""Location of data files specified in the steering file.
+              This is used if a relative path is given for
+              data/image/resource files.
+
+              Their names are then resolved to
+              ``<data-root>/<relative_path_given_in_steering_file>``.
+
+              By default, execution directory is used.
+              """)
+@click.option('--output-dir',
+              default='submission_files',
+              type=click.Path(exists=False),
+              help="""The name of the directory where the submission files
+              will be created into.
+
+              Default: ``submission_files``.
+              """)
+@click.option('--use-fancy-names',
+              is_flag=True,
+              help="""Force 'fancy-names' to be used for tables,
+              variables and uncertainties.
+              """)
 def create_submission(steering_file,data_root,output_dir,use_fancy_names):
+    """
+    Create HEPdata submission files using STEERING_FILE.
+
+    Args:
+      steering_file: the path to the (hepdata_maker) steering file to use.
+    """
     log.debug(f"Creating submission file based on {steering_file}. Data-root is {data_root} and the output directory {output_dir}. ")
     console.rule("create_submission",characters="=")
     console.print(f"Loading submission information based on {steering_file}")
@@ -48,10 +79,17 @@ def create_submission(steering_file,data_root,output_dir,use_fancy_names):
     # TODO require user to confirm overwriting output_dir if it already exist
     with console.status("Creating hepdata files (this might take a while)..."):
         submission.create_hepdata_record(data_root,output_dir,use_fancy_names)
-        
+
+## hepdata_maker check_schema
 @hepdata_maker.command()
 @click.argument('steering_file',type=click.Path(exists=True))
 def check_schema(steering_file):
+    """
+    Check STEERING_FILE against hepdata_maker\'s schema.
+
+    Args:
+      steering_file: the path to the (hepdata_maker) steering file to use.
+    """
     console.rule("checking_schema",characters="=")
     console.print(f"Checking schema of {steering_file}.")
     with open(steering_file, 'r') as fstream:
@@ -60,10 +98,14 @@ def check_schema(steering_file):
     utils.check_schema(json_data,'steering_file.json')
     console.print(f"    All ok!    ")
 
+
 def submission_for_selected_tables(steering_file:str,
                                    data_root:str,
                                    load_all_tables:bool,
                                    requested_tables:List[str])->Submission:
+    """
+    Create Submission object from STEERING_FILE loading all or only selected tables.
+    """
     console.print(f"Loading requested tables based on {steering_file}")
     submission=Submission()
     submission.read_table_config(steering_file)
@@ -74,13 +116,49 @@ def submission_for_selected_tables(steering_file:str,
 
     return submission
 
+## hepdata_maker check_table
 @hepdata_maker.command()
-@click.argument('steering_file',type=click.Path(exists=True))
-@click.option('--data-root', default='./', help='Location of files specified in steering file (if not an absolute location is given there)',type=click.Path(exists=True),)
-@click.option('--load-all-tables/--load-only-selected', '-a/-o', default=True)
-@click.option('--indices', '-i', type=int,multiple=True)
-@click.option('--names', '-n', type=str,multiple=True)
+@click.argument('steering_file',
+                type=click.Path(exists=True))
+@click.option('--data-root',
+              default='./',
+              type=click.Path(exists=True),
+              help="""Location of data files specified in the steering file.
+              This is used if a relative path is given for
+              data/image/resource files.
+
+              Their names are then resolved to
+              ``<data-root>/<relative_path_given_in_steering_file>``.
+
+              By default, execution directory is used.
+              """)
+@click.option('--load-all-tables/--load-only-selected','-a/-o',
+              help="""Choose whether to load all tables specified in the steering file
+              or only the selected ones.
+              """,
+              default=True)
+@click.option('--indices', '-i',
+              type=int,
+              help="Specify the indices of tables to print out.",
+              multiple=True)
+@click.option('--names', '-n',
+              type=str,
+              help="Specify names of the tables to print out.",
+              multiple=True)
 def check_table(steering_file,data_root,load_all_tables,indices,names):
+    """
+    Print out informations stored in selected tables from STEERING_FILE.
+    You can specify tables by names or location in the steering file.
+
+    Args:
+      steering_file: the path to the (hepdata_maker) steering file to use.
+
+    By default all tables from the steering file are being loaded
+    (more specifically those with 'should_be_loaded'=True).
+    This is because your selected tables can depend on the variables
+    from other tables too. If this is not the case you can use
+    '--load-only-selected' flag to speed up execution.
+    """
     console.rule("check_table",characters="=")
     requested_tables=utils.get_requested_table_list(steering_file,load_all_tables,indices,names)
     submission=submission_for_selected_tables(steering_file,data_root,load_all_tables,requested_tables)
@@ -146,25 +224,115 @@ def check_table(steering_file,data_root,load_all_tables,indices,names):
                 rich_table.add_row(*variable_tables)
             console.print("visible values:",rich_table)
 
+## hepdata_maker check_variable
 @hepdata_maker.command()
-@click.option('--in-file','-f',type=click.Path(exists=False))
-@click.option('--data-root', default='./', help='Location of in_file and files specified in steering file (if not an absolute location is given for those)',type=click.Path(exists=True))
-@click.option('--file-type',type=click.Choice(['json', 'yaml','csv','root','tex'], case_sensitive=False))
-@click.option('--decode','-d',type=str)
-@click.option('--data-type','-t',type=str)
-@click.option('--tabular-loc-decode',type=str)
-@click.option('--delimiter',type=str,default=',')
-@click.option('--replace_dict',type=str,default='{}')
-@click.option('--transformation','-x','transformations',type=str,multiple=True)
-@click.option('--steering-file','-s',type=click.Path(exists=True))
-@click.option('--load-all-tables/--load-only-selected', '-a/-o', default=True)
-@click.option('--indices', '-i', type=int,multiple=True)
-@click.option('--names', '-n', type=str,multiple=True)
+@click.option('--in-file','-f',
+              type=click.Path(exists=False),
+              help="Path to the data file to be used for decoding.")
+@click.option('--file-type',
+              type=click.Choice(['json', 'yaml','csv','root','tex'],
+                                case_sensitive=False),
+              help="""Specify the file type of the data file
+              (if cannot be guessed from file extention).
+              """)
+@click.option('--decode','-d',
+              type=str,
+              help="""Command specifying how to read the data file.
+              Required syntax depends on the type of the file read.
+
+              See specific 'get_array_from_[file_type]' functions (python API) for details.
+              """)
+@click.option('--data-type','-t',
+              type=str,
+              help='How loaded data should be treated (what is its type, e.g. float, str).')
+@click.option('--tabular-loc-decode',
+              type=str,
+              help="""Only used when reading latex files.
+
+              This variable should point to the 'tabular' environment that is desired.
+              It should use information from TexSoup (https://texsoup.alvinwan.com/) object
+              called "latex" that is created from the input file given.
+              In most cases something along this line is sufficient:
+
+              `tabular_loc_decode":"latex.find_all(['tabular*','tabular'])[0]"`
+
+              which selects the first tabular/tabular* environment found.
+              """)
+@click.option('--delimiter',
+              type=str,
+              default=',',
+              help="The delimiter used when the csv file is read. Default: ','")
+@click.option('--replace_dict',
+              type=str,
+              default='{}',
+              help=r"""A string with json-style dictionary used for replacing symbols inside the table.
+              Internally `re.sub(key,value,text)` is executed on all key, value pairs.
+
+              Example:
+                Replacing custom tags, e.g. '\\GeV' with 'GeV':
+                  ``"{'\\\\GeV':'GeV'}"`` (mind the 4-backslashes)
+
+
+
+              See https://docs.python.org/3/library/re.html
+              for regex patterns allowed and
+              https://docs.python.org/3/howto/regex.html#the-backslash-plague
+                for the need of multiple backslashes.
+              """)
+@click.option('--transformation','-x','transformations',
+              type=str,
+              multiple=True,
+              help="""numpy-style transformation returning a 1-D array/ndarray.
+
+              Example:
+                ``"mt-mn"``
+
+                where mt, mn -- previously loaded variables
+                (say the mass of the stop-squark and the neutralino respectively),
+                results in the element-wise difference between the two.
+              """)
+@click.option('--steering-file','-s',
+              type=click.Path(exists=True),
+              help="""The path to the (hepdata_maker) steering file to load.
+              Here this is used to provide all the variables from the steering file
+              to be accesible for your transformations.
+              """)
+@click.option('--data-root',
+              default='./',
+              type=click.Path(exists=True),
+              help="""Location of data files specified in the steering file.
+              This is used if a relative path is given for
+              data/image/resource files.
+
+              Their names are then resolved to
+              ``<data-root>/<relative_path_given_in_steering_file>``.
+
+              By default, execution directory is used.
+              """)
+@click.option('--load-all-tables/--load-only-selected', '-a/-o',
+              default=True,
+              help="""Choose whether to load all tables specified
+              in the steering file or only the selected ones.
+              """)
+@click.option('--indices', '-i',
+              type=int,
+              multiple=True,
+              help="Specify the indices of tables to load from the steering_file.")
+@click.option('--names', '-n',
+              type=str,
+              multiple=True,
+              help="Specify names of the tables to load from the steering_file.")
 def check_variable(in_file,data_root,file_type,decode,data_type,tabular_loc_decode,delimiter,replace_dict,transformations,steering_file,load_all_tables,indices,names):
+    """
+    Create variable (1-D numpy array) based on information provided.
+
+    This funtion helps finding out correct commands and transformations
+    used to decode data_files.
+    """
     console.rule("check_variable",characters="=")
     console.print("This option checks whether you provide correct information for loading a variable and helps you debug.")
     console.rule("in_file")
-    console.print("Provide information on the location of the file (.json/.yaml/.root/.csv or .tex files) with variable information")
+    #console.print("Provide information on the location of the file (.json/.yaml/.root/.csv or .tex files) with variable information")
     console.print(f"You provided [bold]in_file[/bold]: {in_file}")
     replace_dict=json.loads(replace_dict)
     extra_args={}
@@ -248,14 +416,50 @@ def check_variable(in_file,data_root,file_type,decode,data_type,tabular_loc_deco
     utils.check_schema(variable_json,'variable.json')
     console.print(json.dumps(variable_json,indent=4))
     variable_loading.log.setLevel(current_loaded_module_log_level)
-    
+
+## hepdata_maker create_table_of_content
 @hepdata_maker.command()
-@click.argument('steering_file',type=click.Path(exists=True))
-@click.option('--data-root', default='./', help='Location of files specified in steering file (if not an absolute location is given there)',type=click.Path(exists=True),)
-@click.option('--load-all-tables/--load-only-selected', '-a/-o', default=True)
-@click.option('--indices', '-i', type=int,multiple=True)
-@click.option('--names', '-n', type=str,multiple=True)
+@click.argument('steering_file',
+                type=click.Path(exists=True))
+@click.option('--data-root',
+              default='./',
+              type=click.Path(exists=True),
+              help="""Location of data files specified in the steering file.
+              This is used if a relative path is given for
+              data/image/resource files.
+
+              Their names are then resolved to
+              ``<data-root>/<relative_path_given_in_steering_file>``.
+
+              By default, execution directory is used.
+              """)
+@click.option('--load-all-tables/--load-only-selected', '-a/-o',
+              default=True,
+              help="""Choose whether to load (and create TOC for)
+              all tables specified in the steering file or only the selected ones.
+              """)
+@click.option('--indices', '-i',
+              type=int,
+              multiple=True,
+              help="Specify the indices of tables to load from the steering_file.")
+@click.option('--names', '-n',
+              type=str,
+              multiple=True,
+              help="Specify names of the tables to load from the steering_file.")
 def create_table_of_content(steering_file,data_root,load_all_tables,indices,names):
+    """
+    Create a table of content for all the tables found in the STEERING_FILE
+    that can be used in your submission.
+
+    You can put the output (snippet) directly into your 'steering_file'
+    as a table called 'overview'.
+    You can also customise the table of content by changing the provided
+    snippet to suit your requirements.
+
+    Args:
+      steering_file: the path to the (hepdata_maker) steering file
+        to create the table of content for.
+    """
     console.rule("table of content",characters="=")
     requested_tables=utils.get_requested_table_list(steering_file,load_all_tables,indices,names)
     submission=submission_for_selected_tables(steering_file,data_root,load_all_tables,requested_tables)
@@ -274,12 +478,35 @@ def create_table_of_content(steering_file,data_root,load_all_tables,indices,name
     console.rule("You can add following table in your json steering file:")
     console.print(json.dumps(table_json,indent=4))
 
-
+## hepdata_maker hepdata_to_steering_file
 @hepdata_maker.command()
-@click.option('--output','-o',default='steering_file.json',help='output file path/name',type=click.Path(exists=False))
-@click.option('--directory','-d', help='Directory to search through for files',type=click.Path(exists=True))
-@click.option('--force','-f', help='Overwride output file if already exists', is_flag=True)
+@click.option('--output','-o',default='steering_file.json',type=click.Path(exists=False),
+              help="The path to the output steering_file.")
+@click.option('--directory','-d',type=click.Path(exists=True),
+              help="The path to the directory with hepdata submission files (one record at a time please).")
+@click.option('--force','-f', is_flag=True, help='Overwrite output file if already exists.')
 def hepdata_to_steering_file(output,directory,force):
+    """
+    Create `hepdata_maker` steering_file from HEPdata submission files of a record.
+
+    Example:
+      - From https://hepdata-submission.readthedocs.io/en/latest/examples.html
+        one can download 'HEPData' example submission:
+
+        ``wget https://hepdata-submission.readthedocs.io/en/latest/examples.html -O orig_submission.zip``
+
+        ``unzip -d orig_submission orig_submission.zip``
+
+      - then one can run:
+
+        ``hepdata_maker hepdata_to_steering_file --directory orig_submission``
+
+        which creates file 'steering_file.json'
+
+      - With `create_submission` command we can re-create, up-to (irrelevant) file names, the HEPData submission files:
+
+        ``hepdata_maker create_submission --use-fancy-names``
+    """
     console.rule("converting hepdata submission files to hepdata_maker steering file",characters="=")
     import glob
     import os.path
@@ -377,12 +604,29 @@ def hepdata_to_steering_file(output,directory,force):
         json.dump(steering_data, outfile,indent=4)
     console.print(f"Succesfully created steering_file '[bold]{output}[/bold]'")
 
+## hepdata_maker create_steering_file
 @hepdata_maker.command()
-@click.option('--output','-o',default='steering_file.json',help='output file path/name',type=click.Path(exists=False))
-@click.option('--directory','-d', help='Directory to search through for files',type=click.Path(exists=True))
-@click.option('--only-steering-files', help='Search only for steering files in the directory', default=False)
-@click.option('--force','-f', help='Overwride output file if already exists', is_flag=True)
+@click.option('--output','-o',default='steering_file.json',type=click.Path(exists=False),
+              help="The path to the output steering_file.")
+@click.option('--directory','-d',type=click.Path(exists=True),
+              help='Directory to search through for files (figures and "table" steering files)')
+@click.option('--only-steering-files', default=False,
+              help='Search only for "table" steering files in the directory, i.e. skip image files.')
+@click.option('--force','-f', is_flag=True,help='Overwride output file if already exists')
 def create_steering_file(output,directory,only_steering_files,force):
+    """
+    Create a steering_file based on pdf/png and other files present in DIRECTORY.
+    This is a good way to start with your submission preparation.
+
+    The DIRECTORY is searched for:
+       1) "table" steering files, with names '\*_stiring.json',
+          containing table information.
+       2) pdf/png files that are interpreted as table figures.
+           If other files with the same basenames are found they are used either as:
+           
+           i) table title (if <baseneame>.txt),
+           ii) data_files (if <basename>.root/.csv/.tex/.json/.yaml).
+    """
     import glob
     import os.path
     from hepdata_lib import RootFileReader # type: ignore
@@ -587,9 +831,20 @@ def create_steering_file(output,directory,only_steering_files,force):
     with open(output, 'w') as outfile:
         json.dump(steering_json_from_figures, outfile,indent=4)
 
+## hepdata_maker validate_submission
 @hepdata_maker.command()
 @click.argument('directory',type=click.Path(exists=True))
 def validate_submission(directory):
+    """
+    Validate HEPdata submission files located in DIRECTORY.
+
+    This is an off-line check one can run prior to
+    uploading the files into HEPData.
+
+    Args:
+      directory: the path to the directory containing 'submission.yaml'
+        and other submission files of HEPData.
+    """
     console.rule("checking hepdata submission files",characters="=")
     checks.validate_submission(directory+'/submission.yaml')
     # If no error raised all is good
