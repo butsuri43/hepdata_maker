@@ -58,3 +58,7 @@ html_theme = 'classic'
 html_static_path = ['_static']
 
 autosummary_generate = True
+
+# Prompt removal when copying examples
+copybutton_prompt_text = r'(?:^\(.*\))\$ '
+copybutton_prompt_is_regexp = True
