@@ -14,7 +14,9 @@ SCHEMA_BASE = "schemas"
 SCHEMA_VERSION = '0.0.0'
 
 def merge_dictionaries(*args: Dict[Any,Any]) -> Dict[Any,Any]:
-    # This is easily done in python 3.9 with dict1|dict2, however for 3.8 we need this 
+    """
+    This is easily done in python 3.9 with dict1|dict2, however for 3.8- we need this.
+    """
     for arg in args:
         if(not isinstance(arg,Mapping)):
             raise ValueError(f"Only dictionary-like objects can be merged together. Provided were {args}")
@@ -23,11 +25,12 @@ def merge_dictionaries(*args: Dict[Any,Any]) -> Dict[Any,Any]:
         result.update(dictionary)
     return result
 
-#
-# Schema functionality copied/inspired from/by https://github.com/scikit-hep/pyhf/blob/master/src/pyhf/utils.py 
-#
 def load_schema(schema_id: str,
                 version:Optional[str]=None):
+    """
+    Schema functionality adopted from https://github.com/scikit-hep/pyhf/blob/master/src/pyhf/utils.py
+    """
+
     global SCHEMA_CACHE
     if not version:
         version = SCHEMA_VERSION
@@ -50,6 +53,9 @@ load_schema('defs.json')
 def check_schema(json_data:Dict[str, Any],
                  schema_name:str,
                  version:Optional[str]=None):
+    """
+    Schema functionality adopted from https://github.com/scikit-hep/pyhf/blob/master/src/pyhf/utils.py
+    """
     schema = load_schema(schema_name, version=version)
     try:
         resolver = jsonschema.RefResolver(
@@ -57,7 +63,6 @@ def check_schema(json_data:Dict[str, Any],
             referrer=schema_name,
             store=SCHEMA_CACHE,
         )
-        #print("base_url",resolver.base_uri)
         validator = jsonschema.Draft7Validator(
             schema, resolver=resolver, format_checker=None
         )
@@ -68,15 +73,22 @@ def check_schema(json_data:Dict[str, Any],
 
 def resolve_file_name(file_name:Union[str,os.PathLike],
                       root_dir:Union[str,os.PathLike]):
-    # return the file_name for file if absolute path given,
-    # return root_dir/file_name if file_name is not an absolute path
-    # check if file is not a link or email prior to that
+    """
+    Returns the FILE_NAME for file if absolute path given
+    or detected a link or an email,
+    returns ROOT_DIR/FILE_NAME if file_name is not an absolute path.
+    """
     if(validators.url(file_name) or validators.email(file_name)):
         return file_name
     else:
         return os.path.join(root_dir,file_name)
 
 class objdict(OrderedDict):
+    """
+    Ordered dictionary with keys accesible as object attributes.
+
+    .. note:: This class will propably disappear in next versions of the hepdata_maker.
+    """
     def __init__(self, d):
         new_dict=OrderedDict()
         for key, value in d.items():
@@ -98,8 +110,10 @@ class objdict(OrderedDict):
         return dict(self)
     
 def get_available_tables(config_file_path:Union[str,os.PathLike]):
-    # Get names and 'should_be_processed' fields for all tables
-    # withing a steering_file
+    """
+    Get names and 'should_be_processed' fields for all tables
+    withing a steering_file
+    """
     result=[]
     with open(config_file_path, 'r') as stream:
         config_loaded = jsonref.load(stream,base_uri="file://"+os.path.abspath(os.path.dirname(config_file_path))+"/",object_pairs_hook=OrderedDict)
@@ -111,9 +125,9 @@ def get_requested_table_list(steering_file:str,
                              load_all_tables:bool,
                              indices:Optional[List[int]],
                              names:Optional[List[str]])->List[str]:
-    #
-    # Get names of tables inside a steering_file with matching position/names 
-    #
+    """
+    Get names of tables inside a steering_file with matching position/names
+    """
     available_tables=get_available_tables(steering_file)
     if(load_all_tables):
         return available_tables

@@ -240,7 +240,13 @@ def check_table(steering_file,data_root,load_all_tables,indices,names):
               help="""Command specifying how to read the data file.
               Required syntax depends on the type of the file read.
 
-              See specific 'get_array_from_[file_type]' functions (python API) for details.
+              See specific 'get_array_from_[file_type]' functions (python API) for details:
+
+                - :py:func:`hepdata_maker.variable_loading.get_array_from_root`
+                - :py:func:`hepdata_maker.variable_loading.get_array_from_json`
+                - :py:func:`hepdata_maker.variable_loading.get_array_from_yaml`
+                - :py:func:`hepdata_maker.variable_loading.get_array_from_csv`
+                - :py:func:`hepdata_maker.variable_loading.get_array_from_tex`
               """)
 @click.option('--data-type','-t',
               type=str,
@@ -277,7 +283,7 @@ def check_table(steering_file,data_root,load_all_tables,indices,names):
               See https://docs.python.org/3/library/re.html
               for regex patterns allowed and
               https://docs.python.org/3/howto/regex.html#the-backslash-plague
-                for the need of multiple backslashes.
+              for the need of multiple backslashes.
               """)
 @click.option('--transformation','-x','transformations',
               type=str,
