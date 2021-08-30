@@ -386,12 +386,19 @@ class Variable(np.ndarray):
         self.digits = getattr(obj, 'digits', 5)
         self._var_steering=getattr(obj, 'var_steering', None)
     
+    def _steering_unc_names(self)->List[str]:
+        if(self._var_steering is None or 'errors' not in self._var_steering):
+            return []
+        else:
+            return [x['name'] for x in self._var_steering['errors']]
     def _update_unc_steering(self,uncertainty):
         if(self._var_steering):
             err_name=uncertainty.name
             new_unc_steering=uncertainty.steering_file_snippet()
-            if(err_name in self.get_uncertainty_names()):
-                self._var_steering['errors'][self.uncertainty_index(err_name)]=new_unc_steering
+            if 'errors' not in self._var_steering:
+                self._var_steering['errors']=[]
+            if(err_name in self._steering_unc_names()):
+                self._var_steering['errors'][self._steering_unc_names().index(err_name)]=new_unc_steering
             else:
                 self._var_steering['errors'].append(new_unc_steering)
 
@@ -406,7 +413,7 @@ class Variable(np.ndarray):
                     log.warning(f"The uncertainty {uncertainty_name} to be removed was not found in steering file of variable {self.name} however it is part of variables' uncertainties list... You probably use the code not as it was intended to be used!")
                     return
                 else:
-                    self._var_steering['uncertainties'].pop(self.uncertainty_index(uncertainty_name))
+                    self._var_steering['errors'].pop(self.uncertainty_index(uncertainty_name))
 
     def get_uncertainty_names(self):
         return [unc.name for unc in self.uncertainties]
@@ -624,7 +631,7 @@ class Table(object):
         self._resources:List[Resource] = []
         self.images:List[Dict[str,Any]] = []
         # TODO: Unify treatment of images and resources
-        self._tab_steering:Dict[str,Any]={}
+        self._tab_steering:Optional[Dict[str,Any]]=None
         if(tab_steering):
             self._tab_steering=tab_steering
             self.images=getattr(tab_steering,'images',[])
@@ -677,6 +684,11 @@ class Table(object):
             raise ValueError("Table name must not be longer than 64 characters.")
         self._name = name
 
+    def _steering_var_names(self)->List[str]:
+        if(self._tab_steering is None or 'variables' not in self._tab_steering):
+            return []
+        else:
+            return [x['name'] for x in self._tab_steering['variables']]
     def _update_var_steering(self,variable:Variable)->None:
         #
         # update steering file when variable is being added/updated
@@ -684,8 +696,10 @@ class Table(object):
         if(self._tab_steering):
             var_name=variable.name
             new_var_steering=variable.steering_file_snippet()
-            if(var_name in self.get_variable_names()):
-                self._tab_steering['variables'][self.variable_index(var_name)]=new_var_steering
+            if('variables' not in self._tab_steering):
+                self._tab_steering['variables']=[]
+            if(var_name in self._steering_var_names()):
+                self._tab_steering['variables'][self._steering_var_names().index(var_name)]=new_var_steering
             else:
                 self._tab_steering['variables'].append(new_var_steering)
     def _delete_var_steering(self,variable:Variable)->None:
