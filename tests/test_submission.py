@@ -226,6 +226,10 @@ def test_load_table_config_double_load(datadir,sub_ex1,caplog):
         sub_ex1.load_table_config() # loading of the same file should raise an error
     assert "You have already loaded information from a(nother?) steering file" in caplog.text
 
+def test_load_table_config_double_load_v2(datadir,sub_ex1,caplog):
+    sub_ex1.read_table_config(datadir.join("basic_example.json"))
+    sub_ex1.load_table_config()
+    print(sub_ex1._config['tables'])
     # Not a normal usecasel, but 
     # should be fine with other table name
     sub_ex1._config['tables'][0]['name']='table2_name'
