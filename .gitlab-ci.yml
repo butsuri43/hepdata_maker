@@ -74,6 +74,13 @@ check_hepdata_TestHEPSubmission:
     URL_HEPDATA_RECORD: https://hepdata-submission.readthedocs.io/en/latest/_downloads/626dbe93a9bb268f7de12fa9c2afdb73/TestHEPSubmission.zip
   extends: .template_check_hepdata_conversions
 
+check_documentation
+  extends: .checks_template
+  script:
+    - pip3 install Sphinx sphinx-click sphinx-copybutton autoclass autoclasstoc
+    - cd docs
+    - make html SPHINXOPTS="-W"
+    
 package_build:
   stage: build
   image: python:latest
