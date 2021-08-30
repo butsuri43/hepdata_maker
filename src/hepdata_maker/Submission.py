@@ -23,7 +23,9 @@ import time
 from typing import Optional,Any,List,Dict,TypeVar, Type, Literal,Union
 
 def is_name_correct(name:str)->bool:
-    # Just checking whether the name field does not contain forbidden characters
+    """
+    Checking whether the 'name' field does not contain forbidden characters
+    """
     if(name):
         return re.match("^([a-zA-Z0-9\\._;/+])*$",name) is not None
     else:
@@ -32,14 +34,15 @@ def is_name_correct(name:str)->bool:
 def perform_transformation(transformation:str,
                            submission_dict:Dict[str,Any],
                            local_vars:Dict[str,Any])->Iterable:
-    #
-    # Function executing user-specified transformation of variables/errors loaded
-    # 
-    # Input variables:
-    #   -> transformation  -- numpy-style transformation returning a 1-D array/ndarray
-    #   -> submission_dict -- collections of variables and other known objects to be used in the transformation
-    #   -> local_vars      -- yet another collection of variables known to be used in the transformation
-    #
+    """
+    Function executing user-specified transformation of variables/errors loaded
+
+    Args:
+      transformation: numpy-style transformation returning a 1-D array/ndarray
+      submission_dict: collections of variables and other known objects
+        to be used in the transformation
+      local_vars: yet another collection of variables known to be used in the transformation
+    """
     try:
         global_vars=utils.merge_dictionaries(submission_dict,{"np":np},{"re":re},{"scipy.stats":scipy.stats},{"scipy.special":scipy.special},{"ufs":ufs},{"nan":np.nan})
         return eval(transformation,global_vars,local_vars)
@@ -53,14 +56,14 @@ def perform_transformation(transformation:str,
         raise exc
 
 def remove_none_from_uncertainty_array(in_list:Iterable)->np.ndarray:
-    #
-    # Replace uncertainty values which are None with zeros matching type of other variables in the given array.
-    # This allows to work (with numpy arrays) easily with variables for which only some values have the corresponding error defined
-    # This is 'safe' as when translating to hepdata zero errors are converted to hepdata
-    #
-    # Input variables:
-    #   -> in_list -- list of error values (can be 1 or 2 dim)
-    #
+    """
+    Replace uncertainty values which are None with zeros matching type of other variables in the given array.
+    This allows to work (with numpy arrays) easily with variables for which only some values have the corresponding error defined
+    This is 'safe' as when translating to hepdata zero errors are converted to hepdata
+
+    Args:
+      in_list: list of error values (can be 1 or 2 dim)
+    """
     not_none_entries=[x for x in in_list if x is not None]
     ndim=1
     if(len(not_none_entries)==0):
@@ -76,6 +79,20 @@ def remove_none_from_uncertainty_array(in_list:Iterable)->np.ndarray:
 
 ndarray_super_type = TypeVar('ndarray_super_type', bound=np.ndarray)
 class Uncertainty(np.ndarray):
+    """
+        Uncertainty is a 1 or 2 dimentional numpy-array-like table describing one source of uncertainty.
+
+        Can be created an the following way:
+
+        1) data array (could be 1 or 2-dim) and name of error,
+        unc=Uncertainty([1,2,3],'my_name')
+
+        2) providing dictionary following src/hepdata_maker/schemas/0.0.0/uncertainty.json schema.
+        unc=Uncertainty(unc_steering={"name":"my_name","transformations":[1,2,3]})
+
+        If unc_steering is given, it takes precedence over other arguments.
+        """
+
     def __new__(cls:Type[ndarray_super_type],
                 input_array:Iterable=[],
                 name:str="unc",
@@ -86,22 +103,6 @@ class Uncertainty(np.ndarray):
                 global_variables:Dict[str,Any]={},
                 local_variables:Dict[str,Any]={},
                 data_root:str='./'):
-        # Uncertainty class.
-        # Can be created an the following way:
-        #
-        # 1) data array (could be 1 or 2-dim) and name of error ,
-        # unc=Uncertainty([1,2,3],'my_name')
-        #
-        # 2) explicite argument naming:
-        # unc=Uncertainty(input_array=[1,2,3],name='my_name'),
-        #
-        # 3) providing dictionary following src/hepdata_maker/schemas/0.0.0/uncertainty.json schema.
-        #    The argument name is ('unc_steering')
-        # unc=Uncertainty(unc_steering={"name":"my_name","transformations":[1,2,3]})
-        #
-        # If unc_steering is given, it takes precedence over other arguments.
-        #
-
         ## Time the execution
         start=time.time()
 
@@ -230,6 +231,26 @@ class Uncertainty(np.ndarray):
 
 
 class Variable(np.ndarray):
+    """
+    Variable is 1 or 2 dimentional numpy-array-like list containing information about a single variable.
+    It represent one column in a single HEPData table.
+
+    When 1-dimensional array is provided, the variable is unbinned,
+    while is binned when 2-dimensional array is given
+
+
+    Variable has to have a non-empty name.
+
+    Variable be created an the following way:
+
+      1) data array (could be 1 or 2-dim) and name of the variable,
+      var=Variable([1,2,3],'my_name')
+
+      2) providing dictionary following src/hepdata_maker/schemas/0.0.0/variable.json schema.
+      var=Variable(var_steering={"name":"my_name","transformations":[1,2,3]})
+
+    If var_steering is given, it takes precedence over other arguments.
+    """
     def __new__(cls:Type[ndarray_super_type],
                 input_array:Iterable=[],
                 name:str="var",
@@ -242,21 +263,6 @@ class Variable(np.ndarray):
                 global_variables:Dict[str,Any]={},
                 local_variables:Dict[str,Any]={},
                 data_root:str='./'):
-        # Variable class.
-        # Can be created an the following way:
-        #
-        # 1) data array (could be 1 or 2-dim) and name of the variable ,
-        # var=Variable([1,2,3],'my_name')
-        #
-        # 2) explicite argument naming:
-        # var=Variable(input_array=[1,2,3],name='my_name'),
-        #
-        # 3) providing dictionary following src/hepdata_maker/schemas/0.0.0/variable.json schema.
-        #    The argument name is ('var_steering')
-        # var=Variable(var_steering={"name":"my_name","transformations":[1,2,3]})
-        #
-        # If var_steering is given, it takes precedence over other arguments.
-        #
 
         ## Time the execution
         start=time.time()
@@ -417,14 +423,14 @@ class Variable(np.ndarray):
 
     def add_uncertainty(self,
                         uncertainty:Uncertainty)->None: 
-        #
-        # Add an uncertainty to the variable.
-        # This updates variable's uncertainties table as well as
-        #  __dict__ dictionary.
-        #
-        # Input variables:
-        #   -> uncertainty -- uncertainty (of type Uncertainty) to add
-        #
+        """
+        Add an uncertainty to the variable.
+        This updates variable's uncertainties table as well as
+        __dict__ dictionary.
+
+        Args:
+          uncertainty: uncertainty (of type Uncertainty) to add
+        """
         log.debug(f"Adding uncertainty to Variable {self.name}. Parameters passed: {locals()}")
         if isinstance(uncertainty, Uncertainty):
             if(self.size!=len(uncertainty)):
@@ -439,16 +445,16 @@ class Variable(np.ndarray):
         
     def update_uncertainty(self,
                            new_unc:Uncertainty) ->None:
-        #
-        # Update uncertainty with a new one.
-        # Uncertainty which name matches the new one is being replaced.
-        # If no uncertainty of that name is present, the uncertainty is added
-        # This updates variable's 'uncertainties' as well as
-        #  __dict__ dictionary.
-        #
-        # Input variables:
-        #   -> new_unc -- uncertainty (of type Uncertainty) to add
-        #
+        """
+        Update uncertainty with a new one.
+        Uncertainty which name matches the new one is being replaced.
+        If no uncertainty of that name is present, the uncertainty is added
+        This updates variable's 'uncertainties' as well as
+        __dict__ dictionary.
+
+        Args:
+          new_unc: uncertainty (of type Uncertainty) to add
+        """
         if not isinstance(new_unc, Uncertainty):
             raise TypeError(f"In order to update uncertainty for variable ({self.name}) one needs to provide an uncertainty. Here, unknown object of type: {type(new_unc)}")
         log.debug(f"Updating uncertainty {new_unc.name} of variable {self.name}. Parameters passed: {locals()}")
@@ -465,25 +471,25 @@ class Variable(np.ndarray):
             self.add_uncertainty(new_unc)
 
     def uncertainty_index(self,uncertainty_name:str)->int:
-        #
-        # Get the index of the uncertainty in the variable's uncertainties table
-        #
-        # Input variables:
-        #   -> uncertainty_name -- name of the uncertainty to look for
-        #
+        """
+        Get the index of the uncertainty in the variable's uncertainties table
+
+        Args:
+          uncertainty_name -- name of the uncertainty to look for
+        """
         if(not isinstance(uncertainty_name,str)):
             raise TypeError(f"Uncertainty's name needs to be a string. Trying to find uncertainty based on object type ({type(uncertainty_name)}) failed!")
         return self.get_uncertainty_names().index(uncertainty_name)
     
     def delete_uncertainty(self,uncertainty_name:str)->None:
-        #
-        # Delete the uncertainty
-        # This updates variable's uncertainties table as well as
-        #  __dict__ dictionary.
-        #
-        # Input variables:
-        #   -> uncertainty_name -- name of the uncertainty to remove
-        #
+        """
+        Delete the uncertainty
+        This updates variable's uncertainties table as well as
+        __dict__ dictionary.
+
+        Args:
+          uncertainty_name -- name of the uncertainty to remove
+        """
         if(uncertainty_name not in self.get_uncertainty_names()):
             log.warning(f"You try to remove uncertainty {uncertainty_name} that is not found in the variable {self.name}.")
             return
@@ -524,9 +530,9 @@ class Variable(np.ndarray):
         self._uncertainties = uncertainties
 
     def steering_file_snippet(self):
-        #
-        # Get the steering file for the Variable object
-        #
+        """
+        Get the steering file for the Variable object
+        """
         if(self._var_steering): # a steering file was provided:
             return self._var_steering
         else:
@@ -544,6 +550,10 @@ class Variable(np.ndarray):
             return out_json
 
 class Resource():
+    """
+    A class containing informations on additional resource,
+    like tarball/image etc., attached to the HEPData record.
+    """
     def __init__(self,location='',description='',res_steering=None,category=None,copy_file=None):
         if(res_steering):
             location=res_steering.get('location',location)
@@ -570,8 +580,11 @@ class Resource():
 class Table(object):
     """
     A table is a collection of variables.
+
     It also holds meta-data such as a general description,
     the location within the paper, etc.
+
+    Table has to have a non-empty name.
     """
     
     def __init__(self,
@@ -695,12 +708,12 @@ class Table(object):
         return [var.name for var in self.variables]
 
     def variable_index(self,variable_name:str)->int:
-        #
-        # Get the index of the variable in the table's variables table
-        #
-        # Input variables:
-        #   -> variable_name -- name of the variable to look for
-        #
+        """
+        Get the index of the variable in the table's variables table
+
+        Args:
+          variable_name: name of the variable to look for
+        """
         if(not isinstance(variable_name,str)):
             raise TypeError(f"Variable's name needs to be a string. Trying to find variable based on object type ({type(variable_name)}) failed!")
         return self.get_variable_names().index(variable_name)
@@ -714,14 +727,14 @@ class Table(object):
         self.__dict__[name]=variable
 
     def add_variable(self, variable:Variable)->None:
-        #
-        # Add a variable to the table.
-        # This updates table's variables table as well as
-        #  __dict__ dictionary.
-        #
-        # Input variables:
-        #   -> variable -- variable (of type Variable) to add
-        #
+        """
+        Add a variable to the table.
+        This updates table's variables table as well as
+        __dict__ dictionary.
+
+        Args:
+          variable: variable (of type Variable) to add
+        """
         if isinstance(variable, Variable):
             log.debug(f"Adding variable {variable.name} to the table {self.name}")
             if(self._variable_lenght!=0):
@@ -737,16 +750,16 @@ class Table(object):
             raise TypeError("Unknown object type: {0}".format(str(type(variable))))
 
     def update_variable(self,new_var:Variable)->None:
-        #
-        # Update variable with a new one.
-        # Variable which name matches the new one is being replaced.
-        # If no variable of that name is present, the variable is added
-        # This updates table's 'variables' as well as
-        #  __dict__ dictionary.
-        #
-        # Input variables:
-        #   -> new_var -- variable (of type Variable) to add
-        #
+        """
+        Update variable with a new one.
+        Variable which name matches the new one is being replaced.
+        If no variable of that name is present, the variable is added
+        This updates table's 'variables' as well as
+        __dict__ dictionary.
+
+        Args:
+          new_var: variable (of type Variable) to add
+        """
         if(not isinstance(new_var, Variable)):
             raise TypeError("Table can be updated with a variable, not with object type: {0}".format(str(type(new_var))))
         log.debug(f"Updating variable {new_var.name} of variable {self.name}. Parameters passed: {locals()}")
@@ -764,14 +777,14 @@ class Table(object):
             self._update_var_steering(new_var)
 
     def delete_variable(self,variable_name:str)->None:
-        #
-        # Delete the variable
-        # This removes the variable from tables's variables table as well as
-        #  __dict__ dictionary.
-        #
-        # Input variables:
-        #   -> variable_name -- name of the variable to remove
-        #
+        """
+        Delete the variable
+        This removes the variable from tables's variables table as well as
+        __dict__ dictionary.
+
+        Args:
+          variable_name -- name of the variable to remove
+        """
         if(variable_name not in self.get_variable_names()):
             log.warning(f"You try to remove variable {variable_name} that is not found in the table {self.name}.")
             return
@@ -786,12 +799,10 @@ class Table(object):
 
     @property
     def variables(self):
-        """variables getter."""
         return self._variables
 
     @variables.setter
     def variables(self, variables:List[Variable]):
-        """variables setter."""
         
         # Remove names of the variables already present in the instance's __dict__:
         for old_variable in self.variables:
@@ -810,15 +821,14 @@ class Table(object):
 
     @property
     def resources(self):
-        """resources getter."""
         return self._resources
 
     ### TODO: We probably do not need a setter for resources...
     
     def steering_file_snippet(self)->Dict[str,Any]:
-        #
-        # Get the steering file for the Table object
-        #
+        """
+        Get the steering file for the Table object.
+        """
         if(self._tab_steering): # a steering file was provided:
             return self._tab_steering
         else:
@@ -835,15 +845,15 @@ class Table(object):
             return output_json
         
 def fix_zero_error(variable:Variable)->List[np.ndarray]:
-    #
-    # This function replaces null errors with '' for the cases when variable is zero 
-    #
-    # Input variables:
-    #   -> variable -- variable (of type Variable) to go through
-    #
-    # Outputs:
-    #   -> list of numpy arrays with updated error values 
-    #
+    """
+    This function replaces null errors with '' for the cases when variable is zero
+
+    Args:
+      variable: variable (of type Variable) to go through
+
+    Returns:
+      list of numpy arrays with updated error values
+    """
     tmp_need_zero_error_fix=(variable==np.zeros_like(variable))
     tmp_need_zero_error_fix=np.array([tmp_need_zero_error_fix,tmp_need_zero_error_fix]).T # translating to the (2,N) shape of errors
     tmp_need_zero_error_fix_sym=np.zeros_like(tmp_need_zero_error_fix)
@@ -871,27 +881,35 @@ def get_matching_based_variables(match_definitions:List[Dict[Literal['name', 'ma
                                  global_dict=None,
                                  local_dict=None,
                                  var_lenght=0):
-    #
-    # Function to construct an array with values depending on the condition provided by user
-    #
-    # The idea is to define things like, for example, 'region' for a table, indicating which analysis region is used.
-    # we want to have region="SRB" when "MET>100 && mt2<450". 
-    # so for example for MET=[50 ,150,250]
-    #                    mt2=[300,400,500]
-    # when provided with argument matching_definitions=[{name:"SRB","matching":["np.logical_and(MET>100,mt2<450)"]}]
-    #  will give output of [None,SRB, None]
-    #
-    # Input variables:
-    #   -> match_definitions  -- list of dictionaries defining matching conditions and value of the variable
-    #                            each dictionary has to have field 'name' (value of variable when condition is met)
-    #                                                          and 'matching' -- list of cuts and indices for which the condition is met.
-    #                                                               Conditions are concacanated to each other.
-    #                                                               In the example above matching_definitions=[{name:"SRB","matching":["np.logical_and(MET>100,mt2<450)"]}
-    #                                                               is equivalent to  matching_definitions=[{name:"SRB","matching":[1]} (index specifying position that matches)
-    #   -> submission_dict    -- collections of variables and other known objects to be used in the transformation
-    #   -> local_vars         -- yet another collection of variables known to be used in the transformation
-    #   -> var_lenght         -- lenght of the corresponding variable/table (in case index is is chosen for matching specification)
-    #
+    """
+    Function to construct an array with values depending on the condition provided by user
+
+    The idea is to define things like, for example, 'region' for a table,
+    indicating which analysis region is used.
+
+    Example:
+      Assume we want to have region="SRB" when "MET>100 && mt2<450".
+      For ``MET=[50 ,150,250]`` and ``mt2=[300,400,500]``,
+      when provided with argument
+      ``matching_definitions=[{name:"SRB","matching":["np.logical_and(MET>100,mt2<450)"]}]``
+      will give output of ``[None,SRB, None]``.
+
+    Args:
+      match_definitions: list of dictionaries defining matching conditions and
+        the value associated with the match.
+
+        Each dictionary has to have field 'name' (value of variable when condition is met)
+        and 'matching' -- list of cuts and indices for which the condition is met.
+
+        Conditions are concacanated to each other.
+
+        In the example above ``matching_definitions=[{name:"SRB","matching":["np.logical_and(MET>100,mt2<450)"]}``
+        is equivalent to  ``matching_definitions=[{name:"SRB","matching":[1]}`` (index specifying position that matches)
+
+      submission_dict: collections of variables and other known objects to be used in the transformation
+      local_vars: yet another collection of variables known to be used in the transformation
+      var_lenght: lenght of the corresponding variable/table (in case index is is chosen for matching specification)
+    """
     result=None
     for specification in match_definitions:
         var=specification.get('name',None)
@@ -922,10 +940,10 @@ def get_matching_based_variables(match_definitions:List[Dict[Literal['name', 'ma
 
 def get_name(obj:Union[Uncertainty,Variable,Table],
              use_fancy_names:bool)->str:
-    #
-    # Function to select name of Uncertainty/Variable/Table depending on whether fancy_name is present
-    #     and flag to use it is specified
-    #
+    """
+    Function to select name of Uncertainty/Variable/Table depending on
+    whether fancy_name is present and flag to use it is specified.
+    """
     if(not hasattr(obj,"name")):
         raise TypeError("objected provided does not contain 'name' field")
     name=obj.name
@@ -938,10 +956,9 @@ def get_name(obj:Union[Uncertainty,Variable,Table],
     return name
 
 class Submission():
-    #
-    # Submission collects all information required to make hepdata submission files (and more!).
-    #
-    #
+    """
+    Submission collects all information required to make hepdata submission (and more!).
+    """
     def __init__(self):
         self._tables:List[Table]=[]
         self._resources:List[Resource]=[]
@@ -956,43 +973,43 @@ class Submission():
         return [tab.name for tab in self.tables]
 
     def table_index(self,table_name:str)->int:
-        #
-        # Get the index of the table in the submission
-        #
-        # Input variables:
-        #   -> table_name -- name of the uncertainty to look for
-        #
+        """
+        Get the index of the table in the submission
+        Args:
+          table_name: name of the uncertainty to look for
+        """
         if(not isinstance(table_name,str)):
             raise TypeError(f"Table's name needs to be a string. Trying to find uncertainty based on object type ({type(table_name)}) failed!")
         return self.get_table_names().index(table_name)
 
     def get_resource_locations(self)->List[str]:
-        #
-        # Get the 'location' of the additional_resource in the submission
-        # For resources there is no name, so location (link or path to file) is what differenciate one from another 
-        #
+        """
+        Get the 'location' of the additional_resource in the submission.
+        For resources there is no name, so location (link or path to file)
+        is what differenciate one from another.
+        """
         return [res.location for res in self._resources]
 
     def resource_index(self,resource_location:str)->int:
-        #
-        # Get the index of the additional_resource in the submission
-        #
-        # Input variables:
-        #   -> resource_location -- location (link/path) of the resource to look for
-        #
+        """
+        Get the index of the additional_resource in the submission
+
+        Args:
+          resource_location: location (link/path) of the resource to look for
+        """
         if(not isinstance(resource_location,str)):
             raise TypeError(f"Resource location needs to be a string. Trying to find resource based on object type ({type(resource_location)}) failed!")
         return self.get_resource_locations().index(resource_location)
 
     def create_table_of_content(self)->None:
-        #
-        # Create table of content based on the matterial available.
-        #
-        # The created table of content is put into comment for a table 'overview.yaml' (a dummy one),
-        # this comment can be changed if requred.
-        #
-        # If overview.yaml already exisits, the table of content will NOT be recreated
-        #
+        """
+        Create table of content based on the matterial available.
+
+        The created table of content is put into comment for a table 'overview.yaml' (a dummy one),
+        this comment can be changed if requred.
+
+        If overview.yaml already exisits, the table of content will NOT be recreated
+        """
         if ("overview" in self.get_table_names()):
             log.warning("Table named 'overview' is already defined. It is assumed that it contains the table of content and it will not be attempted to re-creating it. Rename/remove 'overview' in your steering file if you expect another behaviour.")
             return
@@ -1008,13 +1025,13 @@ class Submission():
         
     def read_table_config(self,
                           config_file_path: str='')->None:
-        #
-        # Function to read steering file (just read with dereferencing jsonrefs, nothing more).
-        # Please use load_table_config to implement the steering_file information 
-        #
-        # Input variables:
-        #   -> config_file_path  -- path to the steering_file that should be used
-        #
+        """
+        Function to read steering file (just read with dereferencing jsonrefs, nothing more).
+        Please use load_table_config to implement the steering_file information.
+
+        Args:
+          config_file_path: path to the steering_file that should be used
+        """
         if(not os.path.isfile(config_file_path)):
             raise ValueError(f"Could not find config file {config_file_path}. Please check the path provided.")
         with open(config_file_path, 'r') as stream:
@@ -1025,13 +1042,14 @@ class Submission():
     def load_table_config(self,
                           data_root: str='./',
                           selected_table_names:List[str]=[])->None:
-        #
-        # Function to populate information in Submission from already read steering file (see also 'read_table_config')
-        #
-        # Input variables:
-        #   -> config_file_path     -- path to the steering_file that should be used
-        #   -> selected_table_names -- names of the tables to be loaded. If empty, all are loaded.
-        #
+        """
+        Function to populate information in Submission from
+        already read steering file (see also 'read_table_config').
+
+        Args:
+          config_file_path: path to the steering_file that should be used
+          selected_table_names: names of the tables to be loaded. If empty, all are loaded.
+        """
         if(self._has_loaded):
             log.warning("You have already loaded information from a(nother?) steering file. If any table names will be loaded again (without prior explicite deletions) expect errors being raised!")
         self._has_loaded=True
@@ -1067,9 +1085,9 @@ class Submission():
                               data_root:str='./',
                               outdir:str='submission_files',
                               use_fancy_names:bool=False)->None:
-        #
-        # Actual record creation based on information stored
-        #
+        """
+        Actual record creation based on information stored
+        """
         hepdata_submission = hepdata_lib.Submission()
         hepdata_submission.comment=self.comment
         hepdata_submission.record_ids=self.record_ids
@@ -1130,15 +1148,15 @@ class Submission():
         self.__dict__[name]=table
 
     def insert_table(self,index:int, table:Table)->None:
-        #
-        # Insert a table in to position 'index' in the submission.
-        # This updates submission's 'tables' as well as
-        #  __dict__ dictionary.
-        #
-        # Input variables:
-        #   -> index    -- position where to insert the table
-        #   -> table -- table (of type Table) to add
-        #
+        """
+        Insert a table in to position 'index' in the submission.
+        This updates submission's 'tables' as well as
+        __dict__ dictionary.
+
+        Args:
+          index: position where to insert the table
+          table: table (of type Table) to add
+        """
         if isinstance(table, Table):
             log.debug(f"Adding table {table.name} to the submission")
             self.tables.insert(index,table)
@@ -1147,14 +1165,14 @@ class Submission():
             raise TypeError("Unknown object type: {0}".format(str(type(table))))
         
     def add_table(self, table:Table)->None:
-        #
-        # Add a table to the submission.
-        # This updates submission's 'tables' as well as
-        #  __dict__ dictionary.
-        #
-        # Input variables:
-        #   -> table -- table (of type Table) to add
-        #
+        """
+        Add a table to the submission.
+        This updates submission's 'tables' as well as
+        __dict__ dictionary.
+
+        Args:
+          table: table (of type Table) to add
+        """
         if isinstance(table, Table):
             log.debug(f"Adding table {table.name} to the submission")
             self.tables.append(table)
@@ -1163,17 +1181,17 @@ class Submission():
             raise TypeError("Unknown object type: {0}".format(str(type(table))))
         
     def update_table(self,new_tab:Table)->None:
-        #
-        # Update table with a new one.
-        # Table which name matches the new one is being replaced.
-        # If no table of that name is present, the table is simply added
-        #
-        # This updates submission's 'tables' as well as
-        #  __dict__ dictionary.
-        #
-        # Input variables:
-        #   -> new_tab -- table (of type Table) to add
-        #
+        """
+        Update table with a new one.
+        Table which name matches the new one is being replaced.
+        If no table of that name is present, the table is simply added
+
+        This updates submission's 'tables' as well as
+         __dict__ dictionary.
+
+        Args:
+          new_tab: table (of type Table) to add
+        """
         if not isinstance(new_tab, Table):
             raise TypeError(f"In order to update table in submission one needs to provide a table. Here, unknown object of type: {type(new_tab)}")
         log.debug(f"Updating table {new_tab.name}. Parameters passed: {locals()}")
@@ -1192,14 +1210,14 @@ class Submission():
             self.add_table(new_tab)
             
     def delete_table(self,table_name:str)->None:
-        #
-        # Delete the table
-        # This updates submission's 'tables' as well as
-        #  __dict__ dictionary.
-        #
-        # Input variables:
-        #   -> table_name -- name of the table to remove
-        #
+        """
+        Delete the table
+        This updates submission's 'tables' as well as
+        __dict__ dictionary.
+
+        Args:
+          table_name: name of the table to remove
+        """
         if(table_name not in self.get_table_names()):
             log.warning(f"You try to remove table {table_name} that is not found in the submission object.")
             return
@@ -1212,13 +1230,13 @@ class Submission():
             del self.tables[self.table_index(table_name)]
 
     def insert_resource(self,index:int, resource:Resource)->None:
-        #
-        # Insert a resource in to position 'index' in the submission.
-        #
-        # Input variables:
-        #   -> index    -- position where to insert the resource
-        #   -> resource -- resource (of type Resource) to add
-        #
+        """
+        Insert a resource in to position 'index' in the submission.
+
+        Args:
+          index    -- position where to insert the resource
+          resource -- resource (of type Resource) to add
+        """
         if isinstance(resource, Resource):
             log.debug(f"Adding resource {resource.location} to the submission")
             self.resources.insert(index,resource)
@@ -1226,12 +1244,12 @@ class Submission():
             raise TypeError("Unknown object type: {0}".format(str(type(resource))))
         
     def add_resource(self, resource:Resource)->None:
-        #
-        # Add a resource in the submission.
-        #
-        # Input variables:
-        #   -> resource -- resource (of type Resource) to add
-        #
+        """
+        Add a resource in the submission.
+
+        Input variables:
+         resource -- resource (of type Resource) to add
+        """
         if isinstance(resource, Resource):
             log.debug(f"Adding resource {resource.location} to the submission")
             self.resources.append(resource)
@@ -1239,12 +1257,12 @@ class Submission():
             raise TypeError("Unknown object type: {0}".format(str(type(resource))))
 
     def delete_resource(self,resource_location:str)->None:
-        #
-        # Delete the resource from the submission
-        #
-        # Input variables:
-        #   -> resource_location -- location of the resource to remove
-        #
+        """
+        Delete the resource from the submission
+
+        Args:
+          resource_location -- location of the resource to remove
+        """
         if(resource_location not in self.get_resource_locations()):
             log.warning(f"You try to remove resource {resource_location} that is not found in the submission object.")
             return
@@ -1253,24 +1271,20 @@ class Submission():
 
     @property
     def config(self)->Dict[str,Any]:
-        """config getter."""
         return self._config
 
     @config.setter
     def config(self, config:Dict[str,Any])->None:
-        """config setter."""
         # Check schema of the submission steering file:
         utils.check_schema(config,'steering_file.json')
         self._config=config
         
     @property
     def tables(self)->List[Table]:
-        """tables getter."""
         return self._tables
 
     @tables.setter
     def tables(self, tables:List[Table])->None:
-        """tables setter."""
         # Remove names of the tables already present in the instance's dict:
         for old_table in self.tables:
             self.__dict__.pop(old_table.name)
@@ -1285,22 +1299,19 @@ class Submission():
 
     @property
     def resources(self)->List[Resource]:
-        """resources getter."""
         return self._resources
 
     @resources.setter
     def resources(self, resources:List[Resource]):
-        """resources setter."""
         self._resources = resources
 
     def steering_file_snippet(self):
-        #
-        # Get the steering file for the Submission
-        #
-        # Mind, that it is not the 'config' file that is being return, but
-        # instead it is rebuild from the actual information stored in the Submission
-        # This saves us from the need to update 'config' if a table is added or removed.
-        #
+        """
+        Get the steering file for the Submission
+        Mind, that it is not the 'config' file that is being return, but
+        instead it is rebuild from the actual information stored in the Submission
+        This saves us from the need to update 'config' if a table is added or removed.
+        """
         output_json={}
         output_json['type']='steering'
         if(self.comment!=''):
@@ -1316,10 +1327,10 @@ class Submission():
 
 def add_rich_error_tree_from_var(variable:Variable,
                                  baseTree:Optional[rich.tree.Tree]=None)-> rich.tree.Tree:
-    #
-    # Function to read all errors from a Variable object and
-    # attach them to rich.tree for nice visual effect
-    #
+    """
+    Function to read all errors from a Variable object and
+    attach them to rich.tree for nice visual effect
+    """
     if(not isinstance(variable,Variable)):
         raise ValueError(f"arugument 'variable' needs to be of type Submission.Variable")
     if(baseTree is None):
@@ -1336,10 +1347,10 @@ def add_rich_error_tree_from_var(variable:Variable,
 
 def add_rich_var_tree_from_table(table:Table,
                                  baseTree:rich.tree.Tree=None) -> rich.tree.Tree:
-    #
-    # Function to read all variables from a Table object and
-    # attach them to rich.tree for nice visual effect
-    #
+    """
+    Function to read all variables from a Table object and
+    attach them to rich.tree for nice visual effect
+    """
     if(not isinstance(table,Table)):
         raise ValueError(f"arugument 'table' needs to be of type Submission.Table")
     if(baseTree is None):
@@ -1356,14 +1367,14 @@ def add_rich_var_tree_from_table(table:Table,
 
 def rich_highlight_dict_objects(dictionary:Dict[str,Any],
                                              title:str='')->None:
-    #
-    # Highlight Tables, Variables and Uncertainties that can be found in dictionary (with recursive search)
-    # The result is printed on the screen
-    #
-    # Input variables:
-    #   -> dictionary -- a dictionary containing Tables/Values or Uncertainties as values
-    #   -> title      -- title for the rich.panel printing the information
-    #
+    """
+    Highlight Tables, Variables and Uncertainties that can be found in dictionary (with recursive search)
+    The result is printed on the screen
+
+    Args:
+      dictionary: a dictionary containing Tables/Values or Uncertainties as values
+      title: title for the rich.panel printing the information
+    """
     log.debug("Inside 'rich_highlight_dict_objects' function")
     if(not isinstance(dictionary,dict)):
         raise ValueError("Object provided to function {__name__} should be dictionary, while it is {type(dictionary)}. Full object for reference: {dictionary}")
@@ -1412,10 +1423,10 @@ def decode_variable_from_hepdata(hepdata_variable:Dict[str,Any],
                                  in_file:str,
                                  is_independent:bool,
                                  var_index:int=0)->Dict[str,Any]:
-    #
-    # Function to decode information on variable from subset of hepdata data-yaml 
-    # It returns hepdata_maker-style variable steering snippet
-    #
+    """
+    Function to decode information on variable from subset of hepdata data-yaml
+    It returns hepdata_maker-style variable steering snippet
+    """
     
     tmp_name=hepdata_variable['header']['name']
     fancy_var_name=tmp_name

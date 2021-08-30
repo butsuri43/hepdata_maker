@@ -20,15 +20,18 @@ import functools
 import io
 
 def check_if_file_exists_and_readable(file_path:str)->bool:
-    # function to verify that 'file_path' is readable file with one of this types:
-    #   - json 
-    #   - yaml
-    #   - root
-    #   - csv
-    #   - tex
-    #   - txt --> used as table title!
-    #
+    """
+    Verify that FILE_PATH is readable file.
+    Following data formats are allowed:
 
+      - json
+      - yaml
+      - root
+      - csv
+      - tex
+      - txt --> used as table title!
+    """
+    # TODO: Adding file_type argument for ambiguous cases
     if(not os.path.exists(file_path)):
         return False
     file_type=file_path.split(".")[-1].lower()
@@ -75,6 +78,10 @@ def check_if_file_exists_and_readable(file_path:str)->bool:
 ## code below adopted from Answer #1 in https://www.py4u.net/discuss/12785
 def yaml_ordered_safe_load(stream:TextIO,
                            object_pairs_hook:Callable=OrderedDict)->OrderedDict:
+    """
+    Load single yaml document safely with loading order ensured to be the same all the times.
+    Adopted from Answer #1 in https://www.py4u.net/discuss/12785
+    """
     class OrderedLoader(yaml.SafeLoader):
         pass
     def construct_mapping(loader, node):
@@ -87,6 +94,10 @@ def yaml_ordered_safe_load(stream:TextIO,
 
 def yaml_ordered_safe_load_all(stream:TextIO,
                                object_pairs_hook:Callable=OrderedDict)->OrderedDict:
+    """
+    Load multiple yaml documents safely with loading order ensured to be the same all the times.
+    Adopted from Answer #1 in https://www.py4u.net/discuss/12785
+    """
     class OrderedLoader(yaml.SafeLoader):
         pass
     def construct_mapping(loader, node):
@@ -103,11 +114,11 @@ def yaml_ordered_safe_load_all(stream:TextIO,
 @functools.lru_cache(maxsize=16) 
 def open_data_file(file_path:Union[str,os.PathLike],
                    file_type:Literal['yaml', 'json', 'csv', 'root','tex']) -> Any:
-    #
-    # Opens and caches input file data
-    # Please mind that the output has different type
-    #   depending on the file_type of te input file.
-    # 
+    """
+    Opens and caches input file data.
+    Please mind that the output has different type
+    depending on the file_type of the input file.
+    """
     log.debug(f"Opening uncached file {file_path}, type={file_type}.")
     data_loaded:Any=None
     try:
@@ -135,13 +146,14 @@ def open_data_file(file_path:Union[str,os.PathLike],
 def get_array_from_csv(file_path:Union[str,os.PathLike],
                        decode:str,
                        delimiter:str=',') -> np.ndarray:
-    #
-    # Read specific column of a csv file given.
-    # Input variables:
-    #   -> file_path -- path to the csv file to read
-    #   -> decod     -- name of the column to use
-    #   -> delimiter -- what delimiter is used in the csv file -- default ','
-    #
+    """
+    Read specific column of a csv file given.
+
+    Args:
+      file_path: path to the csv file to read
+      decod: name of the column to use
+      delimiter: what delimiter is used in the csv file -- default ','
+    """
     log.debug("--------- csv file read -------------")
     log.debug(f"Reading variable information from csv file {file_path}")
     log.debug(f"decode used: '{decode}'")
@@ -164,12 +176,13 @@ def get_array_from_csv(file_path:Union[str,os.PathLike],
         return np.array(data)
 
 def decode_json_array(json_array:Union[Dict[str,Any],List[Any]],decode:str)->np.ndarray:
-    #
-    # Read information from json object using jq decoding
-    # Input variables:
-    #   -> json_array -- json object (dict, or list)
-    #   -> decod     -- jq command used for decoding
-    #
+    """
+    Read information from json object using jq decoding.
+
+    Args:
+      json_array: json object (dict, or list),
+      decod: jq command used for decoding.
+    """
     log.debug(f"inside decode_json_array")
     if(not decode):
         raise TypeError("""You need to specify variable 'decode' which defines a jq filter (https://stedolan.github.io/jq/manual/) parsed by (https://pypi.org/project/jq/).
@@ -200,12 +213,13 @@ def decode_json_array(json_array:Union[Dict[str,Any],List[Any]],decode:str)->np.
     
 def get_array_from_json(file_path:Union[str,os.PathLike],
                         decode:str) -> np.ndarray:
-    #
-    # Read information from json file using jq decoding
-    # Input variables:
-    #   -> file_path -- path to the json file to read
-    #   -> decod     -- jq command used for decoding
-    #
+    """
+    Read information from json file using jq decoding
+
+    Args:
+      file_path: path to the json file to read
+      decod: jq command used for decoding
+    """
     log.debug("--------- json file read -------------")
     log.debug(f"Reading variable information from json file {file_path}")
     log.debug(f"decode used: '{decode}'")
@@ -216,12 +230,13 @@ def get_array_from_json(file_path:Union[str,os.PathLike],
 
 def get_array_from_yaml(file_path:Union[str,os.PathLike],
                         decode:str) -> np.ndarray:
-    #
-    # Read information from yaml file using jq decoding
-    # Input variables:
-    #   -> file_path -- path to the json file to read
-    #   -> decod     -- jq command used for decoding
-    #
+    """
+    Read information from yaml file using jq decoding
+
+    Args:
+      file_path: path to the yaml file to read
+      decod: jq command used for decoding
+    """
     log.debug("--------- yaml file read -------------")
     log.debug(f"Reading variable information from yaml file {file_path}")
     log.debug(f"decode used: '{decode}'")
@@ -231,13 +246,15 @@ def get_array_from_yaml(file_path:Union[str,os.PathLike],
 
 @functools.lru_cache(maxsize=16)
 def get_list_of_objects_in_root_file(file_path:Union[str,os.PathLike]) -> Dict[str,str]:
-    #
-    # Get names and class names of objects inside ROOT file 
-    # Input variables:
-    #   -> file_path -- path to the json file to read
-    #
-    # Output: dictionary {'item_name':'tiem_class_name'} as return by uproot's classnames()
-    #
+    """
+    Get names and class names of objects inside ROOT fie
+
+    Args:
+      file_path: path to the json file to read.
+
+    Returns:
+      Returns result from uproot's classnames().
+    """
     log.debug(f"getting list of objects inside ROOT file {file_path}.")
     try:
         rfile=uproot.open(file_path)
@@ -247,11 +264,11 @@ def get_list_of_objects_in_root_file(file_path:Union[str,os.PathLike]) -> Dict[s
         raise exc
 
 def string_list_available_objects_in_root_file(file_path:Union[str,os.PathLike]) -> List[str]:
-    #
-    # Get beautified list of objects and their class names inside ROOT file
-    # Resutls in ready to print list with 
-    # -> cycle number removed if only single one present
-    #
+    """
+    Get beautified list of objects and class names inside a ROOT file.
+    Results are in a ready to print list with
+    cycle number removed if only one present.
+    """
     result:List[str]=[]
     av_items=get_list_of_objects_in_root_file(file_path) # type: ignore 
     av_item_names_no_cycle=[name.split(';')[0] for name in av_items]
@@ -267,12 +284,13 @@ def string_list_available_objects_in_root_file(file_path:Union[str,os.PathLike])
 @functools.lru_cache(maxsize=128)
 def get_object_class(file_path:Union[str,os.PathLike],
                      root_object_path:str)-> str:
-    #
-    # Get class name of the object in the ROOT file
-    # Input variables:
-    #   -> file_path -- path to the ROOT file
-    #   -> root_object_path -- name of the object
-    #
+    """
+    Get class name of the object in the ROOT file
+
+    Args:
+      file_path: path to the ROOT file
+      root_object_path: name of the object
+    """
     object_to_be_loaded=uproot.open(file_path).get(root_object_path)
     if(not object_to_be_loaded):
         Error_messages=[f"Cannot find object '{root_object_path}' inside '{file_path}'. Check this file."]+string_list_available_objects_in_root_file(file_path)
@@ -282,20 +300,24 @@ def get_object_class(file_path:Union[str,os.PathLike],
 
 def get_array_from_root(object_path:str,
                         decode:str)->np.ndarray:
-    #
-    # Obtain a data array from an object inside ROOT file
-    #   using hepdata_lib.RootFileReader
-    # Input variables:
-    #   -> object_path -- path to the ROOT file & path to the object to read (separated by ':'), e.g.:
-    #                              object_path="my_root_file.root:histogram_I_want_to_read"
-    #   -> decod       -- name of the data to be read from the file, this could be:
-    #                         for TH1F: 'x'(bin_centers), 'x_edges'((low,high) bin values), 'y' (values), 'dy' (value errors)
-    #                             TH2F: 'x'/'y' (bin_centers), 'x_edges'/'y_edges' ((low,high) bin values), 'z' (values), 'dy' (value errors)
-    #                             TGraph: 'x' (x-values), 'y' (y-values)
-    #                             RooHist: same as TGraph
-    #                             TGraphErrors/TGraphAssymetricErrors: 'x'/'y' (x/y-values), 'dx'/'dy' (errors on x/y-values when appropriate)
-    #      for more details please see https://github.com/HEPData/hepdata_lib/blob/master/examples/reading_histograms.ipynb
-    #
+    """
+    Obtain a data array from an object inside ROOT file
+    using hepdata_lib.RootFileReader
+
+    Args:
+      object_path: path to the ROOT file & path to the object to read (separated by ':'), e.g.:
+        ``object_path="my_root_file.root:histogram_I_want_to_read"``
+
+      decode: name of the data to be read from the file, this could be:
+
+        - for TH1F: ``x`` (bin_centers), ``x_edges`` ((low,high) bin values), ``y`` (values), ``dy`` (value errors)
+        - TH2F: ``x``/``y`` (bin_centers), ``x_edges``/``y_edges`` ((low,high) bin values), ``z`` (values), ``dy`` (value errors)
+        - TGraph: ``x`` (x-values), ``y`` (y-values)
+        - RooHist: same as TGraph
+        - TGraphErrors/TGraphAssymetricErrors: ``x``/``y`` (x/y-values), ``dx``/``dy`` (errors on x/y-values when appropriate)
+
+        See https://github.com/HEPData/hepdata_lib/blob/master/examples/reading_histograms.ipynb for more details.
+    """
     log.debug("--------- root file read -------------")
     log.debug(f"Reading variable information from root file {object_path}")
     log.debug(f"decode used: '{decode}'")
@@ -359,31 +381,31 @@ def get_array_from_tex(file_path:Union[str,os.PathLike],
                        decode:str,
                        tabular_loc_decode:str,
                        replace_dict:Dict[str,str]={})->np.ndarray:
-    #
-    # Obtain a data array from a tabular envirnoment inside a .tex file
-    #   using using TexSoup
-    # Multicolumn and multirow comamnds are accepted 
-    # 
-    # Input variables:
-    #   -> file_path -- path to the tex file to be read
-    #
-    #   -> decode             -- a transformation on a 2D numpy variable 'table' that
-    #                                is made from the specified tex-tabular table.
-    #                            One can use numpy(loaded as 'np'), re, scipy.ststs, scipy.special
-    #                                and functions inside useful_functions.py (loaded as 'ufs')
-    #
-    #   -> tabular_loc_decode -- This variable should point to the tabular environment one desires to read.
-    #                            It should use function of TexSoup (https://texsoup.alvinwan.com/)
-    #                                object made from readting the 'file_path' file.
-    #                            The object can be access by name 'latex'.
-    #
-    #                            In most cases something along this line is sufficient:
-    #                               "tabular_loc_decode":"latex.find_all(['tabular*','tabular'])[0]".
-    #
-    #   -> replace_dict       -- a string with json-style dictionary used for replacing symbols inside the table.
-    #                            Internally re.sub(key,value,text) is executed on all key, value pairs
-    #                                                           (see also https://docs.python.org/3/library/re.html)
-    #
+    """
+    Obtain a data array from a tabular envirnoment inside a .tex file
+    using using TexSoup
+    Multicolumn and multirow comamnds are accepted.
+
+    Args:
+      file_path: path to the tex file to be read
+
+      decode: a transformation on a 2D numpy variable 'table' that
+        is made from the specified tex-tabular table.
+        One can use numpy (loaded as ``np``), ``re``, ``scipy.stats``, ``scipy.special``
+        and functions inside useful_functions.py (loaded as ``ufs``)
+
+      tabular_loc_decode: This variable should point to the tabular environment one desires to read.
+        It should use function of TexSoup (https://texsoup.alvinwan.com/)
+        object made from readting the 'file_path' file.
+        The object can be access by name 'latex'.
+
+        In most cases something along this line is sufficient:
+          ``"tabular_loc_decode":"latex.find_all(['tabular*','tabular'])[0]"``.
+
+      replace_dict: a string with json-style dictionary used for replacing symbols inside the table.
+        Internally re.sub(key,value,text) is executed on all key, value pairs
+        (see also https://docs.python.org/3/library/re.html).
+    """
     log.debug("--------- tex file read -------------")
     log.debug(f"Reading variable information from tex file {file_path}")
     log.debug(f"decode used: '{decode}'")
@@ -400,7 +422,7 @@ def get_array_from_tex(file_path:Union[str,os.PathLike],
     ## Trying to get a data column from the table
     # First we define message for user if we fail. 
     decode_clarification=f"""It defines a transformation on a 2D numpy variable 'table' that is made from the specified tex-tabular table.
-    One can use numpy(loaded as 'np'), re, scipy.ststs, scipy.special and functions inside useful_functions.py (loaded as 'ufs')
+    One can use numpy (loaded as 'np'), re, scipy.ststs, scipy.special and functions inside useful_functions.py (loaded as 'ufs')
 
     For reference, 'table' (you should use in your 'decode') contains following information:
     {table}
@@ -421,27 +443,34 @@ def get_array_from_tex(file_path:Union[str,os.PathLike],
 def get_table_from_tex(file_path:Union[str,os.PathLike],
                        tabular_loc_decode:str,
                        replace_dict:Dict[str,str]={})->np.ndarray:
-    #
-    # Obtain 2-D numpy.ndarray representing information stored
-    #    in a tabular envirnoment inside a .tex file.
-    # Multirow and multicolumn commands are accepted
-    #
-    # Input variables:
-    #   -> file_path -- path to the tex file to be read
-    #
-    #   -> tabular_loc_decode -- This variable should point to the tabular environment one desires to read.
-    #                            It should use function of TexSoup (https://texsoup.alvinwan.com/)
-    #                                object made from readting the 'file_path' file.
-    #                            The object can be access by name 'latex'.
-    #
-    #                            In most cases something along this line is sufficient:
-    #                               "tabular_loc_decode":"latex.find_all(['tabular*','tabular'])[0]".
-    #
-    #   -> replace_dict       -- a string with json-style dictionary used for replacing symbols inside the table.
-    #                            Internally re.sub(key,value,text) is executed on all key, value pairs.
-    #                            One use-case is replacing custom tags, e.g. '\GeV' with 'GeV'. 
-    #                                                           (see also https://docs.python.org/3/library/re.html)
-    #
+    r"""
+    Obtain 2-D numpy.ndarray representing information stored
+    in a tabular envirnoment inside a .tex file.
+    Multirow and multicolumn commands are accepted
+
+    Args:
+      file_path: path to the tex file to be read
+
+      tabular_loc_decode: This variable should point to the tabular environment one desires to read.
+        It should use function of TexSoup (https://texsoup.alvinwan.com/)
+        object made from readting the 'file_path' file.
+        The object can be access by name 'latex'.
+
+        In most cases something along this line is sufficient:
+          ``"tabular_loc_decode":"latex.find_all(['tabular*','tabular'])[0]"``.
+
+      replace_dict: a string with json-style dictionary used for replacing symbols inside the table.
+        Internally re.sub(key,value,text) is executed on all key, value pairs.
+
+        Example:
+          Replacing custom tags, e.g. '\\GeV' with 'GeV':
+            ``"{'\\\\GeV':'GeV'}"`` (mind the 4-backslashes)
+
+          See https://docs.python.org/3/library/re.html
+          for regex patterns allowed and
+          https://docs.python.org/3/howto/regex.html#the-backslash-plague
+          for the need of multiple backslashes.
+    """
 
     # First load .tex file
     soup=open_data_file(file_path,"tex")# type: ignore 
@@ -499,28 +528,36 @@ def get_table_from_tex(file_path:Union[str,os.PathLike],
 def read_data_file(file_path:str,
                    decode:str,
                    **extra_args:Any)->np.ndarray:
-    #
-    # Get a column of data (1-D numpy array) from a file
-    #
-    # Input variables:
-    #   -> file_path          -- path to file to be read (types accepted:['json', 'yaml', 'root', 'csv', 'tex'])
-    #
-    #   -> decode             -- string selecting information from the input file.
-    #                            Required syntax depends on the type of the file read.
-    #                            See specific 'get_array_from_[file_type]' functions for details
-    #
-    #   -> extra_args         -- extra arguments, which are:
-    #
-    #        '-> file_type    -- string specifying type of the file to be load.
-    #                               Required only if file type cannot be guessed from file extention.
-    #
-    #        '-> delimiter          -- 'optional' for csv file; specifies delimiter if  csv file read
-    #                                         (see )
-    #
-    #        '-> tabular_loc_decode -- 'required' if tex file is read (see 'get_array_from_tex' for more details)
-    #
-    #        '-> replace_dict       --  'optional' if tex file is read (see 'get_array_from_tex' for more details)
-    #
+    """
+    Get a column of data (1-D numpy array) from a file.
+
+    Args:
+      file_path: path to file to be read (types accepted:['json', 'yaml', 'root', 'csv', 'tex'])
+
+      decode: string selecting information from the input file.
+        Required syntax depends on the type of the file read.
+        See specific 'get_array_from_[file_type]' functions for details:
+
+
+          - :py:func:`hepdata_maker.variable_loading.get_array_from_root`
+          - :py:func:`hepdata_maker.variable_loading.get_array_from_json`
+          - :py:func:`hepdata_maker.variable_loading.get_array_from_yaml`
+          - :py:func:`hepdata_maker.variable_loading.get_array_from_csv`
+          - :py:func:`hepdata_maker.variable_loading.get_array_from_tex`
+
+
+      extra_args: extra arguments, which are:
+
+        - file_type: string specifying type of the file to be load.
+          Required only if file type cannot be guessed from file extention.
+
+        - delimiter: 'optional' for csv file; specifies delimiter if  csv file read
+          (see https://docs.python.org/3/library/csv.html)
+
+        - tabular_loc_decode: 'required' if tex file is read (see 'get_array_from_tex' for more details)
+
+        - replace_dict:  'optional' if tex file is read (see 'get_array_from_tex' for more details)
+    """
     tmp_values=None
     if(not os.path.isfile(file_path.split(":")[0])): # split is for ROOT files
         raise ValueError(f"Could not find data file '{file_path}'. Please check the path provided.")
@@ -561,11 +598,10 @@ def get_variable_steering_snipped(in_file:Union[str,os.PathLike],
                                   data_type:str,
                                   transformations:List[str],
                                   **extra_args:Any)-> Dict[str,Any]:
-    #
-    # Get a snipped of steering file for variable using provided information
-    # This is used to provide user with an easy to use and 'minimal' insertion
-    # ( and it is a simplified version of variable-snipped with only one in_file and no errors)
-    #
+    """
+    Get a snipped of steering file for variable using provided information
+    This is used to provide user with an easy to use and 'minimal' insertion.
+    """
     delimiter=extra_args.get('delimiter',None)
     replace_dict=extra_args.get('replace_dict',{})
     tabular_loc_decode=extra_args.get('tabular_loc_decode',None)
