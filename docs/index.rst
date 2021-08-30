@@ -10,7 +10,9 @@ Welcome to hepdata_maker's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   usage
+   motivation
+   getting_started
+   reading_data_files
    cli
    api
 
