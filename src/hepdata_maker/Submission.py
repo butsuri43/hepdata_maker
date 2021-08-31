@@ -1111,7 +1111,7 @@ class Submission():
             self.create_table_of_content()
 
         for resource in self.resources:
-            hepdata_submission.add_additional_resource(resource.description,resource.location,resource.copy_file)
+            hepdata_submission.add_additional_resource(resource.description,utils.resolve_file_name(resource.location,data_root),resource.copy_file)
         for table in self.tables:
             table_name=get_name(table,use_fancy_names)
 
