@@ -215,7 +215,8 @@ def test_load_table_config_selected_table_names(datadir,sub_ex1):
     sub_ex1._config['tables'].append(copy.copy(sub_ex1._config['tables'][0]))
     sub_ex1._config['tables'][1]['name']='table2_name'
     print(sub_ex1._config)
-    sub_ex1.load_table_config(selected_table_names=['table2_name'])
+    sub_ex1.load_table_config(selected_table_names=[('table2_name',True)])
+    print([x.name for x in sub_ex1.tables])
     assert len(sub_ex1.tables)==1
     assert sub_ex1.tables[0].name=='table2_name'
 
@@ -226,6 +227,10 @@ def test_load_table_config_double_load(datadir,sub_ex1,caplog):
         sub_ex1.load_table_config() # loading of the same file should raise an error
     assert "You have already loaded information from a(nother?) steering file" in caplog.text
 
+def test_load_table_config_double_load_v2(datadir,sub_ex1,caplog):
+    sub_ex1.read_table_config(datadir.join("basic_example.json"))
+    sub_ex1.load_table_config()
+    print(sub_ex1._config['tables'])
     # Not a normal usecasel, but 
     # should be fine with other table name
     sub_ex1._config['tables'][0]['name']='table2_name'

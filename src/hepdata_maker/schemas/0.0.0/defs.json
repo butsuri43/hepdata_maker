@@ -122,6 +122,7 @@
 		    "type":"string"
 		}
 	    },
+	    "required": ["name"],
 	    "additionalProperties":false
 	},
 	"variable":{
@@ -157,6 +158,10 @@
 		    "description":"list of input files defining the variable",
 		    "type":"array",
 		    "items":{"$ref": "#/definitions/in_file_info"}
+		},
+		"digits":{
+		    "description":"specify how many digits should be displayed",
+		    "type":"number"
 		},
 		"data_type":{
 		    "description":"specify how should the variable be treated",
@@ -204,6 +209,7 @@
 		    "items":{"$ref": "#/definitions/error"}
 		}	
 	    },
+	    "required": ["name"],
 	    "additionalProperties":false
 	},
 	"variable_additional_info":{

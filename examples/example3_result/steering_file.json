@@ -1,0 +1,9 @@
+{
+    "type": "steering",
+    "generate_table_of_content": true,
+    "tables": [
+        {
+            "$ref": "example3/exclusion_example_steering.json"
+        }
+    ]
+}
