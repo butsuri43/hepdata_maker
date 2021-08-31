@@ -1,0 +1,9 @@
+{
+    "name": "VAR",
+    "in_files": [
+        {
+            "name": "example4/acc_example.json",
+            "decode": ".['SRATT'] | keys_unsorted[] | split('_')[0]"
+        }
+    ]
+}

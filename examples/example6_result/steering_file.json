@@ -1,0 +1,50 @@
+{
+    "type": "steering",
+    "tables": [
+        {
+            "name": "cutflow_towards_SRATW",
+            "title": "In this example we demonstrate how to correctly decode tex files. The input tex-file taken from auxiliary tables 01 & 02 of <a href=https://atlas.web.cern.ch/Atlas/GROUPS/PHYSICS/PAPERS/SUSY-2018-12>SUSY-2018-12</a>.",
+            "location": "data from figure cutflow_table_1.pdf",
+            "images": [
+                {
+                    "name": "example6/cutflow_table_1.pdf"
+                }
+            ],
+	    "variables":[
+		{
+		    "name":"cuts",
+		    "is_independent":true,
+		    "in_files": [
+			{
+			    "name": "example6/cutflow_example.tex",
+			    "decode": "table[1:,0]",
+			    "tabular_loc_decode": "latex.find_all(['tabular*','tabular'])[1]"
+			}
+		    ]
+		},
+		{
+		    "name":"unweighted_events",
+		    "is_independent":false,
+		    "in_files": [
+			{
+			    "name": "example6/cutflow_example.tex",
+			    "decode": "table[1:,1]",
+			    "tabular_loc_decode": "latex.find_all(['tabular*','tabular'])[1]"
+			}
+		    ]
+		},
+		{
+		    "name":"weighted_events",
+		    "is_independent":false,
+		    "in_files": [
+			{
+			    "name": "example6/cutflow_example.tex",
+			    "decode": "table[1:,2]",
+			    "tabular_loc_decode": "latex.find_all(['tabular*','tabular'])[1]"
+			}
+		    ]
+		}
+	    ]
+        }
+    ]
+}
