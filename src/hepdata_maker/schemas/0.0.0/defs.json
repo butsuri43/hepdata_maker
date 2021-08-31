@@ -159,6 +159,10 @@
 		    "type":"array",
 		    "items":{"$ref": "#/definitions/in_file_info"}
 		},
+		"digits":{
+		    "description":"specify how many digits should be displayed",
+		    "type":"number"
+		},
 		"data_type":{
 		    "description":"specify how should the variable be treated",
 		    "type":"string"

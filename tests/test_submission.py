@@ -215,7 +215,8 @@ def test_load_table_config_selected_table_names(datadir,sub_ex1):
     sub_ex1._config['tables'].append(copy.copy(sub_ex1._config['tables'][0]))
     sub_ex1._config['tables'][1]['name']='table2_name'
     print(sub_ex1._config)
-    sub_ex1.load_table_config(selected_table_names=['table2_name'])
+    sub_ex1.load_table_config(selected_table_names=[('table2_name',True)])
+    print([x.name for x in sub_ex1.tables])
     assert len(sub_ex1.tables)==1
     assert sub_ex1.tables[0].name=='table2_name'
 

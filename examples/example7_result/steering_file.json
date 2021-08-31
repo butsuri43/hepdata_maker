@@ -1,0 +1,48 @@
+{
+    "type": "steering",
+    "tables": [
+        {
+            "name": "obs_upper_limits_SRATT",
+            "title": "In this example we demonstrate how to correctly decode csv files.",
+            "location": "data from figure upper_limit_example_SRATT.pdf",
+            "images": [
+                {
+                    "name": "example7/upper_limit_example_SRATT.pdf"
+                }
+            ],
+	    "variables":[
+		{
+		    "name":"mt",
+		    "is_independent":true,
+		    "in_files": [
+			{
+			    "name": "example7/upper_limit_example_SRATT.csv",
+			    "decode": "mt"
+			}
+		    ]
+		},
+		{
+		    "name":"mn",
+		    "is_independent":true,
+		    "in_files": [
+			{
+			    "name": "example7/upper_limit_example_SRATT.csv",
+			    "decode": "mn"
+			}
+		    ]
+		},
+		{
+		    "name":"UL_obs",
+		    "is_independent":false,
+		    "units":"pb",
+		    "in_files": [
+			{
+			    "name": "example7/upper_limit_example_SRATT.csv",
+			    "decode": "UL_obs"
+			}
+		    ]
+		}
+	    ]
+        }
+    ]
+}
