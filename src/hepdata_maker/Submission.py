@@ -20,7 +20,7 @@ import rich.tree
 import validators  # type: ignore
 import jq          # type: ignore
 import time
-from typing import Optional,Any,List,Dict,TypeVar, Type, Literal,Union
+from typing import Optional,Any,List,Dict,TypeVar, Type, Literal,Union,Tuple
 
 def is_name_correct(name:str)->bool:
     """
@@ -1055,7 +1055,7 @@ class Submission():
         
     def load_table_config(self,
                           data_root: str='./',
-                          selected_table_names:List[str]=[])->None:
+                          selected_table_names:List[Tuple[str,bool]]=[])->None:
         """
         Function to populate information in Submission from
         already read steering file (see also 'read_table_config').
@@ -1085,7 +1085,7 @@ class Submission():
                 if(not should_be_processed):
                     log.warning(rf"table {table_name} has 'should_be_processed' flag set to False. Skipping.")
                     continue
-                if(len(selected_table_names)>0 and (table_name not in selected_table_names)):
+                if(len(selected_table_names)>0 and (table_name not in [pair[0] for pair in selected_table_names])):
                     log.debug(f"skipping loading table {table_name} as not present in selected_table_names: {selected_table_names}")
                     continue
                 console.rule(f"table {table_name}")
@@ -1132,6 +1132,7 @@ class Submission():
                     log.debug(f"Adding variable to table {table_name}; name(var)={variable_name}, is_independent={variable.is_independent},is_binned={variable.is_binned},units={variable.units},values={variable.tolist()}")
                     hepdata_variable=hepdata_lib.Variable(variable_name, is_independent=variable.is_independent, is_binned=variable.is_binned, units=variable.units)
                     hepdata_variable.values=variable.tolist()
+                    hepdata_variable.digits=variable.digits
                     #
                     #HACK: Mind fixed_zero_variable is list of ndarray instead of Uncertenties/Variable... need to be fixed (TODO)
                     #
@@ -1143,6 +1144,7 @@ class Submission():
                             unc_name=get_name(unc,use_fancy_names)
                             hepdata_unc = hepdata_lib.Uncertainty(None if unc_name=='' else unc_name, is_symmetric=unc.is_symmetric)
                             hepdata_unc.values=fixed_zero_variable[index].tolist()
+                            #hepdata_unc.digits=unc.digits -- not supported by hepdata_lib
                             hepdata_variable.add_uncertainty(hepdata_unc)
                     if(len(variable.qualifiers)!=0):
                         for qualifier in variable.qualifiers:

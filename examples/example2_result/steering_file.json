@@ -1,0 +1,38 @@
+{
+    "type": "steering",
+    "generate_table_of_content": true,
+    "tables": [
+        {
+            "name": "exclusion_example",
+            "title": "example2/exclusion_example.txt",
+            "location": "data from figure exclusion_example",
+            "images": [
+                {
+                    "name": "example2/exclusion_example.pdf"
+                }
+            ],
+            "variables": [
+                {
+                    "name": "variable_x",
+                    "in_files": [
+                        {
+                            "name": "example2/exclusion_example.root:Obs;1",
+                            "decode": "x"
+                        }
+                    ],
+                    "is_independent": true
+                },
+                {
+                    "name": "variable_y",
+                    "in_files": [
+                        {
+                            "name": "example2/exclusion_example.root:Obs;1",
+                            "decode": "y"
+                        }
+                    ],
+                    "is_independent": false
+                }
+            ]
+        }
+    ]
+}
