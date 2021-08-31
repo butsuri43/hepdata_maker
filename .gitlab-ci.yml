@@ -82,7 +82,7 @@ example2_record_upload:
   image: python:latest
   script:
    - pip3 install hepdata_cli
-   - hepdata-cli upload submission_example2.tar.gz -e "$SECRET_EMAIL_HEPDATA" -r 1630351529 -s True -p "$SECRET_PASSWORD_HEPDATA"
+   - hepdata-cli upload submission_example2.tar.gz -e "$SECRET_EMAIL_HEPDATA" -r 1630354586 -s True -p "$SECRET_PASSWORD_HEPDATA"
   dependencies:
     - example2_record_creation
   only:
@@ -97,7 +97,8 @@ example3_record_creation:
   script:
    - echo "Example3"
    - tar -zxvf 	examples/example3.tar.gz
-   - hepdata_maker create-submission examples/example3_result/steering_file.json
+   - ln create-submission examples/example3_result/steering_file.json .
+   - hepdata_maker create-submission steering_file.json
    - mv submission.tar.gz submission_example3.tar.gz
   artifacts:
     paths:
@@ -109,7 +110,7 @@ example3_record_upload:
   image: python:latest
   script:
    - pip3 install hepdata_cli
-   - hepdata-cli upload submission_example3.tar.gz -e "$SECRET_EMAIL_HEPDATA" -r 1630351529 -s True -p "$SECRET_PASSWORD_HEPDATA"
+   - hepdata-cli upload submission_example3.tar.gz -e "$SECRET_EMAIL_HEPDATA" -r 1630357014 -s True -p "$SECRET_PASSWORD_HEPDATA"
   dependencies:
     - example3_record_creation
   only:
@@ -136,7 +137,7 @@ example4_record_upload:
   image: python:latest
   script:
    - pip3 install hepdata_cli
-   - hepdata-cli upload submission_example4.tar.gz -e "$SECRET_EMAIL_HEPDATA" -r 1630351529 -s True -p "$SECRET_PASSWORD_HEPDATA"
+   - hepdata-cli upload submission_example4.tar.gz -e "$SECRET_EMAIL_HEPDATA" -r 1630362142 -s True -p "$SECRET_PASSWORD_HEPDATA"
   dependencies:
     - example4_record_creation
   only:
@@ -163,7 +164,7 @@ example5_record_upload:
   image: python:latest
   script:
    - pip3 install hepdata_cli
-   - hepdata-cli upload submission_example5.tar.gz -e "$SECRET_EMAIL_HEPDATA" -r 1630351529 -s True -p "$SECRET_PASSWORD_HEPDATA"
+   - hepdata-cli upload submission_example5.tar.gz -e "$SECRET_EMAIL_HEPDATA" -r 1630363616 -s True -p "$SECRET_PASSWORD_HEPDATA"
   dependencies:
     - example5_record_creation
   only:
@@ -190,7 +191,7 @@ example6_record_upload:
   image: python:latest
   script:
    - pip3 install hepdata_cli
-   - hepdata-cli upload submission_example6.tar.gz -e "$SECRET_EMAIL_HEPDATA" -r 1630351529 -s True -p "$SECRET_PASSWORD_HEPDATA"
+   - hepdata-cli upload submission_example6.tar.gz -e "$SECRET_EMAIL_HEPDATA" -r 1630365204 -s True -p "$SECRET_PASSWORD_HEPDATA"
   dependencies:
     - example6_record_creation
   only:
@@ -217,7 +218,7 @@ example7_record_upload:
   image: python:latest
   script:
    - pip3 install hepdata_cli
-   - hepdata-cli upload submission_example7.tar.gz -e "$SECRET_EMAIL_HEPDATA" -r 1630351529 -s True -p "$SECRET_PASSWORD_HEPDATA"
+   - hepdata-cli upload submission_example7.tar.gz -e "$SECRET_EMAIL_HEPDATA" -r 1630367107 -s True -p "$SECRET_PASSWORD_HEPDATA"
   dependencies:
     - example7_record_creation
   only:
@@ -232,7 +233,7 @@ example8_record_creation:
   script:
    - echo "Example8"
    - tar -zxvf 	examples/example8.tar.gz
-   - hepdata_maker create-submission example8/main_steering_file.json --data-root example8/
+   - hepdata_maker create-submission example8/main_steering_file.json --data-root example8/ --data-root example8/
    - mv submission.tar.gz submission_example8.tar.gz
   artifacts:
     paths:
@@ -244,7 +245,7 @@ example8_record_upload:
   image: python:latest
   script:
    - pip3 install hepdata_cli
-   - hepdata-cli upload submission_example8.tar.gz -e "$SECRET_EMAIL_HEPDATA" -r 1630351529 -s True -p "$SECRET_PASSWORD_HEPDATA"
+   - hepdata-cli upload submission_example8.tar.gz -e "$SECRET_EMAIL_HEPDATA" -r 1630400334 -s True -p "$SECRET_PASSWORD_HEPDATA"
   dependencies:
     - example8_record_creation
   only:

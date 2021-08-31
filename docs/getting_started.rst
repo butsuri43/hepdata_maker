@@ -486,4 +486,4 @@ After creating submission files:
 
     hepdata_maker create-submission main_steering_file.json
 		
-uploaded results looks like this: `this example8 record <https://www.hepdata.net/record/sandbox/1630367107>`_.
+uploaded results looks like this: `this example8 record <https://www.hepdata.net/record/sandbox/1630400334>`_.
