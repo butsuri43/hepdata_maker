@@ -1,0 +1,47 @@
+{
+    "type": "steering",
+    "tables": [
+        {
+            "name": "acceptance_example_SRATT",
+            "title": "In this example we demonstrate how to find correct decoding string for json files.",
+            "location": "data from figure acceptance_example_SRATT",
+            "images": [
+                {
+                    "name": "example4/acceptance_example_SRATT.pdf"
+                }
+            ],
+	    "variables":[
+		{
+		    "name":"mt",
+		    "is_independent":true,
+		    "in_files": [
+			{
+			    "name": "example4/acc_example.json",
+			    "decode": ".['SRATT'] | keys_unsorted[] | split('_')[0]"
+			}
+		    ]
+		},
+		{
+		    "name":"mn",
+		    "is_independent":true,
+		    "in_files": [
+			{
+			    "name": "example4/acc_example.json",
+			    "decode": ".['SRATT'] | keys_unsorted[] | split('_')[1]"
+			}
+		    ]
+		},
+		{
+		    "name":"acc",
+		    "is_independent":false,
+		    "in_files": [
+			{
+			    "name": "example4/acc_example.json",
+			    "decode": ".['SRATT'][]"
+			}
+		    ]
+		}
+	    ]
+        }
+    ]
+}

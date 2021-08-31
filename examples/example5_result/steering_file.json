@@ -1,0 +1,47 @@
+{
+    "type": "steering",
+    "tables": [
+        {
+            "name": "efficiency_example_SRATW",
+            "title": "In this example we demonstrate how to find correct decoding string for yaml files.",
+            "location": "data from figure efficiency_example_SRATW",
+            "images": [
+                {
+                    "name": "example5/efficiency_example_SRATW.pdf"
+                }
+            ],
+	    "variables":[
+		{
+		    "name":"mt",
+		    "is_independent":true,
+		    "in_files": [
+			{
+			    "name": "example5/eff_example.yaml",
+			    "decode": ".['SRATW'] | keys_unsorted[] | split('_')[0]"
+			}
+		    ]
+		},
+		{
+		    "name":"mn",
+		    "is_independent":true,
+		    "in_files": [
+			{
+			    "name": "example5/eff_example.yaml",
+			    "decode": ".['SRATW'] | keys_unsorted[] | split('_')[1]"
+			}
+		    ]
+		},
+		{
+		    "name":"eff",
+		    "is_independent":false,
+		    "in_files": [
+			{
+			    "name": "example5/eff_example.yaml",
+			    "decode": ".['SRATW'][]"
+			}
+		    ]
+		}
+	    ]
+        }
+    ]
+}
