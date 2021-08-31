@@ -1,0 +1,67 @@
+name: Update HEPData sandbox examples
+
+on:
+  push:
+    branches: [ ]
+  pull_request:
+    branches: [ master ]
+
+jobs:      
+  check_and_publish:
+    runs-on: ubuntu-latest
+    container: butsuri43/hepdata_submission_docker
+    strategy:
+      matrix:
+        include:
+         - EXAMPLE_NAME: 'example1'
+           EXAMPLE_ID: '1630351529' 
+         - EXAMPLE_NAME: 'example2'
+           EXAMPLE_ID: '1630354586' 
+         - EXAMPLE_NAME: 'example3'
+           EXAMPLE_ID: '1630357014' 
+         - EXAMPLE_NAME: 'example4'
+           EXAMPLE_ID: '1630362142' 
+         - EXAMPLE_NAME: 'example5'
+           EXAMPLE_ID: '1630363616' 
+         - EXAMPLE_NAME: 'example6'
+           EXAMPLE_ID: '1630365204' 
+         - EXAMPLE_NAME: 'example7'
+           EXAMPLE_ID: '1630367107' 
+         - EXAMPLE_NAME: 'example8'
+           EXAMPLE_ID: '1630400334' 
+        
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Install hepdata_maker
+        run: |
+          echo Pip-installing hepdata_maker
+          pip3 install --upgrade --editable .
+
+      - name: Run a example submission making
+        if: ${{ matrix.EXAMPLE_NAME != 'example8' }}
+        run: |
+          echo ${{ matrix.EXAMPLE_NAME }}
+          tar -zxvf 	examples/${{matrix.EXAMPLE_NAME}}.tar.gz
+          cp examples/${{matrix.EXAMPLE_NAME}}_result/steering_file.json .
+          hepdata_maker create-submission steering_file.json
+      
+      - name: Run a example8 submission making
+        # Example 8 is not really compatible with other ones
+        if: ${{matrix.EXAMPLE_NAME == 'example8' }}
+        run: |
+          echo "example8"
+          tar -zxvf 	examples/example8.tar.gz
+          hepdata_maker create-submission example8/main_steering_file.json --data-root example8/
+      
+      # check that all usecases described in the example actually run...
+      - name: Run more sophisticated checks 
+        run: echo 'to do'
+       
+      - name: publish example
+        # only if in master properly
+        if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+        run: |
+          pip3 install hepdata_cli
+          hepdata-cli upload submission.tar.gz -e "${{ secrets.EMAIL_HEPDATA }}" -r ${{matrix.EXAMPLE_ID}} -s True -p "${{ secrets.PASSWORD_HEPDATA }}"
+        

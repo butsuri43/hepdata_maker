@@ -1,0 +1,23 @@
+name: Performs basic test on repository
+
+on:
+  schedule:
+    - cron: '16 6 * * *'
+  push:
+    branches: [ '*' ]
+    # Publish semver tags as releases.
+    tags: [ 'v*.*.*' ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  unit_test:
+  
+    container: butsuri43/hepdata_submission_docker
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: echo "Pip-installing hepdata_submission_maker"
+      - run: pip3 install --upgrade --editable .
+      - run: echo "Running unit tests!"
+      - run: pytest -r sx --ignore tests/full_workflow/
