@@ -1,5 +1,7 @@
 import click
 from .Submission import Submission,rich_highlight_dict_objects,decode_variable_from_hepdata,perform_transformation
+from .Submission import Variable
+from .Submission import Table
 from .logs import logging
 from .console import console
 from . import utils
@@ -18,7 +20,8 @@ import re
 import scipy.stats, scipy.special  # type: ignore
 import json
 import jsonref # type: ignore
-from typing import List,Optional,Dict,Any
+import os.path
+from typing import List,Optional,Dict,Any,Tuple
 
 ## hepdata_maker
 @click.group(context_settings=dict(help_option_names=['-h', '--help']))
@@ -93,7 +96,7 @@ def check_schema(steering_file):
     console.rule("checking_schema",characters="=")
     console.print(f"Checking schema of {steering_file}.")
     with open(steering_file, 'r') as fstream:
-        print("file://"+os.path.abspath(os.path.dirname(steering_file)),steering_file)
+        log.debug("file://"+os.path.abspath(os.path.dirname(steering_file)),steering_file)
         json_data = jsonref.load(fstream,base_uri="file://"+os.path.abspath(os.path.dirname(steering_file))+"/")
     utils.check_schema(json_data,'steering_file.json')
     console.print(f"    All ok!    ")
@@ -102,7 +105,7 @@ def check_schema(steering_file):
 def submission_for_selected_tables(steering_file:str,
                                    data_root:str,
                                    load_all_tables:bool,
-                                   requested_tables:List[str])->Submission:
+                                   requested_tables:List[Tuple[str,bool]])->Submission:
     """
     Create Submission object from STEERING_FILE loading all or only selected tables.
     """
@@ -163,8 +166,9 @@ def check_table(steering_file,data_root,load_all_tables,indices,names):
     requested_tables=utils.get_requested_table_list(steering_file,load_all_tables,indices,names)
     submission=submission_for_selected_tables(steering_file,data_root,load_all_tables,requested_tables)
     console.print(f"Printing requested tables:")
+    print(requested_tables,submission.tables)
     for table in submission.tables:
-        if(any(table.name==name for name in requested_tables)):
+        if(any(table.name==name and should_process for name,should_process in requested_tables)):
             console.rule(f"[bold]{table.name}")
             console.print("title:",rich.panel.Panel(table.title,expand=False))
             console.print("location:",rich.panel.Panel(table.location,expand=False))
@@ -175,15 +179,16 @@ def check_table(steering_file,data_root,load_all_tables,indices,names):
                 for val in vals:
                     tmp_key_table.add_row(val)
                 keyword_tables.append(tmp_key_table)
+            if(len(keyword_tables)>0):
                 columns = rich.columns.Columns(keyword_tables, equal=True, expand=False)
-            console.print("keywords:",rich.panel.Panel(columns,expand=False))
+                console.print("keywords:",rich.panel.Panel(columns,expand=False))
             if(len(table.images)>0):
                 tmp_rich_table=rich.table.Table()
                 image_info_grid=tmp_rich_table.grid()
                 for image_info in table.images:
                     image_table=rich.table.Table(show_header=False,box=rich.box.SQUARE)
-                    image_table.add_row("name: "+image_info.name)
-                    image_table.add_row("label: "+image_info.label)
+                    image_table.add_row("name: "+image_info.get('name',None))
+                    image_table.add_row("label: "+image_info.get('label',''))
                     image_info_grid.add_row(image_table)
                 console.print("images:",rich.panel.Panel(image_info_grid,expand=False))
             rich_table=rich.table.Table()
@@ -221,7 +226,7 @@ def check_table(steering_file,data_root,load_all_tables,indices,names):
                                 all_unc_grids.append(str(unc[index]))
                     var_table.add_row(str(var[index]),*all_unc_grids)
                 variable_tables.append(var_table)
-                rich_table.add_row(*variable_tables)
+            rich_table.add_row(*variable_tables)
             console.print("visible values:",rich_table)
 
 ## hepdata_maker check_variable
@@ -515,11 +520,7 @@ def hepdata_to_steering_file(output,directory,force):
     """
     console.rule("converting hepdata submission files to hepdata_maker steering file",characters="=")
     import glob
-    import os.path
-    import yaml # type: ignore
     from .Submission import is_name_correct
-    from .Submission import Variable
-    from .Submission import Table
     from . import checks
     import time
     
@@ -636,8 +637,6 @@ def create_steering_file(output,directory,only_steering_files,force):
     import glob
     import os.path
     from hepdata_lib import RootFileReader # type: ignore
-    from .Submission import Variable
-    from .Submission import Table
     import csv
     from .Submission import is_name_correct
     from collections import OrderedDict
@@ -697,6 +696,10 @@ def create_steering_file(output,directory,only_steering_files,force):
         tab_name=f"{fig_name_core}"
         location=f"data from figure {fig_name_core}"
 
+        if("txt" in selected_associated_files):
+            log.debug(f"file {selected_associated_files['txt']} added as a title to table centered around figure {figure_path}")
+            title=selected_associated_files['txt'] # It is supported to have titles read directly from files
+
         tab_steering={
             "name":tab_name,
             "title":title,
@@ -715,9 +718,6 @@ def create_steering_file(output,directory,only_steering_files,force):
         tabular_loc_decode=None
         comments=[]
         variables=[]
-        if("txt" in selected_associated_files):
-            log.debug(f"file {selected_associated_files['txt']} added as a title to table centered around figure {figure_path}")
-            title=selected_associated_files['txt'] # It is supported to have titles read directly from files
         # mind, if we have more than one data_file(json/root/yaml/csv), only one will be selected, given by the following order:
 
         if("root" in selected_associated_files):
@@ -759,7 +759,7 @@ def create_steering_file(output,directory,only_steering_files,force):
             in_file=selected_associated_files["yaml"]
             variables.append({"in_file":in_file,"decode":"keys_unsorted","name":"keys","is_independent":True})
             variables.append({"in_file":in_file,"decode":".[keys_unsorted[]] | keys_unsorted","name":"keys_of_keys","is_binned":False,"is_independent":False})
-        elif("csv" in selected_associsated_files):
+        elif("csv" in selected_associated_files):
             in_file=selected_associated_files["csv"]
             try:
                 with open(in_file) as csvfile:
