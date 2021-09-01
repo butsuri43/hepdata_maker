@@ -8,7 +8,7 @@ To use `hepdata_maker`, first install it using pip (inside a virtual env?!):
 
 .. code-block:: console
 
-   pip3 install hepdata_maker
+   pip3 install hepdata-maker
 
 Apart from python libraries installed with pip `hepdata_maker` needs:
   - ROOT (with Python3.7+ support)
@@ -42,7 +42,7 @@ Running with docker
       (docker)$ python3 -m venv hepdata_env
       (docker)$ source hepdata_env/bin/activate
       # install hepdata_maker inside the virtual environment:
-      (hepdata_env)$ pip3 install hepdata_maker
+      (hepdata_env)$ pip3 install hepdata-maker
 
 3) You have now the code setup, run it, for example:
 
@@ -97,7 +97,7 @@ mind also that you should not place the cache in /afs or /eos as this will not b
       (singularity)$ python3 -m venv hepdata_env
       (singularity)$ source hepdata_env/bin/activate
       # install hepdata_maker inside the virtual environment:
-      (hepdata_env)$ pip3 install hepdata_maker
+      (hepdata_env)$ pip3 install hepdata-maker
 
 4) On singularity restart you can naturally reuse the environment created:
 

@@ -17,7 +17,7 @@ hepdata_maker attempts to fill the gaps left by other exisiting libraries, i.e. 
 
 In principle just:
 ```
-pip3 install hepdata_maker 
+pip3 install hepdata-maker
 ```
 
 but the package require ROOT and ImageMagick. See documentaion for various run options.
