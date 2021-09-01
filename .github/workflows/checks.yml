@@ -1,12 +1,15 @@
 # This is a basic workflow to help you get started with Actions
 
+
 name: basic_checks
 
 on:
+
   push:
     branches: [ ]
   pull_request:
     branches: [ master ]
+
 
 jobs:
   unit_tests:
