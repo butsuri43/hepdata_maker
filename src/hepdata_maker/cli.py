@@ -8,6 +8,7 @@ from . import utils
 from . import checks
 from . import variable_loading
 from . import useful_functions as ufs
+from . import __version__
 from .variable_loading import check_if_file_exists_and_readable
 from .variable_loading import yaml_ordered_safe_load, yaml_ordered_safe_load_all
 from collections.abc import Iterable
@@ -25,6 +26,7 @@ from typing import List,Optional,Dict,Any,Tuple
 
 ## hepdata_maker
 @click.group(context_settings=dict(help_option_names=['-h', '--help']))
+@click.version_option(version=__version__)
 @click.option('--log-level',
               type=click.Choice(list(logging._levelToName.values()),
                                 case_sensitive=False),
