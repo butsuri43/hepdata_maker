@@ -29,6 +29,7 @@ Usage: hepdata_maker [OPTIONS] COMMAND [ARGS]...
   hepdata_maker base CLI entry
 
 Options:
+  --version                       Show the version and exit.
   --log-level [CRITICAL|ERROR|WARNING|INFO|DEBUG|NOTSET]
                                   set log level.
   -h, --help                      Show this message and exit.
