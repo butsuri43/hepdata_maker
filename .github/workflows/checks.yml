@@ -1,33 +1,89 @@
 # This is a basic workflow to help you get started with Actions
 
-name: checks
 
-# Controls when the workflow will run
+name: basic_checks
+
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
+
   push:
     branches: [ ]
   pull_request:
     branches: [ master ]
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  unit_tests:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    container: butsuri43/hepdata_submission_docker
+    
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      
+      - name: Install the package 
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          echo Pip-installing hepdata_maker
+          pip3 install --upgrade --editable .
+      - name: Run tests
+        run: |
+          echo Running unit tests!
+          pytest -r sx --ignore tests/full_workflow/
+
+  static_typing_checks:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - uses: actions/checkout@v2
+      - name: Install the package & mypy
+        run: |
+          echo Pip-installing hepdata_maker
+          pip3 install --upgrade --editable .
+          pip3 install mypy
+      - name: Run mypy
+        run: |
+          echo Running typing tests!
+          mypy src/hepdata_maker
+        continue-on-error: true 
+  
+  documentation_build_test:
+    runs-on: ubuntu-latest
+    container: butsuri43/hepdata_submission_docker
+    
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Install the package 
+        run: |
+          echo Pip-installing hepdata_maker
+          pip3 install --upgrade --editable .
+      - name: Run tests
+        run: |
+          echo Build docs tests!
+          pip3 install Sphinx sphinx-click sphinx-copybutton autoclass autoclasstoc
+          cd docs
+          make html SPHINXOPTS="-W"
+        continue-on-error: true 
+      
+  hepdata_conversion_check:
+    runs-on: ubuntu-latest
+    container: butsuri43/hepdata_submission_docker
+    strategy:
+      matrix:
+        HEPDATA_LINK: ['https://www.hepdata.net/download/submission/ins1851675/1/original', 'https://hepdata-submission.readthedocs.io/en/latest/_downloads/626dbe93a9bb268f7de12fa9c2afdb73/TestHEPSubmission.zip']
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install the package 
+        run: |
+          echo Pip-installing hepdata_maker
+          pip3 install --upgrade --editable .
+      - name: Run tests
+        run: |
+            wget ${{ matrix.HEPDATA_LINK }} -O orig_submission.zip
+            unzip -d orig_submission orig_submission.zip
+            hepdata_maker hepdata-to-steering-file -d orig_submission
+            hepdata_maker create-submission steering_file.json --use-fancy-names
+            python3 tests/compare_submissions.py orig_submission submission_files
