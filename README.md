@@ -1,52 +1,54 @@
-# hepdata submission maker
+# hepdata_maker
 
-Package to help creating and verifying submissions.
+Package to help creating and verifying HEPData submissions.
+
+
+hepdata_maker attempts to fill the gaps left by other exisiting libraries, i.e. [hepdata](https://gitlab.com/cholmcc/hepdata) and [hepdata_lib](https://github.com/HEPData/hepdata_lib), used for HEPData submissions making. The advatages of hepdata_maker are:
+
+- easy to use command line interface,
+- no need to write code (everything is controlled from a json steering_file),
+- supports common data formats, i.e. ROOT, json, yaml, csv and tex,
+- clear off-line record overview,
+- off-line record validations,
+- basic table of content creation for your record,
+- allows for clear version control of your submission.
+
+# Installation
+
+In principle just:
+```
+pip3 install hepdata_maker 
+```
+
+but the package require ROOT and ImageMagick. See documentaion for various run options.
 
 # Usage
-
 ```
-Usage: hepdata_maker [OPTIONS] STEERING_SCRIPT
+Usage: hepdata_maker [OPTIONS] COMMAND [ARGS]...
+
+  hepdata_maker base CLI entry
 
 Options:
---help  Show this message and exit.
+  --log-level [CRITICAL|ERROR|WARNING|INFO|DEBUG|NOTSET]
+                                  set log level.
+  -h, --help                      Show this message and exit.
 
 Commands:
-  check-schema
-  check-table	
-  create-submission
-  
+  check-schema              Check STEERING_FILE against hepdata_maker's...
+  check-table               Print out informations stored in selected...
+  check-variable            Create variable (1-D numpy array) based on...
+  create-steering-file      Create a steering_file based on pdf/png and...
+  create-submission         Create HEPdata submission files using...
+  create-table-of-content   Create a table of content for all the tables...
+  hepdata-to-steering-file  Create `hepdata_maker` steering_file from...
+  validate-submission       Validate HEPdata submission files located in...
 ```
 
 currently can only check the steering file schema (for now identity) and  create submission file assuming it gets a correct steering file. 
 
-Intended usecases:
+---
+**NOTE**
 
-* verify steering screept schema
-* verify availability of inputs requested in steering script
-* attempt loading a variable of a given table in the steering script 
-* attempt to load a given table provided the steering script
-* load all the tables from the steering script and create an internal submission object (that can be usef for checks and or record creation)
-* create submission file based on the submission object loaded
-* check validity of internal submission object with group dependant checks
-* check validity of submission files (based on hepdata_validator) 
+Package still in active development. 
 
-## Examples
-
-Two examples currently are available:
-* stop0L (all table types but not full submission yet):
-> run:
-> ```
-> hepdata_maker create-submission examples/stop0L/submissions_config.json
-> ```
-> this produces output in `submission_files` as well as `submission.tar.gz`, which is the tar-archive of the former one.
-> The output loaded to hepdata can be seen here: https://www.hepdata.net/record/sandbox/1623174132
-
-* stopZh:
-> run:
-> ```
-> hepdata_maker create-submission examples/stopZh/submissions_config.json
-> ```
-> this produces output in `submission_files`as well as `submission.tar.gz`, which is the tar-archive of the former one.
-> The output loaded to hepdata can be seen here:
-> https://www.hepdata.net/record/sandbox/1623246991
-
+---
