@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft-07/schema#",
-    "$id": "file:///home/krzysiek/nauka/Freiburg/HepData/TowardsAuthomaticScriptCreation/submission_maker/src/hepdata_maker/schemas/0.0.0/defs.json",
+    "$id": "file://hepdata_maker/schemas/0.0.0/defs.json",
     "definitions": {
 	"steering_file":{
 	    "title": "steering_script",
