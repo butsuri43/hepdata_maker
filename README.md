@@ -53,3 +53,7 @@ currently can only check the steering file schema (for now identity) and  create
 Package still in active development. 
 
 ---
+
+# Acknowledgements
+
+Many thanks to Lukas Heinrich for very useful discussions and technical suggestions.
