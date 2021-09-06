@@ -1,0 +1,120 @@
+name: Build hepdata_submission_docker 
+
+on:
+  push:
+    branches:
+    - 'master'
+    tags:
+    - v*
+  pull_request:
+    branches:
+    - master
+  schedule:
+    - cron:  '1 0 * * *'
+  release:
+    types: [published]
+  workflow_dispatch:
+ 
+env:
+  REGISTRY: docker.io
+  REGISTRY_GITHUB: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        
+      # Login against a Docker registry except on PR
+      # https://github.com/docker/login-action
+      - name: Log into registry ${{ env.REGISTRY }}
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1
+        with:
+          username: butsuri43
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Login against a GitHub Container Registry except on PR
+      - name: Login into ${{ env.REGISTRY_GITHUB }}
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY_GITHUB }}
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Extract metadata (tags, labels) for Docker
+      # https://github.com/docker/metadata-action
+      - name: Extract  ${{ env.REGISTRY }} metadata
+        id: meta_docker
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          # There is in priciple type=sha but supports only long (full) or 8-digits SHA
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=tag
+            type=ref,event=pr
+            type=sha,format=long
+
+      - name: Extract ${{ env.REGISTRY_GITHUB }} metadata
+        id: meta_github
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.REGISTRY_GITHUB }}/${{ env.IMAGE_NAME }}
+          # There is in priciple type=sha but supports only long (full) or 8-digits SHA
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=tag
+            type=ref,event=pr
+            type=sha,format=long
+      - run: |
+          echo "version=${{ steps.meta_github.outputs.version }}"
+          echo "tags=${{ steps.meta_github.outputs.tags }}"
+          echo "created=$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+      
+      - name: Test build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          tags: |
+            ${{ steps.meta_github.outputs.tags }}
+            ${{ steps.meta_docker.outputs.tags }}
+            ${{ env.IMAGE_NAME}}:sha-${{ github.sha }}
+          labels: ${{ steps.meta_github.outputs.labels }}
+          load: true
+          push: false
+
+      - name: Image digest
+        run: echo ${{ steps.docker_build_test.outputs.digest }}
+
+      - name: List built images
+        run: docker images
+
+      - name: Run CLI API check
+        run: |
+          printf "\nhepdata_maker\n"
+          docker run --rm "${IMAGE_NAME}:sha-${GITHUB_SHA}" hepdata_maker
+          printf "\nhepdata_maker --version\n"
+          docker run --rm "${IMAGE_NAME}:sha-${GITHUB_SHA}" hepdata_maker --version
+          printf "\nhepdata_maker --help\n"
+          docker run --rm "${IMAGE_NAME}:sha-${GITHUB_SHA}" hepdata_maker --help
+
+      # Build and push Docker image with Buildx (don't push on PR)
+      # https://github.com/docker/build-push-action
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta_github.outputs.tags }}
+          labels: ${{ steps.meta_github.outputs.labels }}
