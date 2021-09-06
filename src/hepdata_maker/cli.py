@@ -8,7 +8,7 @@ from . import utils
 from . import checks
 from . import variable_loading
 from . import useful_functions as ufs
-from . import __version__
+from .version import __version__
 from .variable_loading import check_if_file_exists_and_readable
 from .variable_loading import yaml_ordered_safe_load, yaml_ordered_safe_load_all
 from collections.abc import Iterable
