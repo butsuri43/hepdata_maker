@@ -116,5 +116,8 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta_github.outputs.tags }}
+          tags: |
+            ${{ steps.meta_github.outputs.tags }}
+            ${{ steps.meta_docker.outputs.tags }}
+            ${{ env.IMAGE_NAME}}:sha-${{ github.sha }}
           labels: ${{ steps.meta_github.outputs.labels }}
